@@ -29,7 +29,6 @@ object BigQueryTypes {
       def getFields: List[Field] = fs
     }
 
-  // Instance derivation via SqlTypeConversion. Automatically converts camelCase names into snake_case in the process
   /** Instance derivation via SqlTypeConversion.
     * Automatically converts camelCase names into snake_case in the process
     * TODO: pass a function as a parameter, we should be able to decide if we want snake_case or other things from outside
