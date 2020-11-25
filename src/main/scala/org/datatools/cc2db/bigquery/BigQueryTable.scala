@@ -34,6 +34,7 @@ object BigQueryTable {
     createTable[T](datasetName, tableName, Some(timePartitionColumn))
 
   /** Create a table in BigQuery
+   * TODO: call the correct generateTableDefinition to create partitions
    */
   private def createTable[A: BigQueryTypes](datasetName: String,
                                             tableName: String,
