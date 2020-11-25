@@ -5,8 +5,6 @@ import com.google.cloud.bigquery.{
   BigQueryError,
   BigQueryException,
   BigQueryOptions,
-  Schema,
-  StandardTableDefinition,
   Table,
   TableDefinition,
   TableId,
@@ -15,7 +13,6 @@ import com.google.cloud.bigquery.{
 import org.datatools.cc2db.types.BigQueryTypes
 import org.datatools.cc2db.bigquery.BigQueryDefinitions._
 
-import scala.jdk.CollectionConverters.IterableHasAsJava
 import scala.util.{Failure, Try}
 
 object BigQueryTable {
