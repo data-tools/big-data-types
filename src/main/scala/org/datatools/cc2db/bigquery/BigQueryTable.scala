@@ -20,35 +20,32 @@ object BigQueryTable {
   lazy val service: BigQuery = BigQueryOptions.getDefaultInstance.getService
 
   /** Create a table without partitions
-   */
+    */
   def createTable[T: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] =
     createTable[T](datasetName, tableName, None)
 
-
   /** Create partitioned table
-   */
+    */
   def createTable[T: BigQueryTypes](datasetName: String,
                                     tableName: String,
                                     timePartitionColumn: String
-                                   ): Either[BigQueryError, Table] =
+  ): Either[BigQueryError, Table] =
     createTable[T](datasetName, tableName, Some(timePartitionColumn))
 
   /** Create a table in BigQuery
-   * TODO: call the correct generateTableDefinition to create partitions
-   */
+    */
   private def createTable[A: BigQueryTypes](datasetName: String,
                                             tableName: String,
                                             timePartitionColumn: Option[String]
-  ): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A])
+  ): Either[BigQueryError, Table] =
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A](timePartitionColumn))
 
-
-  /**
-   * Giving a `TableId` and a `TableDefinition` tries to create the table in BigQuery
-   *
-   * @param tableId         desired table
-   * @param tableDefinition definition of the table
-   * @return `Either[BigQueryError, Table]`
-   */
+  /** Giving a `TableId` and a `TableDefinition` tries to create the table in BigQuery
+    *
+    * @param tableId         desired table
+    * @param tableDefinition definition of the table
+    * @return `Either[BigQueryError, Table]`
+    */
   def tryTable(tableId: TableId, tableDefinition: TableDefinition): Either[BigQueryError, Table] = {
     val tableInfo: TableInfo = TableInfo.newBuilder(tableId, tableDefinition).build()
     val tryTable: Try[Table] = Try(service.create(tableInfo)) recoverWith { case bigQueryException: BigQueryException =>
@@ -61,6 +58,5 @@ object BigQueryTable {
       bigQueryException.getError
     }
   }
-
 
 }
