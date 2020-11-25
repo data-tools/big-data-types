@@ -21,16 +21,16 @@ object BigQueryTable {
 
   /** Create a table without partitions
     */
-  def createTable[T: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] =
-    createTable[T](datasetName, tableName, None)
+  def createTable[A: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] =
+    createTable[A](datasetName, tableName, None)
 
   /** Create partitioned table
     */
-  def createTable[T: BigQueryTypes](datasetName: String,
+  def createTable[A: BigQueryTypes](datasetName: String,
                                     tableName: String,
                                     timePartitionColumn: String
   ): Either[BigQueryError, Table] =
-    createTable[T](datasetName, tableName, Some(timePartitionColumn))
+    createTable[A](datasetName, tableName, Some(timePartitionColumn))
 
   /** Create a table in BigQuery
     */
