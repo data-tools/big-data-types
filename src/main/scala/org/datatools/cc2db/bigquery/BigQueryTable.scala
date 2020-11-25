@@ -13,42 +13,45 @@ import com.google.cloud.bigquery.{
   TableInfo
 }
 import org.datatools.cc2db.types.BigQueryTypes
+import org.datatools.cc2db.bigquery.BigQueryDefinitions._
 
 import scala.jdk.CollectionConverters.IterableHasAsJava
 import scala.util.{Failure, Try}
 
-trait BigQueryTable {
+object BigQueryTable {
 
   lazy val service: BigQuery = BigQueryOptions.getDefaultInstance.getService
 
-  /** Create partitioned table
-    */
-  def createTable[T: BigQueryTypes](datasetName: String,
-                                    tableName: String,
-                                    timePartitionColumn: String
-  ): Either[BigQueryError, Table] =
-    createTable[T](datasetName, tableName, Some(timePartitionColumn))
-
   /** Create a table without partitions
-    */
+   */
   def createTable[T: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] =
     createTable[T](datasetName, tableName, None)
 
-  /** Create a table in BigQuery+
-    * TODO split this in more functions probably
-    */
-  private def createTable[T: BigQueryTypes](datasetName: String,
+
+  /** Create partitioned table
+   */
+  def createTable[T: BigQueryTypes](datasetName: String,
+                                    tableName: String,
+                                    timePartitionColumn: String
+                                   ): Either[BigQueryError, Table] =
+    createTable[T](datasetName, tableName, Some(timePartitionColumn))
+
+  /** Create a table in BigQuery
+   */
+  private def createTable[A: BigQueryTypes](datasetName: String,
                                             tableName: String,
                                             timePartitionColumn: Option[String]
-  ): Either[BigQueryError, Table] = {
-    val tableId: TableId = TableId.of(datasetName, tableName)
-    val fields = BigQueryTypes[T].getFields
-    // Table schema definition
-    val schema: Schema = Schema.of(fields.asJava)
-    //TODO add partition column
-    val tableDefinition: TableDefinition =
-      StandardTableDefinition.newBuilder().setSchema(schema).build()
+  ): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A])
 
+
+  /**
+   * Giving a `TableId` and a `TableDefinition` tries to create the table in BigQuery
+   *
+   * @param tableId         desired table
+   * @param tableDefinition definition of the table
+   * @return `Either[BigQueryError, Table]`
+   */
+  def tryTable(tableId: TableId, tableDefinition: TableDefinition): Either[BigQueryError, Table] = {
     val tableInfo: TableInfo = TableInfo.newBuilder(tableId, tableDefinition).build()
     val tryTable: Try[Table] = Try(service.create(tableInfo)) recoverWith { case bigQueryException: BigQueryException =>
       if (bigQueryException.getError.getReason == "duplicate")
@@ -61,6 +64,5 @@ trait BigQueryTable {
     }
   }
 
-  //TODO add other traits like BigQueryTable[A, B] that will create a table concatenating fields from A and B
 
 }
