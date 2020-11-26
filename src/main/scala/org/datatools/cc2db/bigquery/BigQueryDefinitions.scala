@@ -5,7 +5,7 @@ import org.datatools.cc2db.types.BigQueryTypes
 
 import scala.jdk.CollectionConverters.IterableHasAsJava
 
-object BigQueryDefinitions {
+private[bigquery] object BigQueryDefinitions {
 
   /** Given a column name created a TimePartition object */
   def generateTimePartitionColumn(columnName: String): TimePartitioning =
@@ -14,29 +14,31 @@ object BigQueryDefinitions {
   /** Generates a Table definition with or without Time Partitioning Column
     * @param partitionColumn name of the column that will be a time partition, if None, no partition will be created
     */
-  def generateTableDefinition[A](partitionColumn: Option[String]): StandardTableDefinition = {
+  def generateTableDefinition[A: BigQueryTypes](partitionColumn: Option[String]): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder = StandardTableDefinition.newBuilder().setSchema(generateSchema[A])
     addPartitionToBuilder(builder, partitionColumn).build()
   }
 
-  def generateTableDefinition[A, B](partitionColumn: Option[String]): StandardTableDefinition = {
+  def generateTableDefinition[A: BigQueryTypes, B: BigQueryTypes](partitionColumn: Option[String]): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder = StandardTableDefinition.newBuilder().setSchema(generateSchema[A, B])
     addPartitionToBuilder(builder, partitionColumn).build()
   }
 
-  def generateTableDefinition[A, B, C](partitionColumn: Option[String]): StandardTableDefinition = {
+  def generateTableDefinition[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](
+      partitionColumn: Option[String]
+  ): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder =
       StandardTableDefinition.newBuilder().setSchema(generateSchema[A, B, C])
     addPartitionToBuilder(builder, partitionColumn).build()
   }
 
-  def generateTableDefinition[A, B, C, D](partitionColumn: Option[String]): StandardTableDefinition = {
+  def generateTableDefinition[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](partitionColumn: Option[String]): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder =
       StandardTableDefinition.newBuilder().setSchema(generateSchema[A, B, C, D])
     addPartitionToBuilder(builder, partitionColumn).build()
   }
 
-  def generateTableDefinition[A, B, C, D, E](partitionColumn: Option[String]): StandardTableDefinition = {
+  def generateTableDefinition[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](partitionColumn: Option[String]): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder =
       StandardTableDefinition.newBuilder().setSchema(generateSchema[A, B, C, D, E])
     addPartitionToBuilder(builder, partitionColumn).build()
@@ -54,25 +56,29 @@ object BigQueryDefinitions {
 
   /** Generates a BigQuery Table Schema given a type A
     */
-  def generateSchema[A]: Schema = Schema.of(BigQueryTypes[A].getFields.asJava)
-  def generateSchema[A, B]: Schema = Schema.of((BigQueryTypes[A].getFields ++ BigQueryTypes[B].getFields).asJava)
+  def generateSchema[A: BigQueryTypes]: Schema = Schema.of(BigQueryTypes[A].getFields.asJava)
 
-  def generateSchema[A, B, C]: Schema =
+  def generateSchema[A: BigQueryTypes, B: BigQueryTypes]: Schema =
+    Schema.of((BigQueryTypes[A].getFields ++ BigQueryTypes[B].getFields).asJava)
+
+  def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes]: Schema =
     Schema.of((BigQueryTypes[A].getFields ++ BigQueryTypes[B].getFields ++ BigQueryTypes[C].getFields).asJava)
 
-  def generateSchema[A, B, C, D]: Schema = Schema.of(
+  def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes]: Schema =
+    Schema.of(
     (BigQueryTypes[A].getFields ++
       BigQueryTypes[B].getFields ++
       BigQueryTypes[C].getFields ++
       BigQueryTypes[D].getFields).asJava
   )
 
-  def generateSchema[A, B, C, D, E]: Schema = Schema.of(
-    (BigQueryTypes[A].getFields ++
-      BigQueryTypes[B].getFields ++
-      BigQueryTypes[C].getFields ++
-      BigQueryTypes[D].getFields ++
-      BigQueryTypes[E].getFields).asJava
-  )
+  def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes]: Schema =
+    Schema.of(
+      (BigQueryTypes[A].getFields ++
+        BigQueryTypes[B].getFields ++
+        BigQueryTypes[C].getFields ++
+        BigQueryTypes[D].getFields ++
+        BigQueryTypes[E].getFields).asJava
+    )
 
 }

@@ -1,9 +1,9 @@
 package org.datatools.cc2db.conversions
 
-import org.datatools.cc2db.types.UnitTest
+import org.datatools.cc2db.types.UnitSpec
 import org.datatools.cc2db.types.basic._
 
-class SqlTypeConversionTest extends UnitTest {
+class SqlTypeConversionSpec extends UnitSpec {
 
   case class BasicTypes(myInt: Int, myLong: Long, myFloat: BigDecimal, myBoolean: Boolean, myString: String)
   case class BasicOption(myString: String, myOptionalString: Option[String])
