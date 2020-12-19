@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: bq_service_account
-        run: "echo '$BQ_SERVICE_ACCOUNT' > ./bq_service_account.json"
+        run: 'echo "\'$BQ_SERVICE_ACCOUNT\'" > ./bq_service_account.json'
         shell: bash
         env:
           BQ_SERVICE_ACCOUNT: ${{secrets.BQ_SERVICE_ACCOUNT}}
