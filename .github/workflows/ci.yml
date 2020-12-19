@@ -20,3 +20,5 @@ jobs:
           java-version: "adopt@1.8"
       - name: Build and Test
         run: sbt -v -Dfile.encoding=UTF-8 +test
+        env:
+          BIG_QUERY_PROJECT: ${{ secrets.BIGQUERY_PROJECT }}
