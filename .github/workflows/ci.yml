@@ -19,7 +19,7 @@ jobs:
           java-version: "adopt@1.8"
       - name: Build and Test
         uses: actions-hub/gcloud@master
-          env:
-            PROJECT_ID: ${{ secrets.BIGQUERY_PROJECT }}
-            APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_64 }}
+        env:
+          PROJECT_ID: ${{ secrets.BIGQUERY_PROJECT }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_64 }}
         run: sbt -v -Dfile.encoding=UTF-8 +test
