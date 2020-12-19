@@ -6,6 +6,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: bq_service_account
+        run: 'echo "$BQ_SERVICE_ACCOUNT" > bq_service_account.json'
+          shell: bash
+          env:
+            GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.BQ_SERVICE_ACCOUNT}}
+            BIGQUERY_PROJECT: ${{secrets.$}}
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
