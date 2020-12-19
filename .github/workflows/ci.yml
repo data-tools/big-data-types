@@ -10,7 +10,7 @@ jobs:
         run: 'echo "$BQ_SERVICE_ACCOUNT" > bq_service_account.json'
         shell: bash
         env:
-          BQ_SERVICE_ACCOUNT: ${{secrets.$BQ_SERVICE_ACCOUNT}}
+          BQ_SERVICE_ACCOUNT: ${{secrets.BQ_SERVICE_ACCOUNT}}
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
