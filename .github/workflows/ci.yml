@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: bq_service_account
-        run: 'echo "$BQ_SERVICE_ACCOUNT" > bq_service_account.json'
+        run: 'echo "$BQ_SERVICE_ACCOUNT" > ./bq_service_account.json'
         shell: bash
         env:
           BQ_SERVICE_ACCOUNT: ${{secrets.BQ_SERVICE_ACCOUNT}}
@@ -20,5 +20,5 @@ jobs:
       - name: Build and Test
         run: sbt -v -Dfile.encoding=UTF-8 +test
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: bq_service_account.json
+          GOOGLE_APPLICATION_CREDENTIALS: ./bq_service_account.json
           BIGQUERY_PROJECT: ${{secrets.BIGQUERY_PROJECT}}
