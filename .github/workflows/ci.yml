@@ -11,6 +11,9 @@ jobs:
         shell: bash
         env:
           BQ_SERVICE_ACCOUNT: ${{secrets.BQ_SERVICE_ACCOUNT}}
+      - name: test_file
+        run: 'tail ./bq_service_account.json'
+        shell: bash
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
