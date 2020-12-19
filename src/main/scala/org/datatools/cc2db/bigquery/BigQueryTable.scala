@@ -48,7 +48,8 @@ object BigQueryTable {
           Try(service.getTable(tableId))
         else
           Failure(bigQueryException)
-      case e: Exception => Failure(e)
+      case e: Exception => println(e)
+        Failure(e)
     }
     tryTable.toEither.left.map {
       case bigQueryException: BigQueryException => bigQueryException.getError
