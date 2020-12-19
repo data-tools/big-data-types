@@ -48,11 +48,12 @@ object BigQueryTable {
           Try(service.getTable(tableId))
         else
           Failure(bigQueryException)
-      case e: Exception => Failure(e)
+      case e: Exception => e.printStackTrace()
+        Failure(e)
     }
     tryTable.toEither.left.map {
       case bigQueryException: BigQueryException => bigQueryException.getError
-      case e: Exception => new BigQueryError("Unknown reason", e.getLocalizedMessage, e.toString)
+      case e: Exception => new BigQueryError("Unknown reason", e.getStackTrace.toString, e.toString)
     }
   }
 
