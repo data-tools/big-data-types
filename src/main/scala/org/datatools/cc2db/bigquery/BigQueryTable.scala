@@ -53,7 +53,7 @@ object BigQueryTable {
     }
     tryTable.toEither.left.map {
       case bigQueryException: BigQueryException => bigQueryException.getError
-      case e: Exception => new BigQueryError("Unknown reason", e.getStackTrace.toString, e.toString)
+      case e: Exception => new BigQueryError("Unknown reason", e.getStackTrace.map(_.toString.mkString("\r\n")).toString, e.toString)
     }
   }
 
