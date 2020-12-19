@@ -35,22 +35,24 @@ object BigQueryTable {
   private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B, C, D, E](timePartitionColumn))
 
   /** Giving a `TableId` and a `TableDefinition` tries to create the table in BigQuery
-    *
-    * @param tableId         desired table
-    * @param tableDefinition definition of the table
-    * @return `Either[BigQueryError, Table]`
-    */
+   *
+   * @param tableId         desired table
+   * @param tableDefinition definition of the table
+   * @return `Either[BigQueryError, Table]`
+   */
   def tryTable(tableId: TableId, tableDefinition: TableDefinition): Either[BigQueryError, Table] = {
     val tableInfo: TableInfo = TableInfo.newBuilder(tableId, tableDefinition).build()
-    val tryTable: Try[Table] = Try(service.create(tableInfo)) recoverWith { case bigQueryException: BigQueryException =>
-      if (bigQueryException.getError.getReason == "duplicate")
-        Try(service.getTable(tableId))
-      else
-        Failure(bigQueryException)
+    val tryTable: Try[Table] = Try(service.create(tableInfo)) recoverWith {
+      case bigQueryException: BigQueryException =>
+        if (bigQueryException.getError.getReason == "duplicate")
+          Try(service.getTable(tableId))
+        else
+          Failure(bigQueryException)
+      case e: Exception => Failure(e)
     }
     tryTable.toEither.left.map {
       case bigQueryException: BigQueryException => bigQueryException.getError
-      case e: Exception =>  new BigQueryError("Unknown reason", e.getLocalizedMessage, e.getMessage)
+      case e: Exception => new BigQueryError("Unknown reason", e.getLocalizedMessage, e.getMessage)
     }
   }
 
