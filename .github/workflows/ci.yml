@@ -11,17 +11,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Use gcloud CLI
+        run: gcloud info
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
         uses: olafurpg/setup-scala@v10
         with:
           java-version: "adopt@1.8"
-      - name: Build and Test
-        uses: actions-hub/gcloud@master
-        env:
-          PROJECT_ID: ${{ secrets.BIGQUERY_PROJECT }}
-          APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_64 }}
+      - name: Set up GCloud SDK
+        uses: google-github-actions/setup-gcloud@master
         with:
-          args: -v -Dfile.encoding=UTF-8 +test
-          cli: sbt
+          project_id: ${{ secrets.BIGQUERY_PROJECT }}
+          service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT_64 }}
+          export_default_credentials: true
+      - name: Build and Test
+        run: sbt -v -Dfile.encoding=UTF-8 +test
