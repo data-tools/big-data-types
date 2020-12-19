@@ -10,8 +10,7 @@ jobs:
         run: 'echo "$BQ_SERVICE_ACCOUNT" > bq_service_account.json'
         shell: bash
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: bq_service_account.json
-          BIGQUERY_PROJECT: ${{secrets.BIGQUERY_PROJECT}}
+          BQ_SERVICE_ACCOUNT: ${{secrets.$BQ_SERVICE_ACCOUNT}}
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
@@ -20,3 +19,6 @@ jobs:
           java-version: "adopt@1.8"
       - name: Build and Test
         run: sbt -v -Dfile.encoding=UTF-8 +test
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: bq_service_account.json
+          BIGQUERY_PROJECT: ${{secrets.BIGQUERY_PROJECT}}
