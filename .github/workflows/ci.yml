@@ -17,6 +17,8 @@ jobs:
           project_id: ${{ secrets.BIGQUERY_PROJECT }}
           service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT }}
           export_default_credentials: true
+      - name: Use gcloud CLI
+        run: gcloud info
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
