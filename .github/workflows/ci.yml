@@ -10,7 +10,7 @@ jobs:
         run: 'echo "$BQ_SERVICE_ACCOUNT" > bq_service_account.json'
         shell: bash
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{secrets.BQ_SERVICE_ACCOUNT}}
+          GOOGLE_APPLICATION_CREDENTIALS: bq_service_account.json
           BIGQUERY_PROJECT: ${{secrets.BIGQUERY_PROJECT}}
       - name: Checkout
         uses: actions/checkout@v1
