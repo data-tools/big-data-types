@@ -48,8 +48,9 @@ object BigQueryTable {
       else
         Failure(bigQueryException)
     }
-    tryTable.toEither.left.map { case bigQueryException: BigQueryException =>
-      bigQueryException.getError
+    tryTable.toEither.left.map {
+      case bigQueryException: BigQueryException => bigQueryException.getError
+      case _ => new BigQueryError("Unexpected error", "TryTable", "Unknown error")
     }
   }
 
