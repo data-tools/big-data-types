@@ -18,6 +18,18 @@ BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 ```
 This also works with Structs, Lists and Options.
 
+#### Create a table with more than one Case Class
+In many cases we work with a Case Class that represents our data but we also want to add 
+some metadata fields like `updated_at`, `received_at`, `version` and so on.
+In these cases we can work with multiple Case Classes and fields will be concatenated:
+
+```scala
+case class MyData(field1: Int, field2: String)
+case class MyMetadata(updatedAt: Long, version: Int)
+BigQueryTable.createTable[MyData, MyMetadata]("dataset_name", "table_name")
+```
+This can be done up to 5 concatenated classes
+
 
 ### Create a schema for a BigQuery table
 ```scala
