@@ -16,7 +16,6 @@ class BigQueryTableSpec extends IntegrationSpec {
   }
 
   "A Simple Case Class" should "create a table" in {
-    println(BigQueryTable.createTable[Simple](dataset, "simple").leftSide)
     BigQueryTable.createTable[Simple](dataset, "simple").isRight shouldBe true
   }
 
