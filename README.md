@@ -12,7 +12,7 @@ This library converts case classes into different database types, making possibl
 
 ### Create BigQuery Tables
 
-```
+```scala
 case class MyTable(field1: Int, field2: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 ```
@@ -20,7 +20,7 @@ This also works with Structs, Lists and Options.
 
 
 ### Create a schema for a BigQuery table
-```
+```scala
 case class MyTable(field1: Int, field2: String)
 //List of BigQuery Fields, it can be used to construct an Schema
 val fields: List[Field] = BigQueryTypes[MyTable].getBigQueryFields
