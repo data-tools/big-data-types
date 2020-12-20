@@ -1,10 +1,14 @@
 package org.datatools.bigdatatypes.bigquery
 
-import com.google.cloud.bigquery.{Field, FieldList, StandardTableDefinition}
+import com.google.cloud.bigquery.{FieldList, StandardTableDefinition}
 import org.datatools.bigdatatypes.UnitSpec
-import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions
+
+import scala.jdk.CollectionConverters.IteratorHasAsScala
 
 class BigQueryDefinitionsSpec extends UnitSpec {
+
+  /** Used to get a List of field names from a FieldList */
+  def getFieldNames(fields: FieldList): List[String] = fields.iterator().asScala.toList.map(_.getName)
 
   behavior of "BigQueryDefinitionsSpec"
 
@@ -12,10 +16,9 @@ class BigQueryDefinitionsSpec extends UnitSpec {
 
 
   "Simple definition without partition" should "generate a Table Definition" in {
-    val test: StandardTableDefinition = BigQueryDefinitions.generateTableDefinition[Simple](None)
-    //val test2: Seq[Field] = test.getSchema.getFields.toArray().toList
-    //val test3 = test2.map(_.getName)
-    //test3 should contain only("id", "number")
+    val table: StandardTableDefinition = BigQueryDefinitions.generateTableDefinition[Simple](None)
+    val names: List[String] = getFieldNames(table.getSchema.getFields)
+    names should contain only("id", "number")
   }
 
   it should "generateTimePartitionColumn" in {}
