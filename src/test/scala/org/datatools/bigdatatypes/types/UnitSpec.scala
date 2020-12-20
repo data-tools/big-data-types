@@ -1,4 +1,4 @@
-package org.datatools.cc2db.types
+package org.datatools.bigdatatypes.types
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers

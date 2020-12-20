@@ -1,4 +1,4 @@
-package org.datatools.cc2db.types.basic
+package org.datatools.bigdatatypes.types.basic
 
 /** The mode of a sql type. e.g: Required, Nullable, Repeated.
   */

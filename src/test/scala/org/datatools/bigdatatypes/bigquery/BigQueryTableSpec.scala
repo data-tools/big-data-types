@@ -1,6 +1,6 @@
-package org.datatools.cc2db.bigquery
+package org.datatools.bigdatatypes.bigquery
 
-import org.datatools.cc2db.types.UnitSpec
+import org.datatools.bigdatatypes.types.UnitSpec
 
 class BigQueryTableSpec extends UnitSpec {
 

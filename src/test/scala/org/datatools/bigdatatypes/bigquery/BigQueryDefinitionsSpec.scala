@@ -1,8 +1,8 @@
-package org.datatools.cc2db.bigquery
+package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{FieldList, StandardTableDefinition}
-import org.datatools.cc2db.bigquery.BigQueryDefinitions
-import org.datatools.cc2db.types.UnitSpec
+import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions
+import org.datatools.bigdatatypes.types.UnitSpec
 
 class BigQueryDefinitionsSpec extends UnitSpec {
 

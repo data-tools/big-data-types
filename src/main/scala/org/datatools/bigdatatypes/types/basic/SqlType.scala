@@ -1,4 +1,4 @@
-package org.datatools.cc2db.types.basic
+package org.datatools.bigdatatypes.types.basic
 
 /** Abstract representation of the type of a generic SQL database */
 sealed trait SqlType {

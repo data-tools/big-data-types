@@ -1,7 +1,7 @@
-package org.datatools.cc2db.conversions
+package org.datatools.bigdatatypes.conversions
 
-import org.datatools.cc2db.types.UnitSpec
-import org.datatools.cc2db.types.basic._
+import org.datatools.bigdatatypes.types.UnitSpec
+import org.datatools.bigdatatypes.types.basic._
 
 class SqlTypeConversionSpec extends UnitSpec {
 

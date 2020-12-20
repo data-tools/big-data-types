@@ -1,8 +1,8 @@
-package org.datatools.cc2db.bigquery
+package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{BigQuery, BigQueryError, BigQueryException, BigQueryOptions, Table, TableDefinition, TableId, TableInfo}
-import org.datatools.cc2db.bigquery.BigQueryDefinitions.generateTableDefinition
-import org.datatools.cc2db.types.BigQueryTypes
+import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions.generateTableDefinition
+import org.datatools.bigdatatypes.types.BigQueryTypes
 
 import scala.util.{Failure, Try}
 

@@ -1,6 +1,6 @@
-package org.datatools.cc2db.conversions
+package org.datatools.bigdatatypes.conversions
 
-import org.datatools.cc2db.types.basic._
+import org.datatools.bigdatatypes.types.basic._
 import shapeless._
 import shapeless.labelled.FieldType
 

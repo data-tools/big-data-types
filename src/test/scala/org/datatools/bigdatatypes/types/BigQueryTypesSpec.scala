@@ -1,3 +1,3 @@
-package org.datatools.cc2db.types
+package org.datatools.bigdatatypes.types
 
 class BigQueryTypesSpec extends UnitSpec {}
