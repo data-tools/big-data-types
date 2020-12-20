@@ -1,7 +1,6 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{Schema, StandardTableDefinition, TimePartitioning}
-import org.datatools.bigdatatypes.types.BigQueryTypes
 
 import scala.jdk.CollectionConverters.IterableHasAsJava
 
