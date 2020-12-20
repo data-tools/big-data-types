@@ -1,5 +1,5 @@
 # Big Data Types
-![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci/badge.svg
+![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci-tests/badge.svg
 )
 
 
