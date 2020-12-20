@@ -29,7 +29,7 @@ jobs:
           service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT_64 }}
           export_default_credentials: true
       - name: Integration Tests
-        run: sbt -v -Dfile.encoding=UTF-8 +it:test
+        run: sbt -v -Dfile.encoding=UTF-8 +coverage +it:test
       - name: Coverage Report
         run: sbt -v -Dfile.encoding=UTF-8 +coverageReport
       - name: Codecov
