@@ -47,18 +47,18 @@ class BigQueryTableSpec extends IntegrationSpec {
   }
 
   "Three case classes" should "create a table" in {
-    BigQueryTable.createTable[Simple, Append1, Append2](dataset, "simpleAppend1").isRight shouldBe true
+    BigQueryTable.createTable[Simple, Append1, Append2](dataset, "simpleAppend2").isRight shouldBe true
   }
 
   "Four case classes" should "create a table" in {
-    BigQueryTable.createTable[Simple, Append1, Append2, Append3](dataset, "simpleAppend1").isRight shouldBe true
+    BigQueryTable.createTable[Simple, Append1, Append2, Append3](dataset, "simpleAppend3").isRight shouldBe true
   }
 
   "Five case classes" should "create a table" in {
-    BigQueryTable.createTable[Simple, Append1, Append2, Append3, Append4](dataset, "simpleAppend1").isRight shouldBe true
+    BigQueryTable.createTable[Simple, Append1, Append2, Append3, Append4](dataset, "simpleAppend4").isRight shouldBe true
   }
 
   "Complex appends" should "create a table" in {
-    BigQueryTable.createTable[BasicTypes, ListOfStruct](dataset, "simpleAppend1").isRight shouldBe true
+    BigQueryTable.createTable[BasicTypes, ListOfStruct](dataset, "simpleAppend5").isRight shouldBe true
   }
 }
