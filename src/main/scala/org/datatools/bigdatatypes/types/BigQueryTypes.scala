@@ -47,6 +47,8 @@ object BigQueryTypes {
   private def getSchemaWithName(name: String, sqlType: SqlType): Field = sqlType match {
     case SqlInt(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.INT64).setMode(sqlModeToBigQueryMode(mode)).build()
+    case SqlLong(mode) =>
+      Field.newBuilder(name, StandardSQLTypeName.INT64).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlFloat(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.FLOAT64).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlDecimal(mode) =>
