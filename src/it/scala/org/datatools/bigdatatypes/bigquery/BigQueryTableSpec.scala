@@ -1,8 +1,8 @@
 package org.datatools.bigdatatypes.bigquery
 
-import org.datatools.bigdatatypes.types.UnitSpec
+import org.datatools.bigdatatypes.IntegrationSpec
 
-class BigQueryTableSpec extends UnitSpec {
+class BigQueryTableSpec extends IntegrationSpec {
 
   behavior of "BigQueryTableSpec"
 

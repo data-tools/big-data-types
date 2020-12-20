@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.conversions
 
-import org.datatools.bigdatatypes.types.UnitSpec
+import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.types.basic._
 
 class SqlTypeConversionSpec extends UnitSpec {

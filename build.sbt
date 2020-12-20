@@ -16,3 +16,10 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.2"
 libraryDependencies ++= Seq(
   scalatest % Test,
 )
+
+lazy val root = (project in file("."))
+  .configs(IntegrationTest)
+  .settings(
+    Defaults.itSettings,
+    libraryDependencies += scalatest % "it,test"
+  )
