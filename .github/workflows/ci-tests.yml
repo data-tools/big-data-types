@@ -6,6 +6,7 @@ on:
 
 env:
   BIG_QUERY_PROJECT: ${{ secrets.BIGQUERY_PROJECT }}
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
   test:
@@ -20,7 +21,7 @@ jobs:
         with:
           java-version: "adopt@1.8"
       - name: Build and Unit Tests
-        run: sbt -v -Dfile.encoding=UTF-8 +test
+        run: sbt -v -Dfile.encoding=UTF-8 +clean +coverage +test
       - name: Set up GCloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -29,3 +30,10 @@ jobs:
           export_default_credentials: true
       - name: Integration Tests
         run: sbt -v -Dfile.encoding=UTF-8 +it:test
+      - name: Coverage Report
+        run: sbt -v -Dfile.encoding=UTF-8 +coverageReport
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true # optional (default = false)
