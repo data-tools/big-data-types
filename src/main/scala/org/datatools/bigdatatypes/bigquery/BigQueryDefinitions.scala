@@ -55,29 +55,29 @@ private[bigquery] object BigQueryDefinitions {
 
   /** Generates a BigQuery Table Schema given a type A
     */
-  def generateSchema[A: BigQueryTypes]: Schema = Schema.of(BigQueryTypes[A].getFields.asJava)
+  def generateSchema[A: BigQueryTypes]: Schema = Schema.of(BigQueryTypes[A].getBigQueryFields.asJava)
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes]: Schema =
-    Schema.of((BigQueryTypes[A].getFields ++ BigQueryTypes[B].getFields).asJava)
+    Schema.of((BigQueryTypes[A].getBigQueryFields ++ BigQueryTypes[B].getBigQueryFields).asJava)
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes]: Schema =
-    Schema.of((BigQueryTypes[A].getFields ++ BigQueryTypes[B].getFields ++ BigQueryTypes[C].getFields).asJava)
+    Schema.of((BigQueryTypes[A].getBigQueryFields ++ BigQueryTypes[B].getBigQueryFields ++ BigQueryTypes[C].getBigQueryFields).asJava)
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes]: Schema =
     Schema.of(
-    (BigQueryTypes[A].getFields ++
-      BigQueryTypes[B].getFields ++
-      BigQueryTypes[C].getFields ++
-      BigQueryTypes[D].getFields).asJava
+    (BigQueryTypes[A].getBigQueryFields ++
+      BigQueryTypes[B].getBigQueryFields ++
+      BigQueryTypes[C].getBigQueryFields ++
+      BigQueryTypes[D].getBigQueryFields).asJava
   )
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes]: Schema =
     Schema.of(
-      (BigQueryTypes[A].getFields ++
-        BigQueryTypes[B].getFields ++
-        BigQueryTypes[C].getFields ++
-        BigQueryTypes[D].getFields ++
-        BigQueryTypes[E].getFields).asJava
+      (BigQueryTypes[A].getBigQueryFields ++
+        BigQueryTypes[B].getBigQueryFields ++
+        BigQueryTypes[C].getBigQueryFields ++
+        BigQueryTypes[D].getBigQueryFields ++
+        BigQueryTypes[E].getBigQueryFields).asJava
     )
 
 }
