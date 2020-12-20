@@ -1,6 +1,8 @@
 # Big Data Types
 ![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci-tests/badge.svg
 )
+[![codecov](https://codecov.io/gh/data-tools/big-data-types/branch/main/graph/badge.svg)](https://codecov.io/gh/data-tools/big-data-types)
+
 
 
 A library to transform Case Classes into Database types.
