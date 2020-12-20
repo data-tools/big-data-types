@@ -1,4 +1,8 @@
 # Big Data Types
+![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci/badge.svg
+)
+
+
 A library to transform Case Classes into Database types.
 
 This library converts case classes into different database types, making possible to work with case classes when writing,
