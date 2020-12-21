@@ -1,5 +1,7 @@
 package org.datatools.bigdatatypes
 
+import java.sql.Timestamp
+
 object DummyModels {
 
   case class Simple(id: String, version: Int)
@@ -25,6 +27,8 @@ object DummyModels {
   case class Append3(newField3: Int)
 
   case class Append4(newField4: Int)
+
+  case class ExtendedTypes(myInt: Int, myTimestamp: Timestamp)
 
 
 }
