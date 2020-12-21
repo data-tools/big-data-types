@@ -61,4 +61,8 @@ class BigQueryTableSpec extends IntegrationSpec {
   "Complex appends" should "create a table" in {
     BigQueryTable.createTable[BasicTypes, ListOfStruct](dataset, "simpleAppend5").isRight shouldBe true
   }
+
+  "Java SQL Timestamp type" should "create a table" in {
+    BigQueryTable.createTable[ExtendedTypes](dataset, "extendedTimestamp").isRight shouldBe true
+  }
 }

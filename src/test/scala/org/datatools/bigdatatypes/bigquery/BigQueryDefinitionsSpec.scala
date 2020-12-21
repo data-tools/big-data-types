@@ -18,7 +18,7 @@ class BigQueryDefinitionsSpec extends UnitSpec {
   "Simple definition without partition" should "generate a Table Definition" in {
     val table: StandardTableDefinition = BigQueryDefinitions.generateTableDefinition[Simple](None)
     val names: List[String] = getFieldNames(table.getSchema.getFields)
-    names should contain only("id", "number")
+    names should contain.only("id", "number")
   }
 
   it should "generateTimePartitionColumn" in {}

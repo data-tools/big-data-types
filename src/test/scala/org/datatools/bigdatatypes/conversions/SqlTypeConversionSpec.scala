@@ -1,16 +1,20 @@
 package org.datatools.bigdatatypes.conversions
 
+import java.sql.Timestamp
+
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.types.basic._
 
 class SqlTypeConversionSpec extends UnitSpec {
 
   case class BasicTypes(myInt: Int, myLong: Long, myFloat: BigDecimal, myBoolean: Boolean, myString: String)
+  case class BasicOptionTypes(myInt: Option[Int], myLong: Option[Long], myFloat: Option[BigDecimal], myBoolean: Option[Boolean], myString: Option[String])
   case class BasicOption(myString: String, myOptionalString: Option[String])
   case class BasicList(myInt: Int, myList: List[Int])
   case class BasicStruct(myInt: Int, myStruct: BasicTypes)
   case class Point(x: Int, y: Int)
   case class ListOfStruct(matrix: List[Point])
+  case class ExtendedTypes(myInt: Int, myTimestamp: Timestamp)
 
   behavior of "SqlTypeConversionTest"
 
@@ -76,6 +80,19 @@ class SqlTypeConversionSpec extends UnitSpec {
     sqlType shouldBe SqlStruct(fields, Required)
   }
 
+  "Case Class with basic options types" should "be converted into nullable SqlTypes" in {
+    val sqlType: SqlType = SqlTypeConversion[BasicOptionTypes].getType
+    val fields: List[(String, SqlType)] =
+      List(
+        ("myInt", SqlInt(Nullable)),
+        ("myLong", SqlLong(Nullable)),
+        ("myFloat", SqlDecimal(Nullable)),
+        ("myBoolean", SqlBool(Nullable)),
+        ("myString", SqlString(Nullable))
+      )
+    sqlType shouldBe SqlStruct(fields, Required)
+  }
+
   "Case class with List" should "be converted into Repeated type" in {
     val sqlType: SqlType = SqlTypeConversion[BasicList].getType
     val fields: List[(String, SqlType)] =
@@ -113,6 +130,41 @@ class SqlTypeConversionSpec extends UnitSpec {
       )
     val fields: List[(String, SqlType)] =
       List(("matrix", SqlStruct(struct, Repeated)))
+    sqlType shouldBe SqlStruct(fields, Required)
+  }
+
+  "Option of Option" should "be just a Nullable type mode" in {
+    val sqlType: SqlType = SqlTypeConversion[Option[Option[String]]].getType
+    sqlType shouldBe SqlString(Nullable)
+  }
+
+  "Option List" should "be just a Repeated type mode" in {
+    val sqlType: SqlType = SqlTypeConversion[Option[List[String]]].getType
+    sqlType shouldBe SqlString(Repeated)
+  }
+
+  "List Option" should "be just a Repeated type mode" in {
+    val sqlType: SqlType = SqlTypeConversion[List[Option[String]]].getType
+    sqlType shouldBe SqlString(Repeated)
+  }
+
+  "Java SQL Timestamp" should "be converted into SqlTimestamp" in {
+    val sqlType: SqlType = SqlTypeConversion[Timestamp].getType
+    sqlType shouldBe SqlTimestamp(Required)
+  }
+
+  "Optional Java SQL Timestamp" should "be converted into nullable SqlTimestamp" in {
+    val sqlType: SqlType = SqlTypeConversion[Option[Timestamp]].getType
+    sqlType shouldBe SqlTimestamp(Nullable)
+  }
+
+  "Case class with extended types" should "be converted into Struct with extended types" in {
+    val sqlType: SqlType = SqlTypeConversion[ExtendedTypes].getType
+    val fields: List[(String, SqlType)] =
+      List(
+        ("myInt", SqlInt(Required)),
+        ("myTimestamp", SqlTimestamp(Required))
+      )
     sqlType shouldBe SqlStruct(fields, Required)
   }
 

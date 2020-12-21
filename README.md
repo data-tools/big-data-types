@@ -5,9 +5,9 @@
 
 
 
-A library to transform Case Classes into Database types.
+A library to transform Case Classes into Database schemas
 
-This library converts case classes into different database types, making possible to work with case classes when writing,
+This library converts basic Scala types and Case Classes into different database types and schemas using Shapeless, making possible to work with case classes when writing,
  reading or creating tables in different databases. For now, it only supports BigQuery.
  
 ## BigQuery
