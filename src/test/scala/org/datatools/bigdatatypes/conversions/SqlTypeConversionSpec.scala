@@ -148,6 +148,11 @@ class SqlTypeConversionSpec extends UnitSpec {
     sqlType shouldBe SqlString(Repeated)
   }
 
+  "List Option List" should "be just a Repeated type mode" in {
+    val sqlType: SqlType = SqlTypeConversion[List[Option[List[String]]]].getType
+    sqlType shouldBe SqlString(Repeated)
+  }
+
   "Java SQL Timestamp" should "be converted into SqlTimestamp" in {
     val sqlType: SqlType = SqlTypeConversion[Timestamp].getType
     sqlType shouldBe SqlTimestamp(Required)
@@ -157,10 +162,13 @@ class SqlTypeConversionSpec extends UnitSpec {
     val sqlType: SqlType = SqlTypeConversion[Option[Timestamp]].getType
     sqlType shouldBe SqlTimestamp(Nullable)
   }
-
-  "Optional Java SQL Date" should "be converted into nullable SqlDate" in {
+  "Java SQL Date" should "be converted into nullable SqlDate" in {
     val sqlType: SqlType = SqlTypeConversion[Date].getType
     sqlType shouldBe SqlDate(Required)
+  }
+  "Optional Java SQL Date" should "be converted into nullable SqlDate" in {
+    val sqlType: SqlType = SqlTypeConversion[Option[Date]].getType
+    sqlType shouldBe SqlDate(Nullable)
   }
 
   "Case class with extended types" should "be converted into Struct with extended types" in {
