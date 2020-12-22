@@ -38,5 +38,4 @@ case class SqlBool(mode: SqlTypeMode = Required) extends SqlType
 case class SqlString(mode: SqlTypeMode = Required) extends SqlType
 case class SqlTimestamp(mode: SqlTypeMode = Required) extends SqlType
 case class SqlDate(mode: SqlTypeMode = Required) extends SqlType
-case class SqlDateTime(mode: SqlTypeMode = Required) extends SqlType
 case class SqlStruct(records: List[(String, SqlType)], mode: SqlTypeMode = Required) extends SqlType
