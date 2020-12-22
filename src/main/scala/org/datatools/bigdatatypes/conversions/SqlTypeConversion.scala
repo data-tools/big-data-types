@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.conversions
 
-import java.sql.Timestamp
+import java.sql.{Date, Timestamp}
 
 import org.datatools.bigdatatypes.types.basic._
 import shapeless._
@@ -44,7 +44,10 @@ object SqlTypeConversion {
   implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[Boolean] = instance(SqlBool())
   implicit val stringType: SqlTypeConversion[String] = instance(SqlString())
+  // Extended types
   implicit val timestampType: SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
+  implicit val dateType: SqlTypeConversion[Date] = instance(SqlTimestamp())
+
 
   /** type class derivation for Option
     */

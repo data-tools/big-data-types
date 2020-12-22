@@ -60,6 +60,8 @@ object BigQueryTypes {
       Field.newBuilder(name, StandardSQLTypeName.STRING).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlTimestamp(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.TIMESTAMP).setMode(sqlModeToBigQueryMode(mode)).build()
+    case SqlDate(mode) =>
+      Field.newBuilder(name, StandardSQLTypeName.DATETIME).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlStruct(subType, mode) =>
       Field
         .newBuilder(name, StandardSQLTypeName.STRUCT, getSchema(SqlStruct(subType)): _*)
