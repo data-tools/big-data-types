@@ -3,6 +3,8 @@ package org.datatools.bigdatatypes.bigquery
 import org.datatools.bigdatatypes.IntegrationSpec
 import org.datatools.bigdatatypes.DummyModels._
 
+import scala.util.Right
+
 class BigQueryTableSpec extends IntegrationSpec {
 
   behavior of "BigQueryTableSpec"
@@ -55,7 +57,9 @@ class BigQueryTableSpec extends IntegrationSpec {
   }
 
   "Five case classes" should "create a table" in {
-    BigQueryTable.createTable[Simple, Append1, Append2, Append3, Append4](dataset, "simpleAppend4").isRight shouldBe true
+    BigQueryTable
+      .createTable[Simple, Append1, Append2, Append3, Append4](dataset, "simpleAppend4")
+      .isRight shouldBe true
   }
 
   "Complex appends" should "create a table" in {
@@ -64,5 +68,36 @@ class BigQueryTableSpec extends IntegrationSpec {
 
   "Java SQL Timestamp type" should "create a table" in {
     BigQueryTable.createTable[ExtendedTypes](dataset, "extendedTimestamp").isRight shouldBe true
+  }
+
+  "Time partitioned table with Timestamp Field" should "create a partitioned table" in {
+    BigQueryTable.createTable[ExtendedTypes](dataset, "partitionedTimestamp", "my_timestamp").isRight shouldBe true
+  }
+
+  "Time partitioned table with two case classes " should "create a partitioned table" in {
+    BigQueryTable.createTable[Simple, ExtendedTypes](
+      dataset,
+      "partitionedTimestampAppend1",
+      "my_timestamp"
+    ) contains Right
+  }
+  "Time partitioned table with three case classes " should "create a partitioned table" in {
+    BigQueryTable
+      .createTable[Simple, Append1, ExtendedTypes](dataset, "partitionedTimestampAppend2", "my_timestamp")
+      .isRight shouldBe true
+  }
+  "Time partitioned table with four case classes " should "create a partitioned table" in {
+    BigQueryTable
+      .createTable[Simple, Append1, Append2, ExtendedTypes](dataset, "partitionedTimestampAppend3", "my_timestamp")
+      .isRight shouldBe true
+  }
+  "Time partitioned table with five case classes " should "create a partitioned table" in {
+    BigQueryTable
+      .createTable[Simple, Append1, Append2, Append3, ExtendedTypes](
+        dataset,
+        "partitionedTimestampAppend4",
+        "my_timestamp"
+      )
+      .isRight shouldBe true
   }
 }
