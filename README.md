@@ -7,8 +7,11 @@
 
 A library to transform Case Classes into Database schemas
 
-This library converts basic Scala types and Case Classes into different database types and schemas using Shapeless, making possible to work with case classes when writing,
- reading or creating tables in different databases. For now, it only supports BigQuery.
+This library converts basic Scala types and Case Classes into different database types and schemas using Shapeless, 
+making possible to extract a database schema from a Case Class and to work with Case Classes when writing,
+reading or creating tables in different databases. 
+
+For now, it only supports BigQuery.
  
 ## BigQuery
 
@@ -21,6 +24,12 @@ BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 This also works with Structs, Lists and Options.
 See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/main/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
 
+#### Time Partitioned tables
+Using a `Timestamp` field, tables can be partitioned in BigQuery using a [Time Partition Column](https://cloud.google.com/bigquery/docs/creating-column-partitions)
+```scala
+case class MyTable(field1: Int, field2: String, partitionField: java.sql.Timestamp)
+BigQueryTable.createTable[MyTable]("dataset_name", "table_name", "partition_field")
+```
 #### Create a table with more than one Case Class
 In many cases we work with a Case Class that represents our data but we also want to add 
 some metadata fields like `updated_at`, `received_at`, `version` and so on.
