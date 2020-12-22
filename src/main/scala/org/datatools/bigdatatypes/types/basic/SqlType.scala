@@ -23,6 +23,7 @@ sealed trait SqlType {
         case SqlBool(_)            => SqlBool(mode)
         case SqlString(_)          => SqlString(mode)
         case SqlTimestamp(_)       => SqlTimestamp(mode)
+        case SqlDate(_)            => SqlDate(mode)
         case SqlStruct(records, _) => SqlStruct(records, mode)
       }
     else this
@@ -36,4 +37,6 @@ case class SqlDecimal(mode: SqlTypeMode = Required) extends SqlType
 case class SqlBool(mode: SqlTypeMode = Required) extends SqlType
 case class SqlString(mode: SqlTypeMode = Required) extends SqlType
 case class SqlTimestamp(mode: SqlTypeMode = Required) extends SqlType
+case class SqlDate(mode: SqlTypeMode = Required) extends SqlType
+case class SqlDateTime(mode: SqlTypeMode = Required) extends SqlType
 case class SqlStruct(records: List[(String, SqlType)], mode: SqlTypeMode = Required) extends SqlType

@@ -67,15 +67,19 @@ class BigQueryTableSpec extends IntegrationSpec {
   }
 
   "Java SQL Timestamp type" should "create a table" in {
-    BigQueryTable.createTable[ExtendedTypes](dataset, "extendedTimestamp").isRight shouldBe true
+    BigQueryTable.createTable[DummyTimestampTypes](dataset, "extendedTimestamp").isRight shouldBe true
   }
 
   "Time partitioned table with Timestamp Field" should "create a partitioned table" in {
-    BigQueryTable.createTable[ExtendedTypes](dataset, "partitionedTimestamp", "my_timestamp").isRight shouldBe true
+    BigQueryTable.createTable[DummyTimestampTypes](dataset, "partitionedTimestamp", "my_timestamp").isRight shouldBe true
+  }
+
+  "Time partitioned table with Date Field" should "create a partitioned table" in {
+    BigQueryTable.createTable[DummyDateTypes](dataset, "partitionedTimestamp", "my_date").isRight shouldBe true
   }
 
   "Time partitioned table with two case classes " should "create a partitioned table" in {
-    BigQueryTable.createTable[Simple, ExtendedTypes](
+    BigQueryTable.createTable[Simple, DummyTimestampTypes](
       dataset,
       "partitionedTimestampAppend1",
       "my_timestamp"
@@ -83,17 +87,17 @@ class BigQueryTableSpec extends IntegrationSpec {
   }
   "Time partitioned table with three case classes " should "create a partitioned table" in {
     BigQueryTable
-      .createTable[Simple, Append1, ExtendedTypes](dataset, "partitionedTimestampAppend2", "my_timestamp")
+      .createTable[Simple, Append1, DummyTimestampTypes](dataset, "partitionedTimestampAppend2", "my_timestamp")
       .isRight shouldBe true
   }
   "Time partitioned table with four case classes " should "create a partitioned table" in {
     BigQueryTable
-      .createTable[Simple, Append1, Append2, ExtendedTypes](dataset, "partitionedTimestampAppend3", "my_timestamp")
+      .createTable[Simple, Append1, Append2, DummyTimestampTypes](dataset, "partitionedTimestampAppend3", "my_timestamp")
       .isRight shouldBe true
   }
   "Time partitioned table with five case classes " should "create a partitioned table" in {
     BigQueryTable
-      .createTable[Simple, Append1, Append2, Append3, ExtendedTypes](
+      .createTable[Simple, Append1, Append2, Append3, DummyTimestampTypes](
         dataset,
         "partitionedTimestampAppend4",
         "my_timestamp"
