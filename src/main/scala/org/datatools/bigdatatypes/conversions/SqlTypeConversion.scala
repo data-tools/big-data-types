@@ -46,7 +46,7 @@ object SqlTypeConversion {
   implicit val stringType: SqlTypeConversion[String] = instance(SqlString())
   // Extended types
   implicit val timestampType: SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
-  implicit val dateType: SqlTypeConversion[Date] = instance(SqlTimestamp())
+  implicit val dateType: SqlTypeConversion[Date] = instance(SqlDate())
 
 
   /** type class derivation for Option

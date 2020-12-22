@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.conversions
 
-import java.sql.Timestamp
+import java.sql.{Date, Timestamp}
 
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.types.basic._
@@ -14,7 +14,7 @@ class SqlTypeConversionSpec extends UnitSpec {
   case class BasicStruct(myInt: Int, myStruct: BasicTypes)
   case class Point(x: Int, y: Int)
   case class ListOfStruct(matrix: List[Point])
-  case class ExtendedTypes(myInt: Int, myTimestamp: Timestamp)
+  case class ExtendedTypes(myInt: Int, myTimestamp: Timestamp, myDate: Date)
 
   behavior of "SqlTypeConversionTest"
 
@@ -158,12 +158,18 @@ class SqlTypeConversionSpec extends UnitSpec {
     sqlType shouldBe SqlTimestamp(Nullable)
   }
 
+  "Optional Java SQL Date" should "be converted into nullable SqlDate" in {
+    val sqlType: SqlType = SqlTypeConversion[Date].getType
+    sqlType shouldBe SqlDate(Required)
+  }
+
   "Case class with extended types" should "be converted into Struct with extended types" in {
     val sqlType: SqlType = SqlTypeConversion[ExtendedTypes].getType
     val fields: List[(String, SqlType)] =
       List(
         ("myInt", SqlInt(Required)),
-        ("myTimestamp", SqlTimestamp(Required))
+        ("myTimestamp", SqlTimestamp(Required)),
+        ("myDate", SqlDate(Required))
       )
     sqlType shouldBe SqlStruct(fields, Required)
   }
