@@ -1,8 +1,24 @@
-name := "case-class-to-database-types"
+name := "big-data-types"
 
-version := "0.0.1"
+version := "0.0.2"
 
 scalaVersion := "2.13.3"
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+//Sonatype
+publishTo := sonatypePublishToBundle.value
+
+// groupId, SCM, license information
+organization := "io.github.data-tools"
+homepage := Some(url("https://github.com/data-tools/big-data-types"))
+scmInfo := Some(ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git"))
+developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton")))
+licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+publishMavenStyle := true
 
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
