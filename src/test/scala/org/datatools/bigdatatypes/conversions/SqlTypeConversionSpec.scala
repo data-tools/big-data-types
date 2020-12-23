@@ -12,6 +12,7 @@ class SqlTypeConversionSpec extends UnitSpec {
   case class BasicOption(myString: String, myOptionalString: Option[String])
   case class BasicList(myInt: Int, myList: List[Int])
   case class BasicStruct(myInt: Int, myStruct: BasicTypes)
+  case class BasicOptionalStruct(myInt: Int, myStruct: Option[BasicTypes])
   case class Point(x: Int, y: Int)
   case class ListOfStruct(matrix: List[Point])
   case class ExtendedTypes(myInt: Int, myTimestamp: Timestamp, myDate: Date)
@@ -117,6 +118,24 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myStruct", SqlStruct(basicFields, Required))
+      )
+    sqlType shouldBe SqlStruct(fields, Required)
+  }
+
+  "case class with optional nested object" should "be converted into SqlTypes" in {
+    val sqlType: SqlType = SqlTypeConversion[BasicOptionalStruct].getType
+    val basicFields: List[(String, SqlType)] =
+      List(
+        ("myInt", SqlInt(Required)),
+        ("myLong", SqlLong(Required)),
+        ("myFloat", SqlDecimal(Required)),
+        ("myBoolean", SqlBool(Required)),
+        ("myString", SqlString(Required))
+      )
+    val fields: List[(String, SqlType)] =
+      List(
+        ("myInt", SqlInt(Required)),
+        ("myStruct", SqlStruct(basicFields, Nullable))
       )
     sqlType shouldBe SqlStruct(fields, Required)
   }
