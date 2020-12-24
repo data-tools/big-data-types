@@ -22,4 +22,4 @@ jobs:
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_KEY }}
       - name: Publish Sonatype Release
-        run: sbt publishSigned; sonatypeBundleRelease
+        run: sbt -v -Dfile.encoding=UTF-8 +clean +publishSigned +sonatypeBundleRelease
