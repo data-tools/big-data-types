@@ -7,8 +7,8 @@ assemblyMergeStrategy in assembly := {
   case x => MergeStrategy.first
 }
 
-//Sonatype
-publishTo := sonatypePublishToBundle.value
+//Sonatype snapshot
+//resolvers += Resolver.sonatypeRepo("snapshots")
 
 // groupId, SCM, license information
 organization := "io.github.data-tools"
