@@ -12,8 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Use gcloud CLI
-        run: gcloud info
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Scala
