@@ -12,6 +12,11 @@ making possible to extract a database schema from a Case Class and to work with 
 reading or creating tables in different databases. 
 
 For now, it only supports BigQuery.
+
+#Quick Start
+```
+libraryDependencies += "io.github.data-tools" %% "big-data-types" % "0.0.3"
+```
  
 ## BigQuery
 
