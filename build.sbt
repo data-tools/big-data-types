@@ -1,7 +1,5 @@
 name := "big-data-types"
 
-version := "0.0.3"
-
 scalaVersion := "2.13.3"
 
 assemblyMergeStrategy in assembly := {
