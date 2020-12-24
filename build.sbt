@@ -9,6 +9,7 @@ assemblyMergeStrategy in assembly := {
 
 //Sonatype snapshot
 //resolvers += Resolver.sonatypeRepo("snapshots")
+skip in publish := true
 
 // groupId, SCM, license information for sbt-ci-release plugin
 inThisBuild(List(
