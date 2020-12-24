@@ -13,7 +13,7 @@ reading or creating tables in different databases.
 
 For now, it only supports BigQuery.
 
-#Quick Start
+# Quick Start
 ```
 libraryDependencies += "io.github.data-tools" %% "big-data-types" % "0.0.3"
 ```
