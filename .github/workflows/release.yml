@@ -1,20 +1,24 @@
 name: release
 on:
   push:
-    branches: [master, main]
+    #branches: [master, main]
     tags: ["*"]
+env:
+  SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+
 jobs:
-  publish:
-    runs-on: ubuntu-20.04
+  release:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
-      - uses: olafurpg/setup-scala@v10
-      - uses: olafurpg/setup-gpg@v3
-      - run: sbt ci-release
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Configure GPG Key
+        run: |
+          mkdir -p ~/.gnupg/
+          printf "$GPG_SIGNING_KEY" | base64 --decode > ~/.gnupg/private.key
+          gpg --import ~/.gnupg/private.key
         env:
-          PGP_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.GPG_KEY }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_SIGNING_KEY: ${{ secrets.GPG_KEY_UNSECURE }}
+      - name: Publish Sonatype Release
+        run: sbt -v -Dfile.encoding=UTF-8 +clean +publishSigned +sonatypeBundleRelease

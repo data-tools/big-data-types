@@ -1,5 +1,7 @@
 name := "big-data-types"
 
+version := "0.0.3"
+
 scalaVersion := "2.13.3"
 
 assemblyMergeStrategy in assembly := {
@@ -7,18 +9,16 @@ assemblyMergeStrategy in assembly := {
   case x => MergeStrategy.first
 }
 
-//Sonatype snapshot
-//resolvers += Resolver.sonatypeRepo("snapshots")
-skip in publish := true
+//Sonatype
+publishTo := sonatypePublishToBundle.value
 
-// groupId, SCM, license information for sbt-ci-release plugin
-inThisBuild(List(
-  organization := "io.github.data-tools",
-  homepage := Some(url("https://github.com/data-tools/big-data-types")),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-  developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton")))
-))
-
+// groupId, SCM, license information
+organization := "io.github.data-tools"
+homepage := Some(url("https://github.com/data-tools/big-data-types"))
+scmInfo := Some(ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git"))
+developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton")))
+licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+publishMavenStyle := true
 
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
