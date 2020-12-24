@@ -8,7 +8,7 @@ assemblyMergeStrategy in assembly := {
 }
 
 //Sonatype snapshot
-//resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers += Resolver.sonatypeRepo("snapshots")
 
 // groupId, SCM, license information
 organization := "io.github.data-tools"
