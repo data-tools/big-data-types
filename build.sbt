@@ -9,6 +9,9 @@ assemblyMergeStrategy in assembly := {
   case x => MergeStrategy.first
 }
 
+//PGP Key to use
+usePgpKeyHex("9C6C8CC769B17AF539950ECA2CEED12FDB3EEB31")
+
 //Sonatype
 publishTo := sonatypePublishToBundle.value
 
