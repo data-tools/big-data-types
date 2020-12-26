@@ -2,13 +2,10 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{FieldList, StandardTableDefinition}
 import org.datatools.bigdatatypes.UnitSpec
+import org.datatools.bigdatatypes.bigquery.BigQueryFields.getFieldNames
 
-import scala.jdk.CollectionConverters.IteratorHasAsScala
 
 class BigQueryDefinitionsSpec extends UnitSpec {
-
-  /** Used to get a List of field names from a FieldList */
-  def getFieldNames(fields: FieldList): List[String] = fields.iterator().asScala.toList.map(_.getName)
 
   behavior of "BigQueryDefinitionsSpec"
 
