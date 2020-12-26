@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: "adopt@1.8"
       - name: Build and Unit Tests
-        run: sbt -v -Dfile.encoding=UTF-8 +clean +coverage +test
+        run: sbt -v -Dfile.encoding=UTF-8 +clean; coverage; +test
       - name: Set up GCloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -27,9 +27,9 @@ jobs:
           service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT_64 }}
           export_default_credentials: true
       - name: Integration Tests
-        run: sbt -v -Dfile.encoding=UTF-8 +coverage +it:test
+        run: sbt -v -Dfile.encoding=UTF-8 coverage; +it:test
       - name: Coverage Report
-        run: sbt -v -Dfile.encoding=UTF-8 +coverageReport
+        run: sbt -v -Dfile.encoding=UTF-8 coverageReport
       - name: Codecov
         uses: codecov/codecov-action@v1
         with:
