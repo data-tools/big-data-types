@@ -11,8 +11,8 @@ private[bigquery] object BigQueryDefinitions {
     TimePartitioning.newBuilder(TimePartitioning.Type.DAY).setField(columnName).build()
 
   /** Generates a Table definition with or without Time Partitioning Column
-    * @param partitionColumn name of the column that will be a time partition, if None, no partition will be created
-    */
+   * @param partitionColumn name of the column that will be a time partition, if None, no partition will be created
+   */
   def generateTableDefinition[A: BigQueryTypes](partitionColumn: Option[String]): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder = StandardTableDefinition.newBuilder().setSchema(generateSchema[A])
     addPartitionToBuilder(builder, partitionColumn).build()
@@ -24,8 +24,8 @@ private[bigquery] object BigQueryDefinitions {
   }
 
   def generateTableDefinition[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](
-      partitionColumn: Option[String]
-  ): StandardTableDefinition = {
+                                                                                     partitionColumn: Option[String]
+                                                                                   ): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder =
       StandardTableDefinition.newBuilder().setSchema(generateSchema[A, B, C])
     addPartitionToBuilder(builder, partitionColumn).build()
@@ -44,17 +44,17 @@ private[bigquery] object BigQueryDefinitions {
   }
 
   /** Given a builder and a column name, add a Time Partitioning column to the builder
-    *
-    * @param builder         for BigQuery tables
-    * @param partitionColumn name of the column to be used as Time Partitioning column
-    */
+   *
+   * @param builder         for BigQuery tables
+   * @param partitionColumn name of the column to be used as Time Partitioning column
+   */
   def addPartitionToBuilder(builder: StandardTableDefinition.Builder,
                             partitionColumn: Option[String]
-  ): StandardTableDefinition.Builder =
+                           ): StandardTableDefinition.Builder =
     partitionColumn.map(v => builder.setTimePartitioning(generateTimePartitionColumn(v))).getOrElse(builder)
 
   /** Generates a BigQuery Table Schema given a type A
-    */
+   */
   def generateSchema[A: BigQueryTypes]: Schema = Schema.of(BigQueryTypes[A].getBigQueryFields.asJava)
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes]: Schema =
@@ -65,11 +65,11 @@ private[bigquery] object BigQueryDefinitions {
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes]: Schema =
     Schema.of(
-    (BigQueryTypes[A].getBigQueryFields ++
-      BigQueryTypes[B].getBigQueryFields ++
-      BigQueryTypes[C].getBigQueryFields ++
-      BigQueryTypes[D].getBigQueryFields).asJava
-  )
+      (BigQueryTypes[A].getBigQueryFields ++
+        BigQueryTypes[B].getBigQueryFields ++
+        BigQueryTypes[C].getBigQueryFields ++
+        BigQueryTypes[D].getBigQueryFields).asJava
+    )
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes]: Schema =
     Schema.of(
