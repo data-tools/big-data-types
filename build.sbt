@@ -1,9 +1,15 @@
 name := "big-data-types"
 
 //used to build Sonatype releases
-version := "0.0.3"
+version := "0.0.4"
 
-scalaVersion := "2.13.3"
+lazy val scala213 = "2.13.3"
+lazy val scala212 = "2.12.12"
+lazy val scala211 = "2.11.12"
+lazy val supportedScalaVersions = List(scala213, scala212, scala211)
+
+
+scalaVersion := scala213
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -37,6 +43,7 @@ libraryDependencies ++= Seq(
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(
+    crossScalaVersions := supportedScalaVersions,
     Defaults.itSettings,
     libraryDependencies += scalatest % "it,test"
   )
