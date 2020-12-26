@@ -9,7 +9,9 @@ lazy val scala211 = "2.11.12"
 lazy val supportedScalaVersions = List(scala213, scala212, scala211)
 
 
-scalaVersion := scala213
+//scalaVersion := scala213
+commonSettings
+//crossScalaVersions := Nil
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -40,10 +42,33 @@ libraryDependencies ++= Seq(
   scalatest % Test,
 )
 
+inThisBuild(Seq(
+  organization := "io.github.data-tools",
+  scalaVersion := scala213,
+  crossScalaVersions :=List(scala213),
+))
+
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(
-    crossScalaVersions := supportedScalaVersions,
+    //crossScalaVersions := supportedScalaVersions,
     Defaults.itSettings,
     libraryDependencies += scalatest % "it,test"
   )
+
+lazy val commonSettings = crossVersionSharedSources
+
+
+lazy val crossVersionSharedSources: Seq[Setting[_]] =
+  Seq(Compile, Test).map { sc =>
+    (unmanagedSourceDirectories in sc) ++= {
+      (unmanagedSourceDirectories in sc ).value.flatMap { dir: File =>
+        if(dir.getName != "scala") Seq(dir)
+        else
+          CrossVersion.partialVersion(scalaVersion.value) match {
+            case Some((2, y)) if y >= 13 => Seq(new File(dir.getPath + "_2.13+"))
+            case Some((2, y)) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
+          }
+      }
+    }
+  }
