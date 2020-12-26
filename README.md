@@ -1,9 +1,7 @@
 # Big Data Types
-![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci-tests/badge.svg
-)
+![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci-tests/badge.svg)
 [![codecov](https://codecov.io/gh/data-tools/big-data-types/branch/main/graph/badge.svg)](https://codecov.io/gh/data-tools/big-data-types)
-
-
+![Maven Central](https://img.shields.io/maven-central/v/io.github.data-tools/big-data-types_2.13)
 
 A library to transform Case Classes into Database schemas
 
@@ -15,8 +13,9 @@ For now, it only supports BigQuery.
 
 # Quick Start
 ```
-libraryDependencies += "io.github.data-tools" %% "big-data-types" % "0.0.3"
+libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "0.0.5"
 ```
+Versions for Scala 2.12 and 2.13 are available in Maven
  
 ## BigQuery
 
