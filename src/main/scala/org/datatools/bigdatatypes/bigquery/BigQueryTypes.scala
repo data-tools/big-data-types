@@ -3,6 +3,7 @@ package org.datatools.bigdatatypes.bigquery
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, StandardSQLTypeName}
 import org.datatools.bigdatatypes.conversions._
+import org.datatools.bigdatatypes.formats.Formats
 import org.datatools.bigdatatypes.types.basic
 import org.datatools.bigdatatypes.types.basic._
 
@@ -34,18 +35,18 @@ object BigQueryTypes {
     * Automatically converts camelCase names into snake_case in the process
     * TODO: pass a function as a parameter, we should be able to decide if we want snake_case or other things from outside
     */
-  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion]: BigQueryTypes[A] =
+  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypes[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
-  private def getSchema(sqlType: SqlType): List[Field] = sqlType match {
+  private def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
-      getSchemaWithName(snakify(name), sqlType) :: getSchema(basic.SqlStruct(records, mode))
+      getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(basic.SqlStruct(records, mode))
   }
 
   /** Basic SqlTypes conversions to BigQuery Fields
     */
-  private def getSchemaWithName(name: String, sqlType: SqlType): Field = sqlType match {
+  private def getSchemaWithName(name: String, sqlType: SqlType)(implicit f: Formats): Field = sqlType match {
     case SqlInt(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.INT64).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlLong(mode) =>
@@ -74,14 +75,4 @@ object BigQueryTypes {
     case Repeated => Mode.REPEATED
     case Required => Mode.REQUIRED
   }
-
-  /** Turn a string of format "FooBar" into snake case "foo_bar"
-    * TODO move this somewhere else
-    */
-  private def snakify(name: String): String =
-    name
-      .replaceAll("([A-Z]+)([A-Z][a-z])", "$1_$2")
-      .replaceAll("([a-z\\d])([A-Z])", "$1_$2")
-      .toLowerCase
-
 }
