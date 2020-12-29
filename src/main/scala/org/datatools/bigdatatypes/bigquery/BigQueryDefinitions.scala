@@ -2,7 +2,6 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{Schema, StandardTableDefinition, TimePartitioning}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.formats.Formats
 
 
 private[bigquery] object BigQueryDefinitions {
@@ -14,7 +13,7 @@ private[bigquery] object BigQueryDefinitions {
   /** Generates a Table definition with or without Time Partitioning Column
    * @param partitionColumn name of the column that will be a time partition, if None, no partition will be created
    */
-  def generateTableDefinition[A: BigQueryTypes](partitionColumn: Option[String])(implicit f: Formats): StandardTableDefinition = {
+  def generateTableDefinition[A: BigQueryTypes](partitionColumn: Option[String]): StandardTableDefinition = {
     val builder: StandardTableDefinition.Builder = StandardTableDefinition.newBuilder().setSchema(generateSchema[A])
     addPartitionToBuilder(builder, partitionColumn).build()
   }

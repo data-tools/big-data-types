@@ -12,7 +12,7 @@ object BigQueryTable {
 
   /** Create a table without partitions
     */
-  def createTable[A: BigQueryTypes](datasetName: String, tableName: String)(implicit f: Formats): Either[BigQueryError, Table] = createTable[A](datasetName, tableName, None)
+  def createTable[A: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A](datasetName, tableName, None)
   def createTable[A: BigQueryTypes, B: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B](datasetName, tableName, None)
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C](datasetName, tableName, None)
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C, D](datasetName, tableName, None)
@@ -20,7 +20,7 @@ object BigQueryTable {
 
   /** Create partitioned table
     */
-  def createTable[A: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String)(implicit f: Formats): Either[BigQueryError, Table] = createTable[A](datasetName, tableName, Some(timePartitionColumn))
+  def createTable[A: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A](datasetName, tableName, Some(timePartitionColumn))
   def createTable[A: BigQueryTypes, B: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A, B](datasetName, tableName, Some(timePartitionColumn))
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A, B, C](datasetName, tableName, Some(timePartitionColumn))
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A, B, C, D](datasetName, tableName, Some(timePartitionColumn))
@@ -28,7 +28,7 @@ object BigQueryTable {
 
   /** Create a table in BigQuery
     */
-  private def createTable[A: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String])(implicit f: Formats): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A](timePartitionColumn))
+  private def createTable[A: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A](timePartitionColumn))
   private def createTable[A: BigQueryTypes, B: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B](timePartitionColumn))
   private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B, C](timePartitionColumn))
   private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B, C, D](timePartitionColumn))
