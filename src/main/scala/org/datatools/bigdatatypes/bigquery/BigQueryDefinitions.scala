@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{Schema, StandardTableDefinition, TimePartitioning}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
+import org.datatools.bigdatatypes.formats.Formats
 
 
 private[bigquery] object BigQueryDefinitions {

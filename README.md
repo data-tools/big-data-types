@@ -22,15 +22,32 @@ Versions for Scala 2.12 and 2.13 are available in Maven
 ### Create BigQuery Tables
 
 ```scala
+import org.datatools.bigdatatypes.bigquery.BigQueryTable
+import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+
 case class MyTable(field1: Int, field2: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 ```
 This also works with Structs, Lists and Options.
 See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/main/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
 
+#### Transform field names
+There is a `Format` object that allows us to decide how to transform field names, for example, changing CamelCase for snake case
+```scala
+import org.datatools.bigdatatypes.bigquery.BigQueryTable
+import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+
+case class MyTable(myIntField: Int, myStringField: String)
+BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
+//This table will have my_int_field and my_string_field fields
+```
+
 #### Time Partitioned tables
 Using a `Timestamp` or `Date` field, tables can be partitioned in BigQuery using a [Time Partition Column](https://cloud.google.com/bigquery/docs/creating-column-partitions)
 ```scala
+import org.datatools.bigdatatypes.bigquery.BigQueryTable
+import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+
 case class MyTable(field1: Int, field2: String, myPartitionField: java.sql.Timestamp)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name", "my_partition_field")
 ```
