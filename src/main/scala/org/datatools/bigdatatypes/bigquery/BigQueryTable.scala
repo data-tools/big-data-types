@@ -2,8 +2,6 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{BigQuery, BigQueryError, BigQueryException, BigQueryOptions, Table, TableDefinition, TableId, TableInfo}
 import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions.generateTableDefinition
-import org.datatools.bigdatatypes.formats.Formats
-
 import scala.util.{Failure, Try}
 
 object BigQueryTable {
