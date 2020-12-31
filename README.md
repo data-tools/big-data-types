@@ -13,7 +13,7 @@ For now, it only supports BigQuery.
 
 # Quick Start
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "0.0.5"
+libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "0.0.7"
 ```
 Versions for Scala 2.12 and 2.13 are available in Maven
  
@@ -57,6 +57,9 @@ some metadata fields like `updated_at`, `received_at`, `version` and so on.
 In these cases we can work with multiple Case Classes and fields will be concatenated:
 
 ```scala
+import org.datatools.bigdatatypes.bigquery.BigQueryTable
+import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+
 case class MyData(field1: Int, field2: String)
 case class MyMetadata(updatedAt: Long, version: Int)
 BigQueryTable.createTable[MyData, MyMetadata]("dataset_name", "table_name")
@@ -64,14 +67,31 @@ BigQueryTable.createTable[MyData, MyMetadata]("dataset_name", "table_name")
 This can be done up to 5 concatenated classes
 
 
-### Create a schema for a BigQuery table
+### Create BigQuery schema from a Case Class
 ```scala
+import com.google.cloud.bigquery.{Field, Schema}
+import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.bigquery.BigQueryTypes
+import scala.jdk.CollectionConverters.IterableHasAsJava
+
 case class MyTable(field1: Int, field2: String)
 //List of BigQuery Fields, it can be used to construct an Schema
 val fields: List[Field] = BigQueryTypes[MyTable].getBigQueryFields
 //BigQuery Schema, it can be used to create a table
-val schema: Schema = Schema.of(fields)
+val schema: Schema = Schema.of(fields.asJava)
 ```
+
+### From a Case Class instance
+```scala
+import com.google.cloud.bigquery.Field
+import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.bigquery.BigQueryTypes._
+
+case class MyTable(field1: Int, field2: String)
+val data = MyTable(1, "test")
+val fields: List[Field] = data.getBigQueryFields
+```
+
 See more info about [creating tables on BigQuery](https://cloud.google.com/bigquery/docs/tables#java) in the official documentation
 
 ### Connecting to your BigQuery environment
