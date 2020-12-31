@@ -75,4 +75,13 @@ object BigQueryTypes {
     case Repeated => Mode.REPEATED
     case Required => Mode.REQUIRED
   }
+
+  /**
+   * Allows syntax .getBigQueryFields for case classes instances
+   * @param value not used, needed for implicit
+   * @tparam A is a Case Class
+   */
+  implicit class BigQueryFieldSyntax[A <: Product](value: A) {
+    def getBigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.getBigQueryFields
+  }
 }
