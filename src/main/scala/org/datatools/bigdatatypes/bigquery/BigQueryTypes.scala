@@ -33,7 +33,6 @@ object BigQueryTypes {
 
   /** Instance derivation via SqlTypeConversion.
     * Automatically converts camelCase names into snake_case in the process
-    * TODO: pass a function as a parameter, we should be able to decide if we want snake_case or other things from outside
     */
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypes[A] =
     instance(getSchema(SqlTypeConversion[A].getType))

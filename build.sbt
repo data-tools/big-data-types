@@ -1,13 +1,13 @@
 name := "big-data-types"
 
 //used to build Sonatype releases
-version := "0.0.7"
+version := "0.1.0"
 
 lazy val scala213 = "2.13.3"
 lazy val scala212 = "2.12.12"
 lazy val scala211 = "2.11.12"
 lazy val supportedScalaVersions = List(scala213, scala212)
-scalaVersion := scala213
+scalaVersion := scala212
 
 crossVersionSharedSources
 //crossScalaVersions := Nil
@@ -33,8 +33,19 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.3",
-  "com.google.cloud" % "google-cloud-bigquery" % "1.124.2"
+  "com.google.cloud" % "google-cloud-bigquery" % "1.124.2",
+
 )
+
+//dependencies for Spark - 2.12
+libraryDependencies ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, scalaMajor)) if scalaMajor < 13 =>
+      Seq("org.apache.spark" %% "spark-core" % "3.0.1" % Provided,
+          "org.apache.spark" %% "spark-sql" % "3.0.1" % Provided)
+    case _ => Seq()
+  }
+}
 
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.2"
 
