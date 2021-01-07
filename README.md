@@ -72,11 +72,10 @@ This can be done up to 5 concatenated classes
 import com.google.cloud.bigquery.{Field, Schema}
 import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
 import org.datatools.bigdatatypes.bigquery.BigQueryTypes
-import scala.jdk.CollectionConverters.IterableHasAsJava
 
 case class MyTable(field1: Int, field2: String)
 //List of BigQuery Fields, it can be used to construct an Schema
-val fields: List[Field] = BigQueryTypes[MyTable].getBigQueryFields
+val fields: List[Field] = BigQueryTypes[MyTable].bigQueryFields
 //BigQuery Schema, it can be used to create a table
 val schema: Schema = Schema.of(fields.asJava)
 ```
@@ -95,8 +94,9 @@ val fields: List[Field] = data.getBigQueryFields
 See more info about [creating tables on BigQuery](https://cloud.google.com/bigquery/docs/tables#java) in the official documentation
 
 ### Connecting to your BigQuery environment
-If you want to create tables using the library you will need to specify a service account and a project id.
+If you want to create tables using the library you will need to connect to your BigQuery environment 
+through any of the GCloud options. 
+Probably the most common will be to specify a service account and a project id.
 It can be added on environment variables. The library expects:
 - PROJECT_ID: <your_project_id>
 - GOOGLE_APPLICATION_CREDENTIAL: <path_to_your_service_account_json_file>
-
