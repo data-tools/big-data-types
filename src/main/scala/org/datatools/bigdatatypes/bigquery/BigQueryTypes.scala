@@ -17,7 +17,7 @@ trait BigQueryTypes[A] {
 
   /** @return a list of [[Field]]s that represents [[A]]
     */
-  def getBigQueryFields: List[Field]
+  def bigQueryFields: List[Field]
 }
 
 object BigQueryTypes {
@@ -28,7 +28,7 @@ object BigQueryTypes {
   /** Factory constructor - allows easier construction of instances */
   def instance[A](fs: List[Field]): BigQueryTypes[A] =
     new BigQueryTypes[A] {
-      def getBigQueryFields: List[Field] = fs
+      def bigQueryFields: List[Field] = fs
     }
 
   /** Instance derivation via SqlTypeConversion.
@@ -81,6 +81,6 @@ object BigQueryTypes {
    * @tparam A is a Case Class
    */
   implicit class BigQueryFieldSyntax[A <: Product](value: A) {
-    def getBigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.getBigQueryFields
+    def getBigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.bigQueryFields
   }
 }
