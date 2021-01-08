@@ -4,10 +4,18 @@ import java.sql.{Date, Timestamp}
 
 object TestTypes {
 
-  case class BasicTypes(myInt: Int, myLong: Long, myFloat: BigDecimal, myBoolean: Boolean, myString: String)
+  case class BasicTypes(myInt: Int,
+                        myLong: Long,
+                        myFloat: Float,
+                        myDecimal: BigDecimal,
+                        myBoolean: Boolean,
+                        myString: String
+  )
+
   case class BasicOptionTypes(myInt: Option[Int],
                               myLong: Option[Long],
-                              myFloat: Option[BigDecimal],
+                              myFloat: Option[Float],
+                              myDecimal: Option[BigDecimal],
                               myBoolean: Option[Boolean],
                               myString: Option[String]
   )

@@ -36,11 +36,16 @@ object SparkTypes {
     }
 
   /** Instance derivation via SqlTypeConversion.
-    * Automatically converts camelCase names into snake_case in the process
     */
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SparkTypes[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
+  /** Creates the schema (list of fields)
+    * Applies an implicit [[Formats.transformKeys]] in the process
+    * @param sqlType [[SqlType]]
+    * @param f [[Formats]] to apply while constructing the schema
+    * @return List of [[StructField]] representing the schema of the given type
+    */
   private def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
@@ -48,6 +53,7 @@ object SparkTypes {
   }
 
   /** Basic SqlTypes conversions to BigQuery Fields
+    * TODO: Use Formats to specify a default precision for DecimalType
     */
   private def getSchemaWithName(name: String, sqlType: SqlType)(implicit f: Formats): StructField = sqlType match {
     case SqlInt(mode) =>
@@ -57,7 +63,7 @@ object SparkTypes {
     case SqlFloat(mode) =>
       StructField(name, sparkType(mode, FloatType), isNullable(mode))
     case SqlDecimal(mode) =>
-      StructField(name, sparkType(mode, DoubleType), isNullable(mode))
+      StructField(name, sparkType(mode, DataTypes.createDecimalType), isNullable(mode))
     case SqlBool(mode) =>
       StructField(name, sparkType(mode, BooleanType), isNullable(mode))
     case SqlString(mode) =>
@@ -67,7 +73,7 @@ object SparkTypes {
     case SqlDate(mode) =>
       StructField(name, sparkType(mode, DateType), isNullable(mode))
     case SqlStruct(subType, mode) =>
-      StructField(name, StructType(getSchema(SqlStruct(subType))), isNullable(mode))
+      StructField(name, sparkType(mode, StructType(getSchema(SqlStruct(subType)))), isNullable(mode))
   }
 
   /** Find if a type has to be ArrayType or Basic type
@@ -96,7 +102,7 @@ object SparkTypes {
     * @tparam A is a Case Class
     */
   implicit class SparkSchemaSyntax[A <: Product](value: A) {
-    def sparkSchema(implicit a: SparkTypes[A]): StructType = StructType(a.sparkFields)
+    def sparkSchema(implicit a: SparkTypes[A]): StructType = a.sparkSchema
     def sparkFields(implicit a: SparkTypes[A]): List[StructField] = a.sparkFields
   }
 }

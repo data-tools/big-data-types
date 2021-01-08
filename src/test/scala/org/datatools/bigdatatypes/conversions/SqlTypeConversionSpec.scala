@@ -65,7 +65,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myLong", SqlLong(Required)),
-        ("myFloat", SqlDecimal(Required)),
+        ("myFloat", SqlFloat(Required)),
+        ("myDecimal", SqlDecimal(Required)),
         ("myBoolean", SqlBool(Required)),
         ("myString", SqlString(Required))
       )
@@ -78,7 +79,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Nullable)),
         ("myLong", SqlLong(Nullable)),
-        ("myFloat", SqlDecimal(Nullable)),
+        ("myFloat", SqlFloat(Nullable)),
+        ("myDecimal", SqlDecimal(Nullable)),
         ("myBoolean", SqlBool(Nullable)),
         ("myString", SqlString(Nullable))
       )
@@ -101,7 +103,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myLong", SqlLong(Required)),
-        ("myFloat", SqlDecimal(Required)),
+        ("myFloat", SqlFloat(Required)),
+        ("myDecimal", SqlDecimal(Required)),
         ("myBoolean", SqlBool(Required)),
         ("myString", SqlString(Required))
       )
@@ -119,7 +122,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myLong", SqlLong(Required)),
-        ("myFloat", SqlDecimal(Required)),
+        ("myFloat", SqlFloat(Required)),
+        ("myDecimal", SqlDecimal(Required)),
         ("myBoolean", SqlBool(Required)),
         ("myString", SqlString(Required))
       )
