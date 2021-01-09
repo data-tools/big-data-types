@@ -2,20 +2,11 @@ package org.datatools.bigdatatypes.conversions
 
 import java.sql.{Date, Timestamp}
 
+import org.datatools.bigdatatypes.TestTypes._
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.types.basic._
 
 class SqlTypeConversionSpec extends UnitSpec {
-
-  case class BasicTypes(myInt: Int, myLong: Long, myFloat: BigDecimal, myBoolean: Boolean, myString: String)
-  case class BasicOptionTypes(myInt: Option[Int], myLong: Option[Long], myFloat: Option[BigDecimal], myBoolean: Option[Boolean], myString: Option[String])
-  case class BasicOption(myString: String, myOptionalString: Option[String])
-  case class BasicList(myInt: Int, myList: List[Int])
-  case class BasicStruct(myInt: Int, myStruct: BasicTypes)
-  case class BasicOptionalStruct(myInt: Int, myStruct: Option[BasicTypes])
-  case class Point(x: Int, y: Int)
-  case class ListOfStruct(matrix: List[Point])
-  case class ExtendedTypes(myInt: Int, myTimestamp: Timestamp, myDate: Date)
 
   behavior of "SqlTypeConversionTest"
 
@@ -74,7 +65,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myLong", SqlLong(Required)),
-        ("myFloat", SqlDecimal(Required)),
+        ("myFloat", SqlFloat(Required)),
+        ("myDecimal", SqlDecimal(Required)),
         ("myBoolean", SqlBool(Required)),
         ("myString", SqlString(Required))
       )
@@ -87,7 +79,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Nullable)),
         ("myLong", SqlLong(Nullable)),
-        ("myFloat", SqlDecimal(Nullable)),
+        ("myFloat", SqlFloat(Nullable)),
+        ("myDecimal", SqlDecimal(Nullable)),
         ("myBoolean", SqlBool(Nullable)),
         ("myString", SqlString(Nullable))
       )
@@ -110,7 +103,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myLong", SqlLong(Required)),
-        ("myFloat", SqlDecimal(Required)),
+        ("myFloat", SqlFloat(Required)),
+        ("myDecimal", SqlDecimal(Required)),
         ("myBoolean", SqlBool(Required)),
         ("myString", SqlString(Required))
       )
@@ -128,7 +122,8 @@ class SqlTypeConversionSpec extends UnitSpec {
       List(
         ("myInt", SqlInt(Required)),
         ("myLong", SqlLong(Required)),
-        ("myFloat", SqlDecimal(Required)),
+        ("myFloat", SqlFloat(Required)),
+        ("myDecimal", SqlDecimal(Required)),
         ("myBoolean", SqlBool(Required)),
         ("myString", SqlString(Required))
       )

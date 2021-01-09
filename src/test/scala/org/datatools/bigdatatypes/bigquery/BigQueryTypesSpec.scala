@@ -22,7 +22,7 @@ class BigQueryTypesSpec extends UnitSpec {
   }
 
   "A Case Class type" should "return BigQuery Fields" in {
-    BigQueryTypes[Dummy].getBigQueryFields shouldBe expected
+    BigQueryTypes[Dummy].bigQueryFields shouldBe expected
   }
 
 }

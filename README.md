@@ -72,11 +72,10 @@ This can be done up to 5 concatenated classes
 import com.google.cloud.bigquery.{Field, Schema}
 import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
 import org.datatools.bigdatatypes.bigquery.BigQueryTypes
-import scala.jdk.CollectionConverters.IterableHasAsJava
 
 case class MyTable(field1: Int, field2: String)
 //List of BigQuery Fields, it can be used to construct an Schema
-val fields: List[Field] = BigQueryTypes[MyTable].getBigQueryFields
+val fields: List[Field] = BigQueryTypes[MyTable].bigQueryFields
 //BigQuery Schema, it can be used to create a table
 val schema: Schema = Schema.of(fields.asJava)
 ```
@@ -95,8 +94,48 @@ val fields: List[Field] = data.getBigQueryFields
 See more info about [creating tables on BigQuery](https://cloud.google.com/bigquery/docs/tables#java) in the official documentation
 
 ### Connecting to your BigQuery environment
-If you want to create tables using the library you will need to specify a service account and a project id.
+If you want to create tables using the library you will need to connect to your BigQuery environment 
+through any of the GCloud options. 
+Probably the most common will be to specify a service account and a project id.
 It can be added on environment variables. The library expects:
 - PROJECT_ID: <your_project_id>
 - GOOGLE_APPLICATION_CREDENTIAL: <path_to_your_service_account_json_file>
 
+---
+
+## Spark
+
+### Spark Schema from Case Class
+
+With Spark module, Spark Schemas can be created from Case Classes.
+```scala
+import org.apache.spark.sql.types.StructField
+import org.datatools.bigdatatypes.spark.SparkTypes._
+//an implicit Formats class is needed, defaultFormats does no transformations
+//it can be created as implicit val instead of using this import
+import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+
+case class MyModel(myInt: Integer, myString: String)
+val schema: StructField = SparkTypes[MyModel].sparkSchema
+```
+It works for Options, Sequences and any level of nested objects
+
+Also, a Spark Schema can be extracted from a Case Class instance
+```scala
+val model = MyModel(1, "test")
+model.sparkSchema
+```
+### Field transformations
+Also, custom transformations can be applied to field names, something that usually is quite hard to do with Spark Datasets.
+For example, working with CamelCase Case Classes but using snake_case field names in Spark Schema.
+
+```scala
+import org.apache.spark.sql.types.StructField
+import org.datatools.bigdatatypes.spark.SparkTypes._
+//implicit formats for transform keys to snake_case
+import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+
+case class MyModel(myInt: Integer, myString: String)
+val schema: StructField = SparkTypes[MyModel].sparkSchema
+//schema will have "my_int" and "my_string" fields
+```

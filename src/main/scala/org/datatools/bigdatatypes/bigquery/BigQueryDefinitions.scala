@@ -55,29 +55,29 @@ private[bigquery] object BigQueryDefinitions {
 
   /** Generates a BigQuery Table Schema given a type A
    */
-  def generateSchema[A: BigQueryTypes]: Schema = Schema.of(toJava(BigQueryTypes[A].getBigQueryFields))
+  def generateSchema[A: BigQueryTypes]: Schema = Schema.of(toJava(BigQueryTypes[A].bigQueryFields))
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes]: Schema =
-    Schema.of(toJava(BigQueryTypes[A].getBigQueryFields ++ BigQueryTypes[B].getBigQueryFields))
+    Schema.of(toJava(BigQueryTypes[A].bigQueryFields ++ BigQueryTypes[B].bigQueryFields))
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes]: Schema =
-    Schema.of(toJava(BigQueryTypes[A].getBigQueryFields ++ BigQueryTypes[B].getBigQueryFields ++ BigQueryTypes[C].getBigQueryFields))
+    Schema.of(toJava(BigQueryTypes[A].bigQueryFields ++ BigQueryTypes[B].bigQueryFields ++ BigQueryTypes[C].bigQueryFields))
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes]: Schema =
     Schema.of(
-      toJava(BigQueryTypes[A].getBigQueryFields ++
-        BigQueryTypes[B].getBigQueryFields ++
-        BigQueryTypes[C].getBigQueryFields ++
-        BigQueryTypes[D].getBigQueryFields)
+      toJava(BigQueryTypes[A].bigQueryFields ++
+        BigQueryTypes[B].bigQueryFields ++
+        BigQueryTypes[C].bigQueryFields ++
+        BigQueryTypes[D].bigQueryFields)
     )
 
   def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes]: Schema =
     Schema.of(
-      toJava(BigQueryTypes[A].getBigQueryFields ++
-        BigQueryTypes[B].getBigQueryFields ++
-        BigQueryTypes[C].getBigQueryFields ++
-        BigQueryTypes[D].getBigQueryFields ++
-        BigQueryTypes[E].getBigQueryFields)
+      toJava(BigQueryTypes[A].bigQueryFields ++
+        BigQueryTypes[B].bigQueryFields ++
+        BigQueryTypes[C].bigQueryFields ++
+        BigQueryTypes[D].bigQueryFields ++
+        BigQueryTypes[E].bigQueryFields)
     )
 
 }
