@@ -13,7 +13,7 @@ For now, it only supports BigQuery.
 
 # Quick Start
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "0.0.7"
+libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "0.1.0"
 ```
 Versions for Scala 2.12 and 2.13 are available in Maven
  
