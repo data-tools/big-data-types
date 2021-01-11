@@ -11,9 +11,23 @@ reading or creating tables in different databases.
 
 For now, it supports BigQuery and Spark.
 
+
+- [Quick Start](#quick-start)
+  * [BigQuery](#bigquery)
+    + [Create BigQuery Tables](#create-bigquery-tables)
+      - [Transform field names](#transform-field-names)
+      - [Time Partitioned tables](#time-partitioned-tables)
+      - [Create a table with more than one Case Class](#create-a-table-with-more-than-one-case-class)
+    + [Create BigQuery schema from a Case Class](#create-bigquery-schema-from-a-case-class)
+    + [From a Case Class instance](#from-a-case-class-instance)
+    + [Connecting to your BigQuery environment](#connecting-to-your-bigquery-environment)
+  * [Spark](#spark)
+    + [Spark Schema from Case Class](#spark-schema-from-case-class)
+    + [Field transformations](#field-transformations)
+
 # Quick Start
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "0.1.0"
+libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "{version}"
 ```
 Versions for Scala 2.12 and 2.13 are available in Maven
  
