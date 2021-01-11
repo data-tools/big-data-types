@@ -9,7 +9,7 @@ This is a type safe library that converts basic Scala types and Case Classes int
 making possible to extract a database schema from a Case Class and to work with Case Classes when writing,
 reading or creating tables in different databases. 
 
-For now, it only supports BigQuery.
+For now, it supports BigQuery and Spark.
 
 # Quick Start
 ```
