@@ -1,3 +1,9 @@
+### Big Data Types v0.1.1
+
+- Spark: Added SparkSchemas as a public interface for conversions.
+- Spark: SparkSchemas accepts multiple case classes when generating schemas
+- Core: Formats refactored, variables and class names have changed
+
 ### Big Data Types v0.1.0
 
 - Spark: Added support for Spark Schemas (only Spark 2.12)

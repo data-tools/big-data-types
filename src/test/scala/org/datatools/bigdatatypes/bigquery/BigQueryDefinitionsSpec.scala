@@ -15,21 +15,21 @@ class BigQueryDefinitionsSpec extends UnitSpec {
 
   "Simple definition without partition" should "generate a Table Definition" in {
     //implicit val f: Formats = DefaultFormats
-    import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+    import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
     val table: StandardTableDefinition = BigQueryDefinitions.generateTableDefinition[Simple](None)
     val names: List[String] = getFieldNames(table.getSchema.getFields)
     names should contain.only("id", "number")
   }
 
   "Keys" should "remain equal with identity" in {
-    import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+    import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
     val table: StandardTableDefinition = BigQueryDefinitions.generateTableDefinition[CamelCase](None)
     val names: List[String] = getFieldNames(table.getSchema.getFields)
     names should contain.only("myId", "myNumber")
   }
 
   "Keys" should "be snakified" in {
-    import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+    import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
     val table: StandardTableDefinition = BigQueryDefinitions.generateTableDefinition[CamelCase](None)
     val names: List[String] = getFieldNames(table.getSchema.getFields)
     names should contain.only("my_id", "my_number")

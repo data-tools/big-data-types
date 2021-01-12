@@ -29,6 +29,8 @@ class SparkTypesSpec extends UnitSpec {
   "A Case Class type" should "return Spark Fields" in {
     SparkTypes[Dummy].sparkSchema shouldBe expectedSchema
     SparkTypes[Dummy].sparkFields shouldBe expectedFields
+    SparkSchemas.schema[Dummy] shouldBe expectedSchema
+    SparkSchemas.fields[Dummy] shouldBe expectedFields
   }
 
   "Basic types" should "create an Spark Schema" in {
@@ -42,8 +44,8 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myString", StringType, nullable = false)
       )
     val expectedSchema: StructType = StructType(fieldList)
-    SparkTypes[BasicTypes].sparkFields shouldBe fieldList
-    SparkTypes[BasicTypes].sparkSchema shouldBe expectedSchema
+    SparkSchemas.fields[BasicTypes] shouldBe fieldList
+    SparkSchemas.fields[BasicTypes] shouldBe expectedSchema
   }
 
   "Basic Optional types" should "create an Spark Schema" in {
@@ -56,7 +58,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myBoolean", BooleanType, nullable = true),
         StructField("myString", StringType, nullable = true)
       )
-    SparkTypes[BasicOptionTypes].sparkFields shouldBe fieldList
+    SparkSchemas.fields[BasicOptionTypes] shouldBe fieldList
   }
 
   "A List field" should "be converted into Spark Array type" in {
@@ -65,7 +67,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myInt", IntegerType, nullable = false),
         StructField("myList", ArrayType(IntegerType), nullable = true)
       )
-    SparkTypes[BasicList].sparkFields shouldBe fieldList
+    SparkSchemas.fields[BasicList] shouldBe fieldList
   }
 
   "Nested field" should "be converted into Spark Nested field" in {
@@ -87,7 +89,7 @@ class SparkTypesSpec extends UnitSpec {
           nullable = false
         )
       )
-    SparkTypes[BasicStruct].sparkFields shouldBe fieldList
+    SparkSchemas.fields[BasicStruct] shouldBe fieldList
   }
   "Optional Nested field" should "be converted into nullable Spark Nested field" in {
     val fieldList: Seq[StructField] =
@@ -108,7 +110,7 @@ class SparkTypesSpec extends UnitSpec {
           nullable = true
         )
       )
-    SparkTypes[BasicOptionalStruct].sparkFields shouldBe fieldList
+    SparkSchemas.fields[BasicOptionalStruct] shouldBe fieldList
   }
 
   "List of nested objects (matrix)" should "be converted into Spark Nested Array" in {
@@ -127,7 +129,7 @@ class SparkTypesSpec extends UnitSpec {
           nullable = true
         )
       )
-    SparkTypes[ListOfStruct].sparkFields shouldBe fieldList
+    SparkSchemas.fields[ListOfStruct] shouldBe fieldList
   }
 
   "Extended types" should "create an Spark Schema" in {
@@ -137,7 +139,18 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myTimestamp", TimestampType, nullable = false),
         StructField("myDate", DateType, nullable = false)
       )
-    SparkTypes[ExtendedTypes].sparkFields shouldBe fieldList
+    SparkSchemas.fields[ExtendedTypes] shouldBe fieldList
+  }
+
+  "Multiple Case Classes" should "create an Spark Schema with appended fields" in {
+    case class Append1(myAppend1: Int)
+    val fieldList: Seq[StructField] =
+      List(
+        StructField("myInt", IntegerType, nullable = false),
+        StructField("myString", StringType, nullable = false),
+        StructField("myAppend1", IntegerType, nullable = false)
+      )
+    SparkSchemas.fields[Dummy, Append1] shouldBe fieldList
   }
 
 }
@@ -157,7 +170,8 @@ class SparkTypesSnakifiedSpec extends UnitSpec {
     val expectedSchema: StructType = StructType(expectedFields)
 
     implicit val formats: Formats = SnakifyFormats
-    SparkTypes[Dummy].sparkSchema shouldBe expectedSchema
-    SparkTypes[Dummy].sparkFields shouldBe expectedFields
+    SparkSchemas.fields[Dummy] shouldBe expectedSchema
+    println(SparkSchemas.fields[Dummy])
+    SparkSchemas.fields[Dummy] shouldBe expectedFields
   }
 }

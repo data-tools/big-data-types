@@ -12,32 +12,38 @@ reading or creating tables in different databases.
 For now, it supports BigQuery and Spark.
 
 
+- [Big Data Types](#big-data-types)
 - [Quick Start](#quick-start)
-  * [BigQuery](#bigquery)
-    + [Create BigQuery Tables](#create-bigquery-tables)
-      - [Transform field names](#transform-field-names)
-      - [Time Partitioned tables](#time-partitioned-tables)
-      - [Create a table with more than one Case Class](#create-a-table-with-more-than-one-case-class)
-    + [Create BigQuery schema from a Case Class](#create-bigquery-schema-from-a-case-class)
-    + [From a Case Class instance](#from-a-case-class-instance)
-    + [Connecting to your BigQuery environment](#connecting-to-your-bigquery-environment)
-  * [Spark](#spark)
-    + [Spark Schema from Case Class](#spark-schema-from-case-class)
-    + [Field transformations](#field-transformations)
+- [BigQuery](#bigquery)
+  * [Create BigQuery Tables](#create-bigquery-tables)
+    + [Transform field names](#transform-field-names)
+    + [Time Partitioned tables](#time-partitioned-tables)
+    + [Create a table with more than one Case Class](#create-a-table-with-more-than-one-case-class)
+  * [Create BigQuery schema from a Case Class](#create-bigquery-schema-from-a-case-class)
+  * [From a Case Class instance](#from-a-case-class-instance)
+  * [Connecting to your BigQuery environment](#connecting-to-your-bigquery-environment)
+- [Spark](#spark)
+  * [Spark Schema from Case Class](#spark-schema-from-case-class)
+  * [Field transformations](#field-transformations)
+- [Implicit Formats](#implicit-formats)
+  * [DefaultFormats](#defaultformats)
+  * [SnakifyFormats](#snakifyformats)
+  * [Creating a custom Formats](#creating-a-custom-formats)
 
 # Quick Start
 ```
 libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "{version}"
 ```
 Versions for Scala 2.12 and 2.13 are available in Maven
+2.12 is needed for Spark
  
-## BigQuery
+# BigQuery
 
-### Create BigQuery Tables
+## Create BigQuery Tables
 
 ```scala
 import org.datatools.bigdatatypes.bigquery.BigQueryTable
-import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
 case class MyTable(field1: Int, field2: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
@@ -45,34 +51,34 @@ BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 This also works with Structs, Lists and Options.
 See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/main/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
 
-#### Transform field names
+### Transform field names
 There is a `Format` object that allows us to decide how to transform field names, for example, changing CamelCase for snake case
 ```scala
 import org.datatools.bigdatatypes.bigquery.BigQueryTable
-import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 
 case class MyTable(myIntField: Int, myStringField: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 //This table will have my_int_field and my_string_field fields
 ```
 
-#### Time Partitioned tables
+### Time Partitioned tables
 Using a `Timestamp` or `Date` field, tables can be partitioned in BigQuery using a [Time Partition Column](https://cloud.google.com/bigquery/docs/creating-column-partitions)
 ```scala
 import org.datatools.bigdatatypes.bigquery.BigQueryTable
-import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 
 case class MyTable(field1: Int, field2: String, myPartitionField: java.sql.Timestamp)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name", "my_partition_field")
 ```
-#### Create a table with more than one Case Class
+### Create a table with more than one Case Class
 In many cases we work with a Case Class that represents our data but we also want to add 
 some metadata fields like `updated_at`, `received_at`, `version` and so on.
 In these cases we can work with multiple Case Classes and fields will be concatenated:
 
 ```scala
 import org.datatools.bigdatatypes.bigquery.BigQueryTable
-import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
 case class MyData(field1: Int, field2: String)
 case class MyMetadata(updatedAt: Long, version: Int)
@@ -81,10 +87,10 @@ BigQueryTable.createTable[MyData, MyMetadata]("dataset_name", "table_name")
 This can be done up to 5 concatenated classes
 
 
-### Create BigQuery schema from a Case Class
+## Create BigQuery schema from a Case Class
 ```scala
 import com.google.cloud.bigquery.{Field, Schema}
-import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.bigquery.BigQueryTypes
 
 case class MyTable(field1: Int, field2: String)
@@ -94,10 +100,10 @@ val fields: List[Field] = BigQueryTypes[MyTable].bigQueryFields
 val schema: Schema = Schema.of(fields.asJava)
 ```
 
-### From a Case Class instance
+## From a Case Class instance
 ```scala
 import com.google.cloud.bigquery.Field
-import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.bigquery.BigQueryTypes._
 
 case class MyTable(field1: Int, field2: String)
@@ -107,7 +113,7 @@ val fields: List[Field] = data.getBigQueryFields
 
 See more info about [creating tables on BigQuery](https://cloud.google.com/bigquery/docs/tables#java) in the official documentation
 
-### Connecting to your BigQuery environment
+## Connecting to your BigQuery environment
 If you want to create tables using the library you will need to connect to your BigQuery environment 
 through any of the GCloud options. 
 Probably the most common will be to specify a service account and a project id.
@@ -117,20 +123,20 @@ It can be added on environment variables. The library expects:
 
 ---
 
-## Spark
+# Spark
 
-### Spark Schema from Case Class
+## Spark Schema from Case Class
 
 With Spark module, Spark Schemas can be created from Case Classes.
 ```scala
-import org.apache.spark.sql.types.StructField
-import org.datatools.bigdatatypes.spark.SparkTypes._
+import org.apache.spark.sql.types.StructType
+import org.datatools.bigdatatypes.spark.SparkSchemas
 //an implicit Formats class is needed, defaultFormats does no transformations
 //it can be created as implicit val instead of using this import
-import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
 case class MyModel(myInt: Integer, myString: String)
-val schema: StructField = SparkTypes[MyModel].sparkSchema
+val schema: StructType = SparkSchemas.schema[MyModel]
 ```
 It works for Options, Sequences and any level of nested objects
 
@@ -139,17 +145,69 @@ Also, a Spark Schema can be extracted from a Case Class instance
 val model = MyModel(1, "test")
 model.sparkSchema
 ```
-### Field transformations
+## Field transformations
 Also, custom transformations can be applied to field names, something that usually is quite hard to do with Spark Datasets.
 For example, working with CamelCase Case Classes but using snake_case field names in Spark Schema.
 
 ```scala
-import org.apache.spark.sql.types.StructField
-import org.datatools.bigdatatypes.spark.SparkTypes._
+import org.apache.spark.sql.types.StructType
+import org.datatools.bigdatatypes.spark.SparkSchemas
 //implicit formats for transform keys to snake_case
-import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 
 case class MyModel(myInt: Integer, myString: String)
-val schema: StructField = SparkTypes[MyModel].sparkSchema
-//schema will have "my_int" and "my_string" fields
+val schema: StructType = SparkSchemas.schema[MyModel]
+/*
+schema =
+ List(
+    StructField(my_int,IntegerType,false), 
+    StructField(my_string,StringType,false)
+   )
+*/
 ```
+
+---
+
+# Implicit Formats
+Formats can handle different configurations that we want to apply to schemas, like transforming field names, 
+defining precision for numeric types and so on.
+
+For now, it only contains a possibility for field names transformations.
+
+They can be used by creating an implicit val with a Formats class or by importing one of the available implicit vals in `Formats` object 
+
+## DefaultFormats
+`DefaultFormats` is a trait that applies no transformation to field names
+To use it, you can create an implicit val:
+```scala
+import org.datatools.bigdatatypes.formats.{Formats, DefaultFormats}
+implicit val formats: Formats = DefaultFormats
+```
+or just import the one available:
+```scala
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
+```
+
+
+## SnakifyFormats
+`SnakifyFormats` is a trait that converts camelCase field names to snake_case names
+To use it, you can create an implicit val:
+```scala
+import org.datatools.bigdatatypes.formats.{Formats, SnakifyFormats}
+implicit val formats: Formats = SnakifyFormats
+```
+or just import the one available:
+```scala
+import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
+```
+
+## Creating a custom Formats
+Formats can be extended, so if we want to transform keys differently, for example adding a suffix to all of our fields
+```scala
+import org.datatools.bigdatatypes.formats.Formats
+trait SuffixFormats extends Formats {
+  override def transformKeys(key: String): String = key + "_at"
+}
+object SuffixFormats extends SuffixFormats
+```
+All your field names will have "_at" at the end

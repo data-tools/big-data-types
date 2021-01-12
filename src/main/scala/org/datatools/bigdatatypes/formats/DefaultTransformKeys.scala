@@ -1,7 +1,12 @@
 package org.datatools.bigdatatypes.formats
 
-trait Formats extends Serializable {
+trait Formats {
   def transformKeys(s: String): String
+}
+
+object Formats {
+  implicit val implicitDefaultFormats: Formats = DefaultFormats
+  implicit val implicitSnakifyFormats: Formats = SnakifyFormats
 }
 
 /** Default Formats transforms nothing
@@ -23,10 +28,3 @@ trait SnakifyFormats extends Formats {
 }
 
 object SnakifyFormats extends SnakifyFormats
-
-/** Formats as implicit vals, it allows to import them instead of declaring a new implicit val
-  */
-object TransformKeys {
-  implicit val defaultFormats: Formats = DefaultFormats
-  implicit val snakifyFields: Formats = SnakifyFormats
-}

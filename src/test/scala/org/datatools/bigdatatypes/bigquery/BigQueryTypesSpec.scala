@@ -4,7 +4,7 @@ import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, StandardSQLTypeName}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.bigquery.BigQueryTypes._
-import org.datatools.bigdatatypes.formats.TransformKeys.defaultFormats
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
 class BigQueryTypesSpec extends UnitSpec {
 
