@@ -151,6 +151,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myAppend1", IntegerType, nullable = false)
       )
     SparkSchemas.fields[Dummy, Append1] shouldBe fieldList
+    SparkSchemas.schema[Dummy, Append1] shouldBe StructType(fieldList)
   }
 
   "3 Case Classes" should "create an Spark Schema with appended fields" in {
