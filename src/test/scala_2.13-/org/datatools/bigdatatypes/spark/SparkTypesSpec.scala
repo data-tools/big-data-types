@@ -153,6 +153,51 @@ class SparkTypesSpec extends UnitSpec {
     SparkSchemas.fields[Dummy, Append1] shouldBe fieldList
   }
 
+  "3 Case Classes" should "create an Spark Schema with appended fields" in {
+    case class Append1(myAppend1: Int)
+    case class Append2(myAppend2: String)
+    val fieldList: Seq[StructField] =
+      List(
+        StructField("myInt", IntegerType, nullable = false),
+        StructField("myString", StringType, nullable = false),
+        StructField("myAppend1", IntegerType, nullable = false),
+        StructField("myAppend2", StringType, nullable = false)
+      )
+    SparkSchemas.fields[Dummy, Append1, Append2] shouldBe fieldList
+  }
+
+  "4 Case Classes" should "create an Spark Schema with appended fields" in {
+    case class Append1(myAppend1: Int)
+    case class Append2(myAppend2: String)
+    case class Append3(myAppend3: String)
+    val fieldList: Seq[StructField] =
+      List(
+        StructField("myInt", IntegerType, nullable = false),
+        StructField("myString", StringType, nullable = false),
+        StructField("myAppend1", IntegerType, nullable = false),
+        StructField("myAppend2", StringType, nullable = false),
+        StructField("myAppend3", StringType, nullable = false)
+      )
+    SparkSchemas.fields[Dummy, Append1, Append2, Append3] shouldBe fieldList
+  }
+
+  "5 Case Classes" should "create an Spark Schema with appended fields" in {
+    case class Append1(myAppend1: Int)
+    case class Append2(myAppend2: String)
+    case class Append3(myAppend3: String)
+    case class Append4(myAppend4: String)
+    val fieldList: Seq[StructField] =
+      List(
+        StructField("myInt", IntegerType, nullable = false),
+        StructField("myString", StringType, nullable = false),
+        StructField("myAppend1", IntegerType, nullable = false),
+        StructField("myAppend2", StringType, nullable = false),
+        StructField("myAppend3", StringType, nullable = false),
+        StructField("myAppend4", StringType, nullable = false)
+      )
+    SparkSchemas.fields[Dummy, Append1, Append2, Append3, Append4] shouldBe fieldList
+  }
+
 }
 
 class SparkTypesSnakifiedSpec extends UnitSpec {
