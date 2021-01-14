@@ -164,6 +164,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myAppend2", StringType, nullable = false)
       )
     SparkSchemas.fields[Dummy, Append1, Append2] shouldBe fieldList
+    SparkSchemas.fields[Dummy, Append1, Append2] shouldBe StructType(fieldList)
   }
 
   "4 Case Classes" should "create an Spark Schema with appended fields" in {
@@ -179,6 +180,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myAppend3", StringType, nullable = false)
       )
     SparkSchemas.fields[Dummy, Append1, Append2, Append3] shouldBe fieldList
+    SparkSchemas.fields[Dummy, Append1, Append2, Append3] shouldBe StructType(fieldList)
   }
 
   "5 Case Classes" should "create an Spark Schema with appended fields" in {
@@ -196,6 +198,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myAppend4", StringType, nullable = false)
       )
     SparkSchemas.fields[Dummy, Append1, Append2, Append3, Append4] shouldBe fieldList
+    SparkSchemas.fields[Dummy, Append1, Append2, Append3, Append4] shouldBe StructType(fieldList)
   }
 
 }
