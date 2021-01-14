@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes.bigquery
 
 import org.datatools.bigdatatypes.IntegrationSpec
 import org.datatools.bigdatatypes.DummyModels._
-import org.datatools.bigdatatypes.formats.TransformKeys.snakifyFields
+import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 
 import scala.util.Right
 
