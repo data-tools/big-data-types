@@ -145,6 +145,32 @@ Also, a Spark Schema can be extracted from a Case Class instance
 val model = MyModel(1, "test")
 model.sparkSchema
 ```
+
+### Spark Schema from Multiple Case Classes
+Also, an schema can be created from multiple case classes. 
+As an example, it could be useful for those cases where we read data using a Case Class, 
+and we want to append some metadata fields, but we don't want to create another Case Class with exactly the same fields plus a few more.
+```scala
+import java.sql.Timestamp
+import org.apache.spark.sql.types.StructType
+import org.datatools.bigdatatypes.spark.SparkSchemas
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
+ 
+case class MyModel(myInt: Integer, myString: String)
+case class MyMetadata(updatedAt: Timestamp, version: Int)
+val schema: StructType = SparkSchemas.schema[MyModel, MyMetadata]
+/*
+schema =
+ List(
+    StructField(myInt, IntegerType, false), 
+    StructField(myString, StringType, false)
+    StructField(updatedAt, TimestampType, false)
+    StructField(version, IntegerType, false)
+   )
+*/
+```
+
+
 ## Field transformations
 Also, custom transformations can be applied to field names, something that usually is quite hard to do with Spark Datasets.
 For example, working with CamelCase Case Classes but using snake_case field names in Spark Schema.
@@ -160,8 +186,8 @@ val schema: StructType = SparkSchemas.schema[MyModel]
 /*
 schema =
  List(
-    StructField(my_int,IntegerType,false), 
-    StructField(my_string,StringType,false)
+    StructField(my_int, IntegerType, false), 
+    StructField(my_string, StringType, false)
    )
 */
 ```
