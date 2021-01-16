@@ -17,10 +17,11 @@ assemblyMergeStrategy in assembly := {
 }
 
 //Sonatype
-publishTo := sonatypePublishToBundle.value
+//publishTo := sonatypePublishToBundle.value
 
 // groupId, SCM, license information
 lazy val publishSettings = Seq(
+  publishTo := sonatypePublishToBundle.value,
   organization := "io.github.data-tools",
   homepage := Some(url("https://github.com/data-tools/big-data-types")),
   scmInfo := Some(
