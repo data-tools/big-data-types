@@ -65,6 +65,7 @@ lazy val root = (project in file("."))
   )
 
 lazy val core = (project in file("core")).settings(
+  name := "big-data-types-core",
   publishSettings,
   crossScalaVersions := supportedScalaVersions,
   crossVersionSharedSources,
@@ -74,6 +75,7 @@ lazy val core = (project in file("core")).settings(
 lazy val bigquery = (project in file("bigquery"))
   .configs(IntegrationTest)
   .settings(
+    name := "big-data-types-bigquery",
     publishSettings,
     Defaults.itSettings,
     crossScalaVersions := supportedScalaVersions,
@@ -84,6 +86,7 @@ lazy val bigquery = (project in file("bigquery"))
 
 lazy val spark = (project in file("spark"))
   .settings(
+    name := "big-data-types-spark",
     publishSettings,
     crossScalaVersions := List(scala212),
     crossVersionSharedSources,
