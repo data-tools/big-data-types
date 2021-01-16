@@ -1,5 +1,3 @@
-name := "big-data-types"
-
 //used to build Sonatype releases
 version := "0.2.0"
 
