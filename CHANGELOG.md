@@ -1,3 +1,10 @@
+### Big Data Types v0.2.0
+
+- Project splitted into multiple projects
+    - core
+    - bigquery
+    - spark
+
 ### Big Data Types v0.1.1
 
 - Spark: Added SparkSchemas as a public interface for conversions.
