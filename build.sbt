@@ -53,15 +53,6 @@ lazy val sparkDependencies = Seq(
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.2"
 
 //Project settings
-lazy val root = (project in file("."))
-  .configs(IntegrationTest)
-  .settings(noPublishSettings)
-  .aggregate(
-    core,
-    bigquery,
-    spark
-  )
-
 lazy val core = (project in file("core")).settings(
   name := "big-data-types-core",
   publishSettings,
