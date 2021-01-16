@@ -1,5 +1,8 @@
 //used to build Sonatype releases
-version := "0.2.0"
+lazy val versionNumber = "0.2.0"
+lazy val projectName = "big-data-types"
+version := versionNumber
+name := projectName
 
 lazy val scala213 = "2.13.3"
 lazy val scala212 = "2.12.12"
@@ -7,18 +10,15 @@ lazy val scala211 = "2.11.12"
 lazy val supportedScalaVersions = List(scala213, scala212)
 scalaVersion := scala212
 
-crossVersionSharedSources
-
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case x                             => MergeStrategy.first
 }
 
 //Sonatype
-//publishTo := sonatypePublishToBundle.value
-
 // groupId, SCM, license information
 lazy val publishSettings = Seq(
+  version := versionNumber,
   publishTo := sonatypePublishToBundle.value,
   organization := "io.github.data-tools",
   homepage := Some(url("https://github.com/data-tools/big-data-types")),
@@ -31,7 +31,8 @@ lazy val publishSettings = Seq(
 )
 lazy val noPublishSettings =
   skip in publish := true
-noPublishSettings
+
+publishSettings
 
 //Dependencies
 lazy val coreDependencies = Seq(
@@ -64,7 +65,7 @@ lazy val root = (project in file("."))
   )
 
 lazy val core = (project in file("core")).settings(
-  name := "big-data-types-core",
+  name := projectName + "-core",
   publishSettings,
   crossScalaVersions := supportedScalaVersions,
   crossVersionSharedSources,
@@ -74,7 +75,7 @@ lazy val core = (project in file("core")).settings(
 lazy val bigquery = (project in file("bigquery"))
   .configs(IntegrationTest)
   .settings(
-    name := "big-data-types-bigquery",
+    name := projectName + "-bigquery",
     publishSettings,
     Defaults.itSettings,
     crossScalaVersions := supportedScalaVersions,
@@ -85,7 +86,7 @@ lazy val bigquery = (project in file("bigquery"))
 
 lazy val spark = (project in file("spark"))
   .settings(
-    name := "big-data-types-spark",
+    name := projectName + "-spark",
     publishSettings,
     crossScalaVersions := List(scala212),
     crossVersionSharedSources,
