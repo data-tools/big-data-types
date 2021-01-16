@@ -20,14 +20,18 @@ assemblyMergeStrategy in assembly := {
 publishTo := sonatypePublishToBundle.value
 
 // groupId, SCM, license information
-organization := "io.github.data-tools"
-homepage := Some(url("https://github.com/data-tools/big-data-types"))
-scmInfo := Some(
-  ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git")
+lazy val publishSettings = Seq(
+  organization := "io.github.data-tools",
+  homepage := Some(url("https://github.com/data-tools/big-data-types")),
+  scmInfo := Some(
+    ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git")
+  ),
+  developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton"))),
+  licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  publishMavenStyle := true
 )
-developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton")))
-licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
-publishMavenStyle := true
+lazy val noPublishSettings =
+  skip in publish := true
 
 //Dependencies
 lazy val coreDependencies = Seq(
@@ -52,7 +56,7 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.2"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings()
+  .settings(noPublishSettings)
   .aggregate(
     core,
     bigquery,
@@ -60,6 +64,7 @@ lazy val root = (project in file("."))
   )
 
 lazy val core = (project in file("core")).settings(
+  publishSettings,
   crossScalaVersions := supportedScalaVersions,
   crossVersionSharedSources,
   libraryDependencies ++= coreDependencies
@@ -68,6 +73,7 @@ lazy val core = (project in file("core")).settings(
 lazy val bigquery = (project in file("bigquery"))
   .configs(IntegrationTest)
   .settings(
+    publishSettings,
     Defaults.itSettings,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
@@ -77,11 +83,13 @@ lazy val bigquery = (project in file("bigquery"))
 
 lazy val spark = (project in file("spark"))
   .settings(
+    publishSettings,
     crossScalaVersions := List(scala212),
     crossVersionSharedSources,
     libraryDependencies ++= sparkDependencies
   )
   .dependsOn(core % "test->test;compile->compile")
+
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
