@@ -52,6 +52,7 @@ lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(
     crossScalaVersions := supportedScalaVersions,
+    crossVersionSharedSources
     //libraryDependencies ++= commonDependencies
   ).aggregate(
       core,
@@ -72,13 +73,14 @@ lazy val bigquery = (project in file("bigquery")).settings(
   crossVersionSharedSources,
   Defaults.itSettings,
   libraryDependencies ++= bigqueryDependencies ++ Seq(scalatest % "it,test")
-).dependsOn(core)
+).dependsOn(core % "test->test;compile->compile")
 
 lazy val spark = (project in file("spark")).settings(
+  crossScalaVersions := supportedScalaVersions,
   scalaVersion := scala212,
   crossVersionSharedSources,
   libraryDependencies ++= sparkDependencies
-).dependsOn(core)
+).dependsOn(core % "test->test;compile->compile")
 
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
