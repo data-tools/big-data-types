@@ -10,7 +10,6 @@ lazy val supportedScalaVersions = List(scala213, scala212)
 scalaVersion := scala212
 
 crossVersionSharedSources
-//crossScalaVersions := Nil
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -29,38 +28,58 @@ licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 publishMavenStyle := true
 
 //Dependencies
-libraryDependencies ++= Seq(
+lazy val commonDependencies = Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.3",
+  scalatest % Test)
+
+lazy val bigqueryDependencies = Seq(
   "com.google.cloud" % "google-cloud-bigquery" % "1.124.2",
+  scalatest % "test,it")
 
+lazy val sparkDependencies = Seq(
+  "org.apache.spark" %% "spark-core" % "3.0.1" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.0.1" % Provided,
+  scalatest % Test
 )
-
-//dependencies for Spark - 2.12
-libraryDependencies ++= {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, scalaMajor)) if scalaMajor < 13 =>
-      Seq("org.apache.spark" %% "spark-core" % "3.0.1" % Provided,
-          "org.apache.spark" %% "spark-sql" % "3.0.1" % Provided)
-    case _ => Seq()
-  }
-}
-
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.2"
 
-libraryDependencies ++= Seq(
-  scalatest % Test,
-)
+
 
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(
     crossScalaVersions := supportedScalaVersions,
-    Defaults.itSettings,
-    libraryDependencies += scalatest % "it,test"
-  )
+    //libraryDependencies ++= commonDependencies
+  ).aggregate(
+      core,
+      bigquery,
+      spark
+    )
+
+lazy val core = (project in file("core")).settings(
+  crossScalaVersions := supportedScalaVersions,
+  scalaVersion := scala213,
+  crossVersionSharedSources,
+  libraryDependencies ++= commonDependencies
+)
+
+lazy val bigquery = (project in file("bigquery")).settings(
+  crossScalaVersions := supportedScalaVersions,
+  scalaVersion := scala213,
+  crossVersionSharedSources,
+  Defaults.itSettings,
+  libraryDependencies ++= bigqueryDependencies ++ Seq(scalatest % "it,test")
+).dependsOn(core)
+
+lazy val spark = (project in file("spark")).settings(
+  scalaVersion := scala212,
+  crossVersionSharedSources,
+  libraryDependencies ++= sparkDependencies
+).dependsOn(core)
+
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
