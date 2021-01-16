@@ -1,7 +1,7 @@
 name := "big-data-types"
 
 //used to build Sonatype releases
-version := "0.2.1"
+version := "0.2.0"
 
 lazy val scala213 = "2.13.3"
 lazy val scala212 = "2.12.12"
