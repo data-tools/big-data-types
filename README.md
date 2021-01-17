@@ -1,7 +1,9 @@
 # Big Data Types
 ![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci-tests/badge.svg)
 [![codecov](https://codecov.io/gh/data-tools/big-data-types/branch/main/graph/badge.svg)](https://codecov.io/gh/data-tools/big-data-types)
-![Maven Central](https://img.shields.io/maven-central/v/io.github.data-tools/big-data-types_2.13)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.data-tools/big-data-types-core_2.13)
+![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red)
+![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red)
 
 A library to transform Case Classes into Database schemas
 
@@ -32,11 +34,25 @@ For now, it supports BigQuery and Spark.
   * [Creating a custom Formats](#creating-a-custom-formats)
 
 # Quick Start
+The library has different modules that can be imported separately
+- BigQuery
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types_2.13" % "{version}"
+libraryDependencies += "io.github.data-tools" % "big-data-types-bigquery_2.13" % "{version}"
 ```
-Versions for Scala 2.12 and 2.13 are available in Maven
-2.12 is needed for Spark
+- Spark
+```
+libraryDependencies += "io.github.data-tools" % "big-data-types-spark_2.12" % "{version}"
+```
+- Core
+    - To get support for abstract SqlTypes, it is included in the others, so it is not needed if you are using one of the others
+```
+libraryDependencies += "io.github.data-tools" % "big-data-types-core_2.13" % "{version}"
+```
+
+Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red)
+ and ![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) are available in Maven
+
+
  
 # BigQuery
 

@@ -1,6 +1,6 @@
-### Big Data Types v0.2.0
+### Big Data Types v0.2.1
 
-- Project splitted into multiple projects
+- Project split into multiple projects
     - core
     - bigquery
     - spark
