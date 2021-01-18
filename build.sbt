@@ -52,7 +52,7 @@ lazy val sparkDependencies = Seq(
   "org.apache.spark" %% "spark-sql" % "3.0.1" % Provided,
   scalatest % Test
 )
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.2"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.3"
 
 //Project settings
 lazy val root = (project in file("."))
