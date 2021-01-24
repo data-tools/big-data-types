@@ -163,6 +163,26 @@ val model = MyModel(1, "test")
 model.sparkSchema
 ```
 
+### Create a Dataframe
+```scala
+case class Dummy(myInt: Int, myString: String)
+
+implicit val default: Formats = DefaultFormats
+val schema = SparkSchemas.schema[Dummy]
+val df = spark.read.schema(schema).json("dummy.json")
+df.show(4)
+/*
++-----+--------+
+|myInt|myString|
++-----+--------+
+|    1|    test|
+|    2|   test2|
+|    3|   test3|
+|    4|   test4|
++-----+--------+
+*/
+```
+
 ### Spark Schema from Multiple Case Classes
 Also, an schema can be created from multiple case classes. 
 As an example, it could be useful for those cases where we read data using a Case Class, 
@@ -184,6 +204,28 @@ schema =
     StructField(updatedAt, TimestampType, false)
     StructField(version, IntegerType, false)
    )
+*/
+```
+
+Another example, creating a Dataframe
+
+```scala
+case class Dummy(myInt: Int, myString: String)
+case class Append(myTimestamp: Timestamp)
+
+implicit val default: Formats = DefaultFormats
+val schema = SparkSchemas.schema[Dummy, Append]
+val df = spark.read.schema(schema).json("my_file.json")
+df.show(4)
+/*
++------+---------+-------------------+
+|my_int|my_string|       my_timestamp|
++------+---------+-------------------+
+|     1|     test|2021-01-24 10:07:39|
+|     2|    test2|2021-01-24 10:07:39|
+|     3|    test3|2021-01-24 10:07:39|
+|     4|    test4|2021-01-24 10:07:39|
++------+---------+-------------------+
 */
 ```
 
