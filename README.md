@@ -26,6 +26,7 @@ For now, it supports BigQuery and Spark.
   * [Connecting to your BigQuery environment](#connecting-to-your-bigquery-environment)
 - [Spark](#spark)
   * [Spark Schema from Case Class](#spark-schema-from-case-class)
+    + [Create a Dataframe](#create-a-dataframe)
     + [Spark Schema from Multiple Case Classes](#spark-schema-from-multiple-case-classes)
   * [Field transformations](#field-transformations)
 - [Implicit Formats](#implicit-formats)
