@@ -48,8 +48,6 @@ lazy val bigqueryDependencies = Seq(
 )
 
 lazy val sparkDependencies = Seq(
-  "com.google.cloud" % "google-cloud-bigquery" % "1.126.6",
-  "io.github.data-tools" % "big-data-types-bigquery_2.12" % "0.2.1",
   "org.apache.spark" %% "spark-core" % "3.1.0" % Provided,
   "org.apache.spark" %% "spark-sql" % "3.1.0" % Provided,
   scalatest % Test
