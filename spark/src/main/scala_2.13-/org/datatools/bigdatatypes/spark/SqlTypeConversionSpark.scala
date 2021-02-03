@@ -1,20 +1,14 @@
 package org.datatools.bigdatatypes.spark
 
-import java.sql.{Date, Timestamp}
-
-import org.apache.spark.sql.types.{BooleanType, DataType, DateType, DecimalType, DoubleType, FloatType, IntegerType, LongType, StringType, StructField, StructType, TimestampType}
-import org.datatools.bigdatatypes.conversions.{SqlStructTypeConversion, SqlTypeConversion}
-import org.datatools.bigdatatypes.spark.SqlStructTypeConversionSpark.{convertSparkType, instance, structTypeConversion}
-import org.datatools.bigdatatypes.types.basic.{Nullable, Repeated, SqlBool, SqlDate, SqlDecimal, SqlFloat, SqlInt, SqlLong, SqlString, SqlStruct, SqlTimestamp, SqlType}
-import shapeless.labelled.FieldType
-import shapeless.syntax.std.tuple.productTupleOps
-import shapeless.{::, Generic, HList, HNil, Lazy, Witness}
-
-import scala.annotation.tailrec
+import org.apache.spark.sql.types._
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion
+import org.datatools.bigdatatypes.types.basic._
 
 trait SqlTypeConversionSpark[-A] extends SqlTypeConversion[A]
 
 object SqlTypeConversionSpark {
+
+  type Record = (String, SqlType)
 
   /** Summoner method. Allows the syntax
     * {{{
@@ -23,8 +17,14 @@ object SqlTypeConversionSpark {
     * }}}
     */
   def apply[A](implicit a: SqlTypeConversionSpark[A]): SqlTypeConversionSpark[A] = a
+
+  /** Different apply expecting a parameter when working with Spark Schemas
+    * as we can not work with type implicit resolutions
+    * @param sf is a simple StructField from Spark
+    */
   def apply(sf: StructField): SqlTypeConversionSpark[StructField] = structFieldConversion(sf)
-  def apply(st: StructType): SqlStructTypeConversionSpark[StructType] = structTypeConversion(st)
+  def apply(st: StructType): SqlTypeConversionSpark[StructType] = structTypeConversion(st)
+  def apply(st: List[StructField]): SqlTypeConversionSpark[StructType] = structTypeConversion(StructType(st))
 
   /** Factory constructor - allows easier construction of instances. e.g:
     * {{{
@@ -51,20 +51,16 @@ object SqlTypeConversionSpark {
     instance(cnv.getType.changeMode(Repeated))
 
   //TODO change Nullable for a method that converts boolean to Nullable or not
-  def structFieldConversion[A](sf: StructField): SqlTypeConversionSpark[StructField] =
+  /** When working with StructFields we already have an instance and not just a type so we need a parameter
+    * StructField is being limited to just it's DataType so
+    * a StructField("name", IntegerType) will be converted into SqlTypeConversionSpark[IntegerType]
+    */
+  def structFieldConversion(sf: StructField): SqlTypeConversionSpark[StructField] =
     instance(convertSparkType(sf.dataType))
 
-}
-
-trait SqlStructTypeConversionSpark[A] extends SqlStructTypeConversion[A]
-
-object SqlStructTypeConversionSpark {
-  type Record = (String, SqlType)
-
-  /** Summoner method */
-  def apply[A](implicit instance: SqlStructTypeConversionSpark[A]): SqlStructTypeConversionSpark[A] = instance
-
   //TODO add the rest of the types
+  /** Given a Spark DataType, converts it into a SqlType
+    */
   def convertSparkType(dataType: DataType): SqlType = dataType match {
     case IntegerType => SqlInt()
     case LongType    => SqlLong()
@@ -77,25 +73,19 @@ object SqlStructTypeConversionSpark {
     case DateType      => SqlDate()
   }
 
-  /** Factory constructor */
-  def instance[A](record: SqlStruct): SqlStructTypeConversionSpark[A] =
-    new SqlStructTypeConversionSpark[A] {
-      def getType: SqlStruct = record
-    }
-
-  /**
-    * Without implicits for StructTypes, this converts a StructType (or Spark schema) into a
-    * SqlStructTypeConversionSpark[StructType]
+  /** When working with StructTypes we already have an instance and not just a type so we need a parameter,
+    * this converts a StructType (or Spark schema) into a SqlStructTypeConversionSpark[StructType]
     */
-  def structTypeConversion(st: StructType): SqlStructTypeConversionSpark[StructType] = instance(SqlStruct(loopStructType(st), Nullable))
+  def structTypeConversion(st: StructType): SqlTypeConversionSpark[StructType] = instance(
+    SqlStruct(loopStructType(st), Nullable)
+  )
 
-
-  /**
-    * Given a StructType, convert it into a List[Record] to be used in a SqlStruct
+  /** Given a StructType, convert it into a List[Record] to be used in a SqlStruct
     */
   private def loopStructType(st: StructType): List[Record] =
     st.toList match {
       case head +: Seq() => List(head.name -> convertSparkType(head.dataType))
       case head +: tail  => List(head.name -> convertSparkType(head.dataType)) ++ loopStructType(StructType(tail))
     }
+
 }

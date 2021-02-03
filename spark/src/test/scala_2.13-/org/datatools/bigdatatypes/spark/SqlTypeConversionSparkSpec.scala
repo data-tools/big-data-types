@@ -3,24 +3,31 @@ package org.datatools.bigdatatypes.spark
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
+import org.datatools.bigdatatypes.types.basic.{Nullable, SqlInt, SqlString, SqlStruct}
 
 class SqlTypeConversionSparkSpec extends UnitSpec {
 
-  "test" should "test" in {
+  "Simple Spark DataType" should "be converted into SqlType" in {
+    SqlTypeConversionSpark[IntegerType].getType shouldBe SqlInt()
+  }
 
+  "StructField" should "be converted into SqlType" in {
+    val sf = StructField("myInt", IntegerType, nullable = false)
+    SqlTypeConversionSpark(sf).getType shouldBe SqlInt()
+  }
+
+  "StructType" should "be converted into SqlStruct" in {
+    val sf = StructField("myInt", IntegerType, nullable = false)
+    val sf2 = StructField("myString", StringType, nullable = false)
+    val st = StructType(List(sf, sf2))
+    val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())), Nullable)
+    SqlTypeConversionSpark(st).getType shouldBe expected
+  }
+
+  "SparkSchema from Case Class" should "be converted into SqlStruct" in {
     case class Dummy(myInt: Int, myString: String)
-    println(SqlTypeConversionSpark[IntegerType].getType)
-    val sf = StructField("myString", StringType, nullable = false)
-    val sf2 = StructField("myInt", IntegerType, nullable = true)
-    val st = StructType(List(sf))
-    val st2 = StructType(List(sf, sf))
-    val st3 = StructType(List(sf, sf2))
-    println(SqlTypeConversionSpark[IntegerType].getType)
-    println(SqlTypeConversionSpark(sf).getType)
-    println(SqlTypeConversionSpark(st).getType)
-    println(SqlTypeConversionSpark(st2).getType)
-    println(SqlTypeConversionSpark(st3).getType)
-    println(SqlTypeConversionSpark(SparkTypes[Dummy].sparkSchema).getType)
+    val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())), Nullable)
+    SqlTypeConversionSpark(SparkTypes[Dummy].sparkSchema).getType shouldBe expected
   }
 
 }
