@@ -10,22 +10,13 @@ object SqlTypeConversionSpark {
 
   type Record = (String, SqlType)
 
-  /** Summoner method. Allows the syntax
-    * {{{
-    *   val intType = SqlTypeConversion[Int]
-    *   val
-    * }}}
-    */
-  def apply[A](implicit a: SqlTypeConversionSpark[A]): SqlTypeConversionSpark[A] = a
-  //def apply[A: SqlTypeConversionSpark](a: A): SqlTypeConversionSpark[A] = a.getType
-
   /** Different apply expecting a parameter when working with Spark Schemas
     * as we can not work with type implicit resolutions
     * @param sf is a simple StructField from Spark
     */
-  def apply(sf: StructField): SqlTypeConversionSpark[StructField] = structFieldConversion(sf)
-  def apply(st: StructType): SqlTypeConversionSpark[StructType] = structTypeConversion(st)
-  def apply(st: List[StructField]): SqlTypeConversionSpark[StructType] = structTypeConversion(StructType(st))
+  def apply(sf: StructField): SqlTypeConversion[StructField] = structFieldConversion(sf)
+  def apply(st: StructType): SqlTypeConversion[StructType] = structTypeConversion(st)
+  def apply(st: List[StructField]): SqlTypeConversion[StructType] = structTypeConversion(StructType(st))
 
   /** Factory constructor - allows easier construction of instances. e.g:
     * {{{
@@ -37,18 +28,18 @@ object SqlTypeConversionSpark {
       def getType: SqlType = sqlType
     }
 
-  implicit val intType: SqlTypeConversionSpark[IntegerType] = instance(SqlInt())
-  implicit val longType: SqlTypeConversionSpark[LongType] = instance(SqlLong())
-  implicit val doubleType: SqlTypeConversionSpark[DoubleType] = instance(SqlFloat())
-  implicit val floatType: SqlTypeConversionSpark[FloatType] = instance(SqlFloat())
+  implicit val intType: SqlTypeConversion[IntegerType] = instance(SqlInt())
+  implicit val longType: SqlTypeConversion[LongType] = instance(SqlLong())
+  implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlFloat())
+  implicit val floatType: SqlTypeConversion[FloatType] = instance(SqlFloat())
   //implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
-  implicit val booleanType: SqlTypeConversionSpark[BooleanType] = instance(SqlBool())
-  implicit val stringType: SqlTypeConversionSpark[StringType] = instance(SqlString())
+  implicit val booleanType: SqlTypeConversion[BooleanType] = instance(SqlBool())
+  implicit val stringType: SqlTypeConversion[StringType] = instance(SqlString())
   // Extended types
-  implicit val timestampType: SqlTypeConversionSpark[TimestampType] = instance(SqlTimestamp())
-  implicit val dateType: SqlTypeConversionSpark[DateType] = instance(SqlDate())
+  implicit val timestampType: SqlTypeConversion[TimestampType] = instance(SqlTimestamp())
+  implicit val dateType: SqlTypeConversion[DateType] = instance(SqlDate())
 
-  implicit def listLikeType[A](implicit cnv: SqlTypeConversionSpark[A]): SqlTypeConversionSpark[Iterable[A]] =
+  implicit def listLikeType[A](implicit cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
     instance(cnv.getType.changeMode(Repeated))
 
   /** Enables StructField.getType syntax
@@ -69,7 +60,7 @@ object SqlTypeConversionSpark {
     * StructField is being limited to just it's DataType so
     * a StructField("name", IntegerType) will be converted into SqlTypeConversionSpark[IntegerType]
     */
-  private def structFieldConversion(sf: StructField): SqlTypeConversionSpark[StructField] =
+  private def structFieldConversion(sf: StructField): SqlTypeConversion[StructField] =
     instance(convertSparkType(sf.dataType, sf.nullable))
 
   //TODO add the rest of the types
@@ -100,7 +91,7 @@ object SqlTypeConversionSpark {
   /** When working with StructTypes we already have an instance and not just a type so we need a parameter,
     * this converts a StructType (or Spark schema) into a SqlStructTypeConversionSpark[StructType]
     */
-  private def structTypeConversion(st: StructType): SqlTypeConversionSpark[StructType] = instance(
+  private def structTypeConversion(st: StructType): SqlTypeConversion[StructType] = instance(
     SqlStruct(loopStructType(st))
   )
 
@@ -109,7 +100,7 @@ object SqlTypeConversionSpark {
   private def loopStructType(st: StructType): List[Record] =
     st.toList match {
       case head +: Seq() => List(head.name -> convertSparkType(head.dataType, head.nullable))
-      case head +: tail  => List(head.name -> convertSparkType(head.dataType, head.nullable)) ++ loopStructType(StructType(tail))
+      case head +: tail =>  List(head.name -> convertSparkType(head.dataType, head.nullable)) ++ loopStructType(StructType(tail))
     }
 
 }
