@@ -2,6 +2,7 @@ package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 import org.datatools.bigdatatypes.types.basic._
 
 trait SqlTypeConversionSpark[-A] extends SqlTypeConversion[A]
@@ -18,16 +19,6 @@ object SqlTypeConversionSpark {
   def apply(st: StructType): SqlTypeConversion[StructType] = structTypeConversion(st)
   def apply(st: List[StructField]): SqlTypeConversion[StructType] = structTypeConversion(StructType(st))
 
-  /** Factory constructor - allows easier construction of instances. e.g:
-    * {{{
-    *   val instance = SqlTypeConversion.instance[Option[Int]](SqlInt(Nullable))
-    * }}}
-    */
-  def instance[A](sqlType: SqlType): SqlTypeConversionSpark[A] =
-    new SqlTypeConversionSpark[A] {
-      def getType: SqlType = sqlType
-    }
-
   implicit val intType: SqlTypeConversion[IntegerType] = instance(SqlInt())
   implicit val longType: SqlTypeConversion[LongType] = instance(SqlLong())
   implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlFloat())
@@ -38,9 +29,6 @@ object SqlTypeConversionSpark {
   // Extended types
   implicit val timestampType: SqlTypeConversion[TimestampType] = instance(SqlTimestamp())
   implicit val dateType: SqlTypeConversion[DateType] = instance(SqlDate())
-
-  implicit def listLikeType[A](implicit cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
-    instance(cnv.getType.changeMode(Repeated))
 
   /** Enables StructField.getType syntax
     * @param value is an instance of StructField
@@ -63,7 +51,7 @@ object SqlTypeConversionSpark {
   private def structFieldConversion(sf: StructField): SqlTypeConversion[StructField] =
     instance(convertSparkType(sf.dataType, sf.nullable))
 
-  //TODO add the rest of the types
+  //TODO make it tail recursive
   /** Given a Spark DataType, converts it into a SqlType
     */
   private def convertSparkType(dataType: DataType, nullable: Boolean): SqlType = dataType match {
@@ -76,6 +64,7 @@ object SqlTypeConversionSpark {
     case StringType    => SqlString(isNullable(nullable))
     case TimestampType => SqlTimestamp(isNullable(nullable))
     case DateType      => SqlDate(isNullable(nullable))
+    case ArrayType(basicType, _)    => convertSparkType(basicType, nullable).changeMode(Repeated)
   }
 
   /** From Boolean to Nullable or Required Mode

@@ -5,7 +5,7 @@ import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SqlTypeConversionSpark._
-import org.datatools.bigdatatypes.types.basic.{Nullable, Required, SqlInt, SqlString, SqlStruct}
+import org.datatools.bigdatatypes.types.basic.{Nullable, Repeated, Required, SqlInt, SqlString, SqlStruct}
 
 class SqlTypeConversionSparkSpec extends UnitSpec {
 
@@ -38,6 +38,13 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
     case class Dummy(myInt: Int, myString: String)
     val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())))
     SqlTypeConversionSpark(SparkTypes[Dummy].sparkSchema).getType shouldBe expected
+  }
+
+  "StructType with Arrays" should "be converted into SqlStruct with Repeated" in {
+    case class Dummy(myString: String, myList: List[Int])
+    val schema = SparkTypes[Dummy].sparkSchema
+    val expected = SqlStruct(List(("myString", SqlString()), ("myList", SqlInt(Repeated))))
+    schema.getType shouldBe expected
   }
 
 }
