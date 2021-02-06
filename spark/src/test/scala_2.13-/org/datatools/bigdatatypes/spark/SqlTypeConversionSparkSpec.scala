@@ -3,6 +3,7 @@ package org.datatools.bigdatatypes.spark
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
+import org.datatools.bigdatatypes.spark.SqlTypeConversionSpark._
 import org.datatools.bigdatatypes.types.basic.{Nullable, SqlInt, SqlString, SqlStruct}
 
 class SqlTypeConversionSparkSpec extends UnitSpec {
@@ -13,6 +14,7 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
 
   "StructField" should "be converted into SqlType" in {
     val sf = StructField("myInt", IntegerType, nullable = false)
+    sf.getType shouldBe SqlInt()
     SqlTypeConversionSpark(sf).getType shouldBe SqlInt()
   }
 
@@ -22,6 +24,7 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
     val st = StructType(List(sf, sf2))
     val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())), Nullable)
     SqlTypeConversionSpark(st).getType shouldBe expected
+    st.getType shouldBe expected
   }
 
   "SparkSchema from Case Class" should "be converted into SqlStruct" in {
