@@ -70,21 +70,21 @@ object SqlTypeConversionSpark {
     * a StructField("name", IntegerType) will be converted into SqlTypeConversionSpark[IntegerType]
     */
   private def structFieldConversion(sf: StructField): SqlTypeConversionSpark[StructField] =
-    instance(convertSparkType(sf.dataType).changeMode(isNullable(sf.nullable)))
+    instance(convertSparkType(sf.dataType, sf.nullable))
 
   //TODO add the rest of the types
   /** Given a Spark DataType, converts it into a SqlType
     */
-  private def convertSparkType(dataType: DataType): SqlType = dataType match {
-    case IntegerType => SqlInt()
-    case LongType    => SqlLong()
-    case DoubleType  => SqlFloat()
-    case FloatType   => SqlFloat()
+  private def convertSparkType(dataType: DataType, nullable: Boolean): SqlType = dataType match {
+    case IntegerType => SqlInt(isNullable(nullable))
+    case LongType    => SqlLong(isNullable(nullable))
+    case DoubleType  => SqlFloat(isNullable(nullable))
+    case FloatType   => SqlFloat(isNullable(nullable))
     //case DecimalType() => SqlDecimal()
-    case BooleanType   => SqlBool()
-    case StringType    => SqlString()
-    case TimestampType => SqlTimestamp()
-    case DateType      => SqlDate()
+    case BooleanType   => SqlBool(isNullable(nullable))
+    case StringType    => SqlString(isNullable(nullable))
+    case TimestampType => SqlTimestamp(isNullable(nullable))
+    case DateType      => SqlDate(isNullable(nullable))
   }
 
   /** From Boolean to Nullable or Required Mode
@@ -101,15 +101,15 @@ object SqlTypeConversionSpark {
     * this converts a StructType (or Spark schema) into a SqlStructTypeConversionSpark[StructType]
     */
   private def structTypeConversion(st: StructType): SqlTypeConversionSpark[StructType] = instance(
-    SqlStruct(loopStructType(st), Nullable)
+    SqlStruct(loopStructType(st))
   )
 
   /** Given a StructType, convert it into a List[Record] to be used in a SqlStruct
     */
   private def loopStructType(st: StructType): List[Record] =
     st.toList match {
-      case head +: Seq() => List(head.name -> convertSparkType(head.dataType))
-      case head +: tail  => List(head.name -> convertSparkType(head.dataType)) ++ loopStructType(StructType(tail))
+      case head +: Seq() => List(head.name -> convertSparkType(head.dataType, head.nullable))
+      case head +: tail  => List(head.name -> convertSparkType(head.dataType, head.nullable)) ++ loopStructType(StructType(tail))
     }
 
 }

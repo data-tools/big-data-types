@@ -35,7 +35,7 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
 
   "SparkSchema from Case Class" should "be converted into SqlStruct" in {
     case class Dummy(myInt: Int, myString: String)
-    val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())), Nullable)
+    val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())))
     SqlTypeConversionSpark(SparkTypes[Dummy].sparkSchema).getType shouldBe expected
   }
 
