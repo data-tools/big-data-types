@@ -65,13 +65,12 @@ object SqlTypeConversionSpark {
     def getType: SqlType = structTypeConversion(value).getType
   }
 
-  //TODO change Nullable for a method that converts boolean to Nullable or not
   /** When working with StructFields we already have an instance and not just a type so we need a parameter
     * StructField is being limited to just it's DataType so
     * a StructField("name", IntegerType) will be converted into SqlTypeConversionSpark[IntegerType]
     */
   private def structFieldConversion(sf: StructField): SqlTypeConversionSpark[StructField] =
-    instance(convertSparkType(sf.dataType))
+    instance(convertSparkType(sf.dataType).changeMode(isNullable(sf.nullable)))
 
   //TODO add the rest of the types
   /** Given a Spark DataType, converts it into a SqlType
@@ -87,6 +86,16 @@ object SqlTypeConversionSpark {
     case TimestampType => SqlTimestamp()
     case DateType      => SqlDate()
   }
+
+  /** From Boolean to Nullable or Required Mode
+    */
+  private def isNullable(nullable: Boolean): SqlTypeMode =
+    if (nullable) {
+      Nullable
+    }
+    else {
+      Required
+    }
 
   /** When working with StructTypes we already have an instance and not just a type so we need a parameter,
     * this converts a StructType (or Spark schema) into a SqlStructTypeConversionSpark[StructType]
