@@ -56,16 +56,17 @@ object SqlTypeConversionSpark {
   /** Given a Spark DataType, converts it into a SqlType
     */
   private def convertSparkType(dataType: DataType, nullable: Boolean): SqlType = dataType match {
-    case IntegerType => SqlInt(isNullable(nullable))
-    case LongType    => SqlLong(isNullable(nullable))
-    case DoubleType  => SqlFloat(isNullable(nullable))
-    case FloatType   => SqlFloat(isNullable(nullable))
-    //case DecimalType() => SqlDecimal()
-    case BooleanType   => SqlBool(isNullable(nullable))
-    case StringType    => SqlString(isNullable(nullable))
-    case TimestampType => SqlTimestamp(isNullable(nullable))
-    case DateType      => SqlDate(isNullable(nullable))
-    case ArrayType(basicType, _)    => convertSparkType(basicType, nullable).changeMode(Repeated)
+    case IntegerType             => SqlInt(isNullable(nullable))
+    case LongType                => SqlLong(isNullable(nullable))
+    case DoubleType              => SqlFloat(isNullable(nullable))
+    case FloatType               => SqlFloat(isNullable(nullable))
+    case DecimalType()           => SqlDecimal(isNullable(nullable))
+    case BooleanType             => SqlBool(isNullable(nullable))
+    case StringType              => SqlString(isNullable(nullable))
+    case TimestampType           => SqlTimestamp(isNullable(nullable))
+    case DateType                => SqlDate(isNullable(nullable))
+    case ArrayType(basicType, _) => convertSparkType(basicType, nullable).changeMode(Repeated)
+    case StructType(fields)    => SqlStruct(loopStructType(StructType(fields)))
   }
 
   /** From Boolean to Nullable or Required Mode
@@ -91,7 +92,8 @@ object SqlTypeConversionSpark {
   private def loopStructType(st: StructType): List[Record] =
     st.toList match {
       case head +: Seq() => List(head.name -> convertSparkType(head.dataType, head.nullable))
-      case head +: tail =>  List(head.name -> convertSparkType(head.dataType, head.nullable)) ++ loopStructType(StructType(tail))
+      case head +: tail =>
+        List(head.name -> convertSparkType(head.dataType, head.nullable)) ++ loopStructType(StructType(tail))
     }
 
 }
