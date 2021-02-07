@@ -23,6 +23,7 @@ object SqlTypeConversionSpark {
   implicit val longType: SqlTypeConversion[LongType] = instance(SqlLong())
   implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlFloat())
   implicit val floatType: SqlTypeConversion[FloatType] = instance(SqlFloat())
+  //TODO use implicit Formats for default Decimal precision
   //implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[BooleanType] = instance(SqlBool())
   implicit val stringType: SqlTypeConversion[StringType] = instance(SqlString())
@@ -84,6 +85,7 @@ object SqlTypeConversionSpark {
     SqlStruct(loopStructType(st))
   )
 
+  //TODO make it tail recursive
   /** Given a StructType, convert it into a List[Record] to be used in a SqlStruct
     */
   private def loopStructType(st: StructType): List[Record] =
