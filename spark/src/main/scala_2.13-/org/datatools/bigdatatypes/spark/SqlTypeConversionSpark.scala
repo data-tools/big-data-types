@@ -70,7 +70,7 @@ object SqlTypeConversionSpark {
     case StringType              => SqlString(inheritMode.getOrElse(isNullable(nullable)))
     case TimestampType           => SqlTimestamp(inheritMode.getOrElse(isNullable(nullable)))
     case DateType                => SqlDate(inheritMode.getOrElse(isNullable(nullable)))
-    case ArrayType(basicType, _) => convertSparkType(basicType, nullable)
+    case ArrayType(basicType, _) => convertSparkType(basicType, nullable, Some(Repeated))
   }
 
   /** From Boolean to Nullable or Required Mode
