@@ -54,6 +54,7 @@ object SqlTypeConversionSpark {
   private def structFieldConversion(sf: StructField): SqlTypeConversion[StructField] =
     instance(convertSparkType(sf.dataType, sf.nullable))
 
+  //TODO make it tail recursive
   /** Given a Spark DataType, converts it into a SqlType
     */
   @tailrec
@@ -71,6 +72,7 @@ object SqlTypeConversionSpark {
     case TimestampType           => SqlTimestamp(inheritMode.getOrElse(isNullable(nullable)))
     case DateType                => SqlDate(inheritMode.getOrElse(isNullable(nullable)))
     case ArrayType(basicType, _) => convertSparkType(basicType, nullable, Some(Repeated))
+    case StructType(fields)      => SqlStruct(loopStructType(StructType(fields)), isNullable(nullable))
   }
 
   /** From Boolean to Nullable or Required Mode
@@ -90,6 +92,7 @@ object SqlTypeConversionSpark {
     SqlStruct(loopStructType(st))
   )
 
+  //TODO make it tail recursive
   /** Given a StructType, convert it into a List[Record] to be used in a SqlStruct
     */
   private def loopStructType(st: StructType): List[Record] =
