@@ -66,7 +66,7 @@ object SqlTypeConversionSpark {
     case TimestampType           => SqlTimestamp(isNullable(nullable))
     case DateType                => SqlDate(isNullable(nullable))
     case ArrayType(basicType, _) => convertSparkType(basicType, nullable).changeMode(Repeated)
-    case StructType(fields)    => SqlStruct(loopStructType(StructType(fields)))
+    case StructType(fields)      => SqlStruct(loopStructType(StructType(fields)), isNullable(nullable))
   }
 
   /** From Boolean to Nullable or Required Mode
