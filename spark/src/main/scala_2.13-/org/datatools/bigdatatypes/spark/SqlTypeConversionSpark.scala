@@ -5,6 +5,8 @@ import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 import org.datatools.bigdatatypes.types.basic._
 
+import scala.annotation.tailrec
+
 trait SqlTypeConversionSpark[-A] extends SqlTypeConversion[A]
 
 object SqlTypeConversionSpark {
@@ -24,7 +26,7 @@ object SqlTypeConversionSpark {
   implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlFloat())
   implicit val floatType: SqlTypeConversion[FloatType] = instance(SqlFloat())
   //TODO use implicit Formats for default Decimal precision
-  //implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
+  implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[BooleanType] = instance(SqlBool())
   implicit val stringType: SqlTypeConversion[StringType] = instance(SqlString())
   // Extended types
@@ -52,21 +54,26 @@ object SqlTypeConversionSpark {
   private def structFieldConversion(sf: StructField): SqlTypeConversion[StructField] =
     instance(convertSparkType(sf.dataType, sf.nullable))
 
-  //TODO make it tail recursive
+  //TODO use implicit Formats for default Decimal precision
   /** Given a Spark DataType, converts it into a SqlType
     */
-  private def convertSparkType(dataType: DataType, nullable: Boolean): SqlType = dataType match {
-    case IntegerType             => SqlInt(isNullable(nullable))
-    case LongType                => SqlLong(isNullable(nullable))
-    case DoubleType              => SqlFloat(isNullable(nullable))
-    case FloatType               => SqlFloat(isNullable(nullable))
-    case DecimalType()           => SqlDecimal(isNullable(nullable))
-    case BooleanType             => SqlBool(isNullable(nullable))
-    case StringType              => SqlString(isNullable(nullable))
-    case TimestampType           => SqlTimestamp(isNullable(nullable))
-    case DateType                => SqlDate(isNullable(nullable))
-    case ArrayType(basicType, _) => convertSparkType(basicType, nullable).changeMode(Repeated)
-    case StructType(fields)      => SqlStruct(loopStructType(StructType(fields)), isNullable(nullable))
+  @tailrec
+  private def convertSparkType(dataType: DataType,
+                               nullable: Boolean,
+                               inheritMode: Option[SqlTypeMode] = None
+  ): SqlType = dataType match {
+    case IntegerType             => SqlInt(inheritMode.getOrElse(isNullable(nullable)))
+    case LongType                => SqlLong(inheritMode.getOrElse(isNullable(nullable)))
+    case DoubleType              => SqlFloat(inheritMode.getOrElse(isNullable(nullable)))
+    case FloatType               => SqlFloat(inheritMode.getOrElse(isNullable(nullable)))
+    case DecimalType()           => SqlDecimal(inheritMode.getOrElse(isNullable(nullable)))
+    case BooleanType             => SqlBool(inheritMode.getOrElse(isNullable(nullable)))
+    case StringType              => SqlString(inheritMode.getOrElse(isNullable(nullable)))
+    case TimestampType           => SqlTimestamp(inheritMode.getOrElse(isNullable(nullable)))
+    case DateType                => SqlDate(inheritMode.getOrElse(isNullable(nullable)))
+    case ArrayType(basicType, _) => convertSparkType(basicType, nullable, Some(Repeated))
+    case StructType(fields) =>
+      SqlStruct(loopStructType(StructType(fields)), inheritMode.getOrElse(isNullable(nullable)))
   }
 
   /** From Boolean to Nullable or Required Mode
@@ -86,14 +93,11 @@ object SqlTypeConversionSpark {
     SqlStruct(loopStructType(st))
   )
 
-  //TODO make it tail recursive
   /** Given a StructType, convert it into a List[Record] to be used in a SqlStruct
     */
   private def loopStructType(st: StructType): List[Record] =
-    st.toList match {
-      case head +: Seq() => List(head.name -> convertSparkType(head.dataType, head.nullable))
-      case head +: tail =>
-        List(head.name -> convertSparkType(head.dataType, head.nullable)) ++ loopStructType(StructType(tail))
-    }
+    st.map { x =>
+      x.name -> convertSparkType(x.dataType, x.nullable)
+    }.toList
 
 }
