@@ -23,9 +23,9 @@ class SqlTypeConversionSpec extends UnitSpec {
     val sqlType: SqlType = SqlTypeConversion[Long].getType
     sqlType shouldBe SqlLong(Required)
   }
-  "Double type" should "be converted into SqlFloat" in {
+  "Double type" should "be converted into SqlDouble" in {
     val sqlType: SqlType = SqlTypeConversion[Double].getType
-    sqlType shouldBe SqlFloat(Required)
+    sqlType shouldBe SqlDouble(Required)
   }
   "Float type" should "be converted into SqlFloat" in {
     val sqlType: SqlType = SqlTypeConversion[Float].getType

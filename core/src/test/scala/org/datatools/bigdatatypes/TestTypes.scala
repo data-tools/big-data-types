@@ -2,21 +2,7 @@ package org.datatools.bigdatatypes
 
 import java.sql.{Date, Timestamp}
 
-import org.datatools.bigdatatypes.types.basic.{
-  Nullable,
-  Repeated,
-  Required,
-  SqlBool,
-  SqlDate,
-  SqlDecimal,
-  SqlFloat,
-  SqlInt,
-  SqlLong,
-  SqlString,
-  SqlStruct,
-  SqlTimestamp,
-  SqlType
-}
+import org.datatools.bigdatatypes.types.basic.{Nullable, Repeated, Required, SqlBool, SqlDate, SqlDecimal, SqlDouble, SqlFloat, SqlInt, SqlLong, SqlString, SqlStruct, SqlTimestamp, SqlType}
 
 /** Case Classes and their SqlType representations
   * This should be used to test SqlTypeConversion and all reverse conversions from other modules
@@ -26,6 +12,7 @@ object TestTypes {
   case class BasicTypes(myInt: Int,
                         myLong: Long,
                         myFloat: Float,
+                        myDouble: Double,
                         myDecimal: BigDecimal,
                         myBoolean: Boolean,
                         myString: String
@@ -34,6 +21,7 @@ object TestTypes {
   case class BasicOptionTypes(myInt: Option[Int],
                               myLong: Option[Long],
                               myFloat: Option[Float],
+                              myDouble: Option[Double],
                               myDecimal: Option[BigDecimal],
                               myBoolean: Option[Boolean],
                               myString: Option[String]
@@ -52,6 +40,7 @@ object TestTypes {
       ("myInt", SqlInt(Required)),
       ("myLong", SqlLong(Required)),
       ("myFloat", SqlFloat(Required)),
+      ("myDouble", SqlDouble(Required)),
       ("myDecimal", SqlDecimal(Required)),
       ("myBoolean", SqlBool(Required)),
       ("myString", SqlString(Required))
@@ -71,6 +60,7 @@ object TestTypes {
       ("myInt", SqlInt(Nullable)),
       ("myLong", SqlLong(Nullable)),
       ("myFloat", SqlFloat(Nullable)),
+      ("myDouble", SqlDouble(Nullable)),
       ("myDecimal", SqlDecimal(Nullable)),
       ("myBoolean", SqlBool(Nullable)),
       ("myString", SqlString(Nullable))

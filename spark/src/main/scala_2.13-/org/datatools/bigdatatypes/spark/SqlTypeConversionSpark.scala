@@ -19,11 +19,10 @@ object SqlTypeConversionSpark {
     */
   def apply(sf: StructField): SqlTypeConversion[StructField] = structFieldConversion(sf)
   def apply(st: StructType): SqlTypeConversion[StructType] = structTypeConversion(st)
-  def apply(st: List[StructField]): SqlTypeConversion[StructType] = structTypeConversion(StructType(st))
 
   implicit val intType: SqlTypeConversion[IntegerType] = instance(SqlInt())
   implicit val longType: SqlTypeConversion[LongType] = instance(SqlLong())
-  implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlFloat())
+  implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlDouble())
   implicit val floatType: SqlTypeConversion[FloatType] = instance(SqlFloat())
   //TODO use implicit Formats for default Decimal precision
   implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
@@ -64,7 +63,7 @@ object SqlTypeConversionSpark {
   ): SqlType = dataType match {
     case IntegerType             => SqlInt(inheritMode.getOrElse(isNullable(nullable)))
     case LongType                => SqlLong(inheritMode.getOrElse(isNullable(nullable)))
-    case DoubleType              => SqlFloat(inheritMode.getOrElse(isNullable(nullable)))
+    case DoubleType              => SqlDouble(inheritMode.getOrElse(isNullable(nullable)))
     case FloatType               => SqlFloat(inheritMode.getOrElse(isNullable(nullable)))
     case DecimalType()           => SqlDecimal(inheritMode.getOrElse(isNullable(nullable)))
     case BooleanType             => SqlBool(inheritMode.getOrElse(isNullable(nullable)))

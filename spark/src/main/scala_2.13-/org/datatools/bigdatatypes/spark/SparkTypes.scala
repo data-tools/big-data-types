@@ -61,6 +61,8 @@ object SparkTypes {
       StructField(name, sparkType(mode, LongType), isNullable(mode))
     case SqlFloat(mode) =>
       StructField(name, sparkType(mode, FloatType), isNullable(mode))
+    case SqlDouble(mode) =>
+      StructField(name, sparkType(mode, DoubleType), isNullable(mode))
     case SqlDecimal(mode) =>
       StructField(name, sparkType(mode, DataTypes.createDecimalType), isNullable(mode))
     case SqlBool(mode) =>

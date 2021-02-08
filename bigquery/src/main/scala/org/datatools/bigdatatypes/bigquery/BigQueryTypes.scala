@@ -52,6 +52,8 @@ object BigQueryTypes {
       Field.newBuilder(name, StandardSQLTypeName.INT64).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlFloat(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.FLOAT64).setMode(sqlModeToBigQueryMode(mode)).build()
+    case SqlDouble(mode) =>
+      Field.newBuilder(name, StandardSQLTypeName.FLOAT64).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlDecimal(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.NUMERIC).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlBool(mode) =>

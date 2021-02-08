@@ -35,19 +35,6 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
     st.getType shouldBe expected
   }
 
-  "SparkSchema from Case Class" should "be converted into SqlStruct" in {
-    case class Dummy(myInt: Int, myString: String)
-    val expected = SqlStruct(List(("myInt", SqlInt()), ("myString", SqlString())))
-    SqlTypeConversionSpark(SparkTypes[Dummy].sparkSchema).getType shouldBe expected
-  }
-
-  "StructType with Arrays" should "be converted into SqlStruct with Repeated" in {
-    case class Dummy(myString: String, myList: List[Int])
-    val schema = SparkTypes[Dummy].sparkSchema
-    val expected = SqlStruct(List(("myString", SqlString()), ("myList", SqlInt(Repeated))))
-    schema.getType shouldBe expected
-  }
-
   behavior of "Common Test Types for Spark"
 
   "Spark Schema with Option" should "be converted into SqlTypes with nullable" in {
