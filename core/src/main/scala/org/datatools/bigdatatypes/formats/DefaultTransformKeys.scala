@@ -1,9 +1,12 @@
 package org.datatools.bigdatatypes.formats
 
+//TODO add precision for Decimal types
 trait Formats {
   def transformKeys(s: String): String
 }
 
+/** A list of predefined formats to be imported. Only one can be imported at the same time
+  */
 object Formats {
   implicit val implicitDefaultFormats: Formats = DefaultFormats
   implicit val implicitSnakifyFormats: Formats = SnakifyFormats

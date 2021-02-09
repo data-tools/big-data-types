@@ -1,3 +1,8 @@
+### Big Data Types v0.3.0
+
+- Spark: Added reverse conversion (From Spark schemas to generic SqlTypes)
+- Added SqlDouble as a new type in `Core` and `Spark`. (BigQuery does not have Doubles)
+
 ### Big Data Types v0.2.1
 
 - Project split into multiple projects

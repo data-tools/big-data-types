@@ -19,6 +19,7 @@ sealed trait SqlType {
         case SqlInt(_)             => SqlInt(mode)
         case SqlLong(_)            => SqlLong(mode)
         case SqlFloat(_)           => SqlFloat(mode)
+        case SqlDouble(_)          => SqlDouble(mode)
         case SqlDecimal(_)         => SqlDecimal(mode)
         case SqlBool(_)            => SqlBool(mode)
         case SqlString(_)          => SqlString(mode)
@@ -33,6 +34,7 @@ sealed trait SqlType {
 case class SqlInt(mode: SqlTypeMode = Required) extends SqlType
 case class SqlLong(mode: SqlTypeMode = Required) extends SqlType
 case class SqlFloat(mode: SqlTypeMode = Required) extends SqlType
+case class SqlDouble(mode: SqlTypeMode = Required) extends SqlType
 case class SqlDecimal(mode: SqlTypeMode = Required) extends SqlType
 case class SqlBool(mode: SqlTypeMode = Required) extends SqlType
 case class SqlString(mode: SqlTypeMode = Required) extends SqlType

@@ -39,7 +39,7 @@ object SqlTypeConversion {
   // Basic types
   implicit val intType: SqlTypeConversion[Int] = instance(SqlInt())
   implicit val longType: SqlTypeConversion[Long] = instance(SqlLong())
-  implicit val doubleType: SqlTypeConversion[Double] = instance(SqlFloat())
+  implicit val doubleType: SqlTypeConversion[Double] = instance(SqlDouble())
   implicit val floatType: SqlTypeConversion[Float] = instance(SqlFloat())
   implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[Boolean] = instance(SqlBool())

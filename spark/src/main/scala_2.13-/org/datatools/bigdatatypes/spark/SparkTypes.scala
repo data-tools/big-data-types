@@ -17,10 +17,9 @@ trait SparkTypes[A] {
     */
   def sparkFields: List[StructField]
 
-  /**
-   * Returns the Spark Schema
-   * @return [[StructType]] with the schema to be used in Spark
-   */
+  /** Returns the Spark Schema
+    * @return [[StructType]] with the schema to be used in Spark
+    */
   def sparkSchema: StructType = StructType(sparkFields)
 }
 
@@ -62,6 +61,8 @@ object SparkTypes {
       StructField(name, sparkType(mode, LongType), isNullable(mode))
     case SqlFloat(mode) =>
       StructField(name, sparkType(mode, FloatType), isNullable(mode))
+    case SqlDouble(mode) =>
+      StructField(name, sparkType(mode, DoubleType), isNullable(mode))
     case SqlDecimal(mode) =>
       StructField(name, sparkType(mode, DataTypes.createDecimalType), isNullable(mode))
     case SqlBool(mode) =>
@@ -73,7 +74,7 @@ object SparkTypes {
     case SqlDate(mode) =>
       StructField(name, sparkType(mode, DateType), isNullable(mode))
     case SqlStruct(subType, mode) =>
-      StructField(name, sparkType(mode, StructType(getSchema(SqlStruct(subType)))), isNullable(mode))
+      StructField(name, sparkType(mode, StructType(getSchema(SqlStruct(subType, mode)))), isNullable(mode))
   }
 
   /** Find if a type has to be ArrayType or Basic type

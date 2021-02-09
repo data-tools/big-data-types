@@ -23,9 +23,9 @@ class SqlTypeConversionSpec extends UnitSpec {
     val sqlType: SqlType = SqlTypeConversion[Long].getType
     sqlType shouldBe SqlLong(Required)
   }
-  "Double type" should "be converted into SqlFloat" in {
+  "Double type" should "be converted into SqlDouble" in {
     val sqlType: SqlType = SqlTypeConversion[Double].getType
-    sqlType shouldBe SqlFloat(Required)
+    sqlType shouldBe SqlDouble(Required)
   }
   "Float type" should "be converted into SqlFloat" in {
     val sqlType: SqlType = SqlTypeConversion[Float].getType
@@ -51,100 +51,37 @@ class SqlTypeConversionSpec extends UnitSpec {
 
   "Case Class with Option" should "be converted into SqlTypes with nullable" in {
     val sqlType: SqlType = SqlTypeConversion[BasicOption].getType
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myString", SqlString(Required)),
-        ("myOptionalString", SqlString(Nullable))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicOption
   }
 
   "basic case class" should "be converted into SqlTypes" in {
     val sqlType: SqlType = SqlTypeConversion[BasicTypes].getType
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myLong", SqlLong(Required)),
-        ("myFloat", SqlFloat(Required)),
-        ("myDecimal", SqlDecimal(Required)),
-        ("myBoolean", SqlBool(Required)),
-        ("myString", SqlString(Required))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicTypes
   }
 
   "Case Class with basic options types" should "be converted into nullable SqlTypes" in {
     val sqlType: SqlType = SqlTypeConversion[BasicOptionTypes].getType
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Nullable)),
-        ("myLong", SqlLong(Nullable)),
-        ("myFloat", SqlFloat(Nullable)),
-        ("myDecimal", SqlDecimal(Nullable)),
-        ("myBoolean", SqlBool(Nullable)),
-        ("myString", SqlString(Nullable))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicOptionTypes
   }
 
   "Case class with List" should "be converted into Repeated type" in {
     val sqlType: SqlType = SqlTypeConversion[BasicList].getType
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myList", SqlInt(Repeated))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicWithList
   }
 
   "case class with nested object" should "be converted into SqlTypes" in {
     val sqlType: SqlType = SqlTypeConversion[BasicStruct].getType
-    val basicFields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myLong", SqlLong(Required)),
-        ("myFloat", SqlFloat(Required)),
-        ("myDecimal", SqlDecimal(Required)),
-        ("myBoolean", SqlBool(Required)),
-        ("myString", SqlString(Required))
-      )
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myStruct", SqlStruct(basicFields, Required))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicNested
   }
 
   "case class with optional nested object" should "be converted into SqlTypes" in {
     val sqlType: SqlType = SqlTypeConversion[BasicOptionalStruct].getType
-    val basicFields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myLong", SqlLong(Required)),
-        ("myFloat", SqlFloat(Required)),
-        ("myDecimal", SqlDecimal(Required)),
-        ("myBoolean", SqlBool(Required)),
-        ("myString", SqlString(Required))
-      )
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myStruct", SqlStruct(basicFields, Nullable))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicOptionalNested
   }
 
   "Case class with Struct List" should "be converted into Repeated Struct type" in {
     val sqlType: SqlType = SqlTypeConversion[ListOfStruct].getType
-    val struct: List[(String, SqlType)] =
-      List(
-        ("x", SqlInt(Required)),
-        ("y", SqlInt(Required))
-      )
-    val fields: List[(String, SqlType)] =
-      List(("matrix", SqlStruct(struct, Repeated)))
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe basicNestedWithList
   }
 
   "Option of Option" should "be just a Nullable type mode" in {
@@ -187,13 +124,7 @@ class SqlTypeConversionSpec extends UnitSpec {
 
   "Case class with extended types" should "be converted into Struct with extended types" in {
     val sqlType: SqlType = SqlTypeConversion[ExtendedTypes].getType
-    val fields: List[(String, SqlType)] =
-      List(
-        ("myInt", SqlInt(Required)),
-        ("myTimestamp", SqlTimestamp(Required)),
-        ("myDate", SqlDate(Required))
-      )
-    sqlType shouldBe SqlStruct(fields, Required)
+    sqlType shouldBe extendedTypes
   }
 
 }
