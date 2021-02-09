@@ -6,7 +6,7 @@ import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SqlTypeConversionSpark._
-import org.datatools.bigdatatypes.types.basic.{Nullable, Repeated, Required, SqlInt, SqlString, SqlStruct, SqlType}
+import org.datatools.bigdatatypes.types.basic.{Nullable, Required, SqlInt, SqlString, SqlStruct, SqlType}
 
 class SqlTypeConversionSparkSpec extends UnitSpec {
 
@@ -63,7 +63,6 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
   }
 
   "Spark Schema with optional nested object" should "be converted into SqlTypes" in {
-    println(SparkTypes[BasicOptionalStruct].sparkSchema)
     val sqlType: SqlType = SparkTypes[BasicOptionalStruct].sparkSchema.getType
     sqlType shouldBe basicOptionalNested
   }

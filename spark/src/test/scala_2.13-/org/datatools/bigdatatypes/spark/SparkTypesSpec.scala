@@ -39,6 +39,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myInt", IntegerType, nullable = false),
         StructField("myLong", LongType, nullable = false),
         StructField("myFloat", FloatType, nullable = false),
+        StructField("myDouble", DoubleType, nullable = false),
         StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
         StructField("myBoolean", BooleanType, nullable = false),
         StructField("myString", StringType, nullable = false)
@@ -54,6 +55,7 @@ class SparkTypesSpec extends UnitSpec {
         StructField("myInt", IntegerType, nullable = true),
         StructField("myLong", LongType, nullable = true),
         StructField("myFloat", FloatType, nullable = true),
+        StructField("myDouble", DoubleType, nullable = true),
         StructField("myDecimal", DataTypes.createDecimalType, nullable = true),
         StructField("myBoolean", BooleanType, nullable = true),
         StructField("myString", StringType, nullable = true)
@@ -81,6 +83,7 @@ class SparkTypesSpec extends UnitSpec {
               StructField("myInt", IntegerType, nullable = false),
               StructField("myLong", LongType, nullable = false),
               StructField("myFloat", FloatType, nullable = false),
+              StructField("myDouble", DoubleType, nullable = false),
               StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
               StructField("myBoolean", BooleanType, nullable = false),
               StructField("myString", StringType, nullable = false)
@@ -102,6 +105,7 @@ class SparkTypesSpec extends UnitSpec {
               StructField("myInt", IntegerType, nullable = false),
               StructField("myLong", LongType, nullable = false),
               StructField("myFloat", FloatType, nullable = false),
+              StructField("myDouble", DoubleType, nullable = false),
               StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
               StructField("myBoolean", BooleanType, nullable = false),
               StructField("myString", StringType, nullable = false)
