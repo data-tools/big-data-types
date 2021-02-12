@@ -1,57 +1,51 @@
 package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
+import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 import org.datatools.bigdatatypes.types.basic._
 
 import scala.annotation.tailrec
-
-trait SqlTypeConversionSpark[-A] extends SqlTypeConversion[A]
 
 object SqlTypeConversionSpark {
 
   type Record = (String, SqlType)
 
-  /** Different apply expecting a parameter when working with Spark Schemas
-    * as we can not work with type implicit resolutions
-    * @param sf is a simple StructField from Spark
+  /**
+    * SqlTypeConversion type class specifications for simple types
     */
-  def apply(sf: StructField): SqlTypeConversion[StructField] = structFieldConversion(sf)
-  def apply(st: StructType): SqlTypeConversion[StructType] = structTypeConversion(st)
-
-  implicit val intType: SqlTypeConversion[IntegerType] = instance(SqlInt())
-  implicit val longType: SqlTypeConversion[LongType] = instance(SqlLong())
-  implicit val doubleType: SqlTypeConversion[DoubleType] = instance(SqlDouble())
-  implicit val floatType: SqlTypeConversion[FloatType] = instance(SqlFloat())
+  implicit val intType: SqlTypeConversion[IntegerType] = SqlTypeConversion.instance(SqlInt())
+  implicit val longType: SqlTypeConversion[LongType] = SqlTypeConversion.instance(SqlLong())
+  implicit val doubleType: SqlTypeConversion[DoubleType] = SqlTypeConversion.instance(SqlDouble())
+  implicit val floatType: SqlTypeConversion[FloatType] = SqlTypeConversion.instance(SqlFloat())
   //TODO use implicit Formats for default Decimal precision
-  implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
-  implicit val booleanType: SqlTypeConversion[BooleanType] = instance(SqlBool())
-  implicit val stringType: SqlTypeConversion[StringType] = instance(SqlString())
+  implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = SqlTypeConversion.instance(SqlDecimal())
+  implicit val booleanType: SqlTypeConversion[BooleanType] = SqlTypeConversion.instance(SqlBool())
+  implicit val stringType: SqlTypeConversion[StringType] = SqlTypeConversion.instance(SqlString())
   // Extended types
-  implicit val timestampType: SqlTypeConversion[TimestampType] = instance(SqlTimestamp())
-  implicit val dateType: SqlTypeConversion[DateType] = instance(SqlDate())
+  implicit val timestampType: SqlTypeConversion[TimestampType] = SqlTypeConversion.instance(SqlTimestamp())
+  implicit val dateType: SqlTypeConversion[DateType] = SqlTypeConversion.instance(SqlDate())
 
-  /** Enables StructField.getType syntax
-    * @param value is an instance of StructField
+  /**
+    * SqlInstanceConversion type class specifications for struct instances
     */
-  implicit class StructFieldConversion(value: StructField) {
-    def getType: SqlType = structFieldConversion(value).getType
+  implicit val structField: SqlInstanceConversion[StructField] =
+    (value: StructField) => convertSparkType(value.dataType, value.nullable)
+
+  implicit val structType: SqlInstanceConversion[StructType] =
+    (value: StructType) => SqlStruct(loopStructType(value))
+
+
+  /** Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+    * @param value in a StructType (Spark Schema)
+    */
+  implicit class StructTypeSyntax(value: StructType) {
+    def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
   }
-
-  /** Enables StructType.getType syntax and DataFrame.schema.getType syntax
-    * @param value in an StructType (Spark Schema)
-    */
-  implicit class StructTypeConversion(value: StructType) {
-    def getType: SqlType = structTypeConversion(value).getType
+  /** Enables myField: StructField -> myField.getType */
+  implicit class StructFieldSyntax(value: StructField) {
+    def getType: SqlType = SqlInstanceConversion[StructField].getType(value)
   }
-
-  /** When working with StructFields we already have an instance and not just a type so we need a parameter
-    * StructField is being limited to just it's DataType so
-    * a StructField("name", IntegerType) will be converted into SqlTypeConversionSpark[IntegerType]
-    */
-  private def structFieldConversion(sf: StructField): SqlTypeConversion[StructField] =
-    instance(convertSparkType(sf.dataType, sf.nullable))
 
   //TODO use implicit Formats for default Decimal precision
   /** Given a Spark DataType, converts it into a SqlType
@@ -84,13 +78,6 @@ object SqlTypeConversionSpark {
     else {
       Required
     }
-
-  /** When working with StructTypes we already have an instance and not just a type so we need a parameter,
-    * this converts a StructType (or Spark schema) into a SqlStructTypeConversionSpark[StructType]
-    */
-  private def structTypeConversion(st: StructType): SqlTypeConversion[StructType] = instance(
-    SqlStruct(loopStructType(st))
-  )
 
   /** Given a StructType, convert it into a List[Record] to be used in a SqlStruct
     */

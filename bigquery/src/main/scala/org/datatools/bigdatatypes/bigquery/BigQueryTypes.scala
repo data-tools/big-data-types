@@ -2,10 +2,12 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, StandardSQLTypeName}
+import org.datatools.bigdatatypes.bigquery.BigQueryTypes.instance
 import org.datatools.bigdatatypes.conversions._
 import org.datatools.bigdatatypes.formats.Formats
 import org.datatools.bigdatatypes.types.basic
 import org.datatools.bigdatatypes.types.basic._
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 
 /** Type class to convert generic SqlTypes into BigQuery specific fields
   * In BigQuery, a table is made with a List of fields so as an example:
@@ -32,12 +34,11 @@ object BigQueryTypes {
     }
 
   /** Instance derivation via SqlTypeConversion.
-    * Automatically converts camelCase names into snake_case in the process
     */
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypes[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
-  private def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
+  def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
       getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(basic.SqlStruct(records, mode))
