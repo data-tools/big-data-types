@@ -38,6 +38,8 @@ object BigQueryTypes {
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypes[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
+  //TODO improving this and adding all the SqlType options will remove a warning and will allow a syntax like:
+  //TODO val myInt: Int = 5  -> BigQueryTypesInstance[Int].getBigQueryFields(myInt)
   def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
