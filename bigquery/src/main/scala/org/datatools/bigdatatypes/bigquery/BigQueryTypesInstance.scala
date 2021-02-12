@@ -3,6 +3,7 @@ package org.datatools.bigdatatypes.bigquery
 import com.google.cloud.bigquery.Field
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.formats.Formats
+import org.datatools.bigdatatypes.types.basic.SqlType
 
 /** Type class to convert generic SqlTypes into BigQuery specific fields
   *
@@ -52,6 +53,18 @@ object BigQueryTypesInstance {
         */
       override def bigQueryFields(value: A): List[Field] =
         BigQueryTypes.getSchema(SqlTypeConversion[A].getType)
+    }
+
+  /** Simplify syntax for SqlType, allows:
+    * BigQueryTypesInstance[SqlType].bigQueryFields(mySqlTypeInstance)
+    */
+  implicit def fieldsFromSqlType(implicit f: Formats): BigQueryTypesInstance[SqlType] =
+    new BigQueryTypesInstance[SqlType] {
+
+      /** @return a list of [[Field]]s that represents [[SqlType]]
+        */
+      override def bigQueryFields(value: SqlType): List[Field] =
+        BigQueryTypes.getSchema(value)
     }
 
   /** Allows the syntax myInstance.bigQueryFields for any instance of type A: SqlInstanceConversion
