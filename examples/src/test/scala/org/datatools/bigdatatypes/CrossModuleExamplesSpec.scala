@@ -15,36 +15,28 @@ class CrossModuleExamplesSpec extends UnitSpec {
 
   behavior of "FromSparkToBigQuerySpec"
 
-  val bqFieldsExpected = List(
-    Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myLong", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myFloat", StandardSQLTypeName.FLOAT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myDouble", StandardSQLTypeName.FLOAT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myDecimal", StandardSQLTypeName.NUMERIC).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myBoolean", StandardSQLTypeName.BOOL).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myString", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build()
-  )
-
   "Sparck Schema" should "be converted into BigQuery Fields" in {
     val schema: StructType = SparkTypes[BasicTypes].sparkSchema
     val bq = BigQueryTypesInstance[StructType].bigQueryFields(schema)
-    bq shouldBe bqFieldsExpected
+    bq shouldBe BigQueryTestTypes.basicFields
   }
 
   it should "have a method to get BigQuery Fields" in {
     val schema: StructType = SparkTypes[BasicTypes].sparkSchema
-    schema.bigQueryFields shouldBe bqFieldsExpected
+    schema.bigQueryFields shouldBe BigQueryTestTypes.basicFields
   }
 
-  //TODO fix something here, sparkSchema uses StructType as main object bug SqlType don't
   it should "be converted into SqlType Instance" in {
     val schema: StructType = SparkTypes[BasicTypes].sparkSchema
-    schema.getType shouldBe TestTypes.basicFields
+    schema.getType shouldBe TestTypes.basicTypes
   }
 
-  "SqlType instance" should "converted into BigQuery Fields" in {
+  "Spark to SqlType instance" should "be converted into BigQuery Fields" in {
     val sql: SqlType = SparkTypes[BasicTypes].sparkSchema.getType
-    BigQueryTypesInstance[SqlType].bigQueryFields(sql) shouldBe bqFieldsExpected
+    BigQueryTypesInstance[SqlType].bigQueryFields(sql) shouldBe BigQueryTestTypes.basicFields
   }
+
+
+
 
 }

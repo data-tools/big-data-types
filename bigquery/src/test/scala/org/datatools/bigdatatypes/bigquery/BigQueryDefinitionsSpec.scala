@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.bigquery
 
-import com.google.cloud.bigquery.{FieldList, StandardTableDefinition}
+import com.google.cloud.bigquery.StandardTableDefinition
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.bigquery.BigQueryFields.getFieldNames
 

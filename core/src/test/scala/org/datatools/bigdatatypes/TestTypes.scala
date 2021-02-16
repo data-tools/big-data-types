@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes
 
 import java.sql.{Date, Timestamp}
 
-import org.datatools.bigdatatypes.types.basic.{Nullable, Repeated, Required, SqlBool, SqlDate, SqlDecimal, SqlDouble, SqlFloat, SqlInt, SqlLong, SqlString, SqlStruct, SqlTimestamp, SqlType}
+import org.datatools.bigdatatypes.types.basic._
 
 /** Case Classes and their SqlType representations
   * This should be used to test SqlTypeConversion and all reverse conversions from other modules

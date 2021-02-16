@@ -1,7 +1,7 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field
-import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
+import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 import org.datatools.bigdatatypes.formats.Formats
 import org.datatools.bigdatatypes.types.basic.SqlType
 
@@ -26,6 +26,7 @@ object BigQueryTypesInstance {
     */
   def instance[A](f: A => List[Field]): BigQueryTypesInstance[A] = (value: A) => f(value)
 
+  //TODO change it for the compressed syntax after having everything well documented
   /** Instance derivation via SqlTypeConversion. It uses `getSchema` from BigQueryTypes Type Class
     */
   implicit def fieldsFromSqlInstanceConversion[A: SqlInstanceConversion](implicit f: Formats): BigQueryTypesInstance[A] =
@@ -36,17 +37,6 @@ object BigQueryTypesInstance {
       override def bigQueryFields(value: A): List[Field] =
         BigQueryTypes.getSchema(SqlInstanceConversion[A].getType(value))
     }
-
-  /* Not needed as BigQueryTypes[Dummy].bigQueryFields(myInstance) == BigQueryTypes[Dummy].bigQueryFields
-      And this is breaking Intellij inspector, it thinks it's the same as the one for SqlInstanceConversion
-  /** Instance derivation via SqlTypeConversion.
-   * It allows BigQueryTypesInstance[Dummy].bigQueryFields(myDummy)
-   * Same as BigQueryTypes[Dummy].bigQueryFields but giving an instance of a case class
-   */
-  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypesInstance[A] =
-    (value: A) => BigQueryTypes.getSchema(SqlTypeConversion[A].getType)
-
-   */
 
   /** Simplify syntax for SqlType, allows:
     * BigQueryTypesInstance[SqlType].bigQueryFields(mySqlTypeInstance)
