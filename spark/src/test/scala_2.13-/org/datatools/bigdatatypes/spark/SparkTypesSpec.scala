@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
 import org.datatools.bigdatatypes.TestTypes._
-import org.datatools.bigdatatypes.UnitSpec
+import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats, SnakifyFormats}
 import org.datatools.bigdatatypes.spark.SparkTypes._
 
@@ -34,116 +34,32 @@ class SparkTypesSpec extends UnitSpec {
   }
 
   "Basic types" should "create an Spark Schema" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField("myInt", IntegerType, nullable = false),
-        StructField("myLong", LongType, nullable = false),
-        StructField("myFloat", FloatType, nullable = false),
-        StructField("myDouble", DoubleType, nullable = false),
-        StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
-        StructField("myBoolean", BooleanType, nullable = false),
-        StructField("myString", StringType, nullable = false)
-      )
-    val expectedSchema: StructType = StructType(fieldList)
-    SparkSchemas.fields[BasicTypes] shouldBe fieldList
-    SparkSchemas.fields[BasicTypes] shouldBe expectedSchema
+    SparkSchemas.fields[BasicTypes] shouldBe SparkTestTypes.basicFields
+    SparkSchemas.fields[BasicTypes] shouldBe SparkTestTypes.basicTypes
   }
 
   "Basic Optional types" should "create an Spark Schema" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField("myInt", IntegerType, nullable = true),
-        StructField("myLong", LongType, nullable = true),
-        StructField("myFloat", FloatType, nullable = true),
-        StructField("myDouble", DoubleType, nullable = true),
-        StructField("myDecimal", DataTypes.createDecimalType, nullable = true),
-        StructField("myBoolean", BooleanType, nullable = true),
-        StructField("myString", StringType, nullable = true)
-      )
-    SparkSchemas.fields[BasicOptionTypes] shouldBe fieldList
+    SparkSchemas.fields[BasicOptionTypes] shouldBe SparkTestTypes.basicOptionTypes
   }
 
   "A List field" should "be converted into Spark Array type" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField("myInt", IntegerType, nullable = false),
-        StructField("myList", ArrayType(IntegerType), nullable = true)
-      )
-    SparkSchemas.fields[BasicList] shouldBe fieldList
+    SparkSchemas.fields[BasicList] shouldBe SparkTestTypes.basicWithList
   }
 
   "Nested field" should "be converted into Spark Nested field" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField("myInt", IntegerType, nullable = false),
-        StructField(
-          "myStruct",
-          StructType(
-            List(
-              StructField("myInt", IntegerType, nullable = false),
-              StructField("myLong", LongType, nullable = false),
-              StructField("myFloat", FloatType, nullable = false),
-              StructField("myDouble", DoubleType, nullable = false),
-              StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
-              StructField("myBoolean", BooleanType, nullable = false),
-              StructField("myString", StringType, nullable = false)
-            )
-          ),
-          nullable = false
-        )
-      )
-    SparkSchemas.fields[BasicStruct] shouldBe fieldList
+    SparkSchemas.fields[BasicStruct] shouldBe SparkTestTypes.basicNested
   }
+
   "Optional Nested field" should "be converted into nullable Spark Nested field" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField("myInt", IntegerType, nullable = false),
-        StructField(
-          "myStruct",
-          StructType(
-            List(
-              StructField("myInt", IntegerType, nullable = false),
-              StructField("myLong", LongType, nullable = false),
-              StructField("myFloat", FloatType, nullable = false),
-              StructField("myDouble", DoubleType, nullable = false),
-              StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
-              StructField("myBoolean", BooleanType, nullable = false),
-              StructField("myString", StringType, nullable = false)
-            )
-          ),
-          nullable = true
-        )
-      )
-    SparkSchemas.fields[BasicOptionalStruct] shouldBe fieldList
+    SparkSchemas.fields[BasicOptionalStruct] shouldBe SparkTestTypes.basicOptionalNested
   }
 
   "List of nested objects (matrix)" should "be converted into Spark Nested Array" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField(
-          "matrix",
-          ArrayType(
-            StructType(
-              List(
-                StructField("x", IntegerType, nullable = false),
-                StructField("y", IntegerType, nullable = false)
-              )
-            )
-          ),
-          nullable = true
-        )
-      )
-    SparkSchemas.fields[ListOfStruct] shouldBe fieldList
+    SparkSchemas.fields[ListOfStruct] shouldBe SparkTestTypes.basicNestedWithList
   }
 
   "Extended types" should "create an Spark Schema" in {
-    val fieldList: Seq[StructField] =
-      List(
-        StructField("myInt", IntegerType, nullable = false),
-        StructField("myTimestamp", TimestampType, nullable = false),
-        StructField("myDate", DateType, nullable = false)
-      )
-    SparkSchemas.fields[ExtendedTypes] shouldBe fieldList
+    SparkSchemas.fields[ExtendedTypes] shouldBe SparkTestTypes.extendedTypes
   }
 
   "Multiple Case Classes" should "create an Spark Schema with appended fields" in {

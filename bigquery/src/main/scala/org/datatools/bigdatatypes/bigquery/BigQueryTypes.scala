@@ -2,12 +2,10 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, StandardSQLTypeName}
-import org.datatools.bigdatatypes.bigquery.BigQueryTypes.instance
 import org.datatools.bigdatatypes.conversions._
 import org.datatools.bigdatatypes.formats.Formats
 import org.datatools.bigdatatypes.types.basic
 import org.datatools.bigdatatypes.types.basic._
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 
 /** Type class to convert generic SqlTypes into BigQuery specific fields
   * In BigQuery, a table is made with a List of fields so as an example:
@@ -66,7 +64,7 @@ object BigQueryTypes {
     case SqlTimestamp(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.TIMESTAMP).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlDate(mode) =>
-      Field.newBuilder(name, StandardSQLTypeName.DATETIME).setMode(sqlModeToBigQueryMode(mode)).build()
+      Field.newBuilder(name, StandardSQLTypeName.DATE).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlStruct(subType, mode) =>
       Field
         .newBuilder(name, StandardSQLTypeName.STRUCT, getSchema(SqlStruct(subType)): _*)

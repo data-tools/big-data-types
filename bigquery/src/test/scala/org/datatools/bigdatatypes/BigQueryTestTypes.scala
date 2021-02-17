@@ -39,7 +39,7 @@ object BigQueryTestTypes {
 
   val basicWithList: Seq[Field] =
     List(
-      Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.NULLABLE).build(),
+      Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
       Field.newBuilder("myList", StandardSQLTypeName.INT64).setMode(Mode.REPEATED).build()
     )
 
@@ -69,13 +69,12 @@ object BigQueryTestTypes {
             basicOption: _*
           )
         )
-        .setMode(Mode.REQUIRED)
+        .setMode(Mode.NULLABLE)
         .build()
     )
 
   val basicNestedWithList: Seq[Field] =
     List(
-      Field.newBuilder("matrix", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
       Field
         .newBuilder(
           "matrix",
