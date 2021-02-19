@@ -8,6 +8,8 @@ import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SqlTypeConversionSpark._
 import org.datatools.bigdatatypes.types.basic.{Nullable, Required, SqlInt, SqlString, SqlStruct, SqlType}
 
+/** Reverse conversion, from Spark types to [[SqlType]]s
+  */
 class SqlTypeConversionSparkSpec extends UnitSpec {
 
   "Simple Spark DataType" should "be converted into SqlType" in {
@@ -76,6 +78,5 @@ class SqlTypeConversionSparkSpec extends UnitSpec {
     val sqlType: SqlType = SparkTypes[ExtendedTypes].sparkSchema.getType
     sqlType shouldBe extendedTypes
   }
-
 
 }

@@ -2,7 +2,7 @@
 
 - Spark: Added reverse conversion (From Spark schemas to generic SqlTypes)
 - Added SqlDouble as a new type in `Core` and `Spark`. (BigQuery does not have Doubles)
-- Added a new Type Class for conversions using instances
+- Added a new Type Class for conversions using instances in `Core` and `BigQuery`
 - BigQuery: Now it accepts Spark schemas or anything implementing SqlTypeConversion as input
 - New Examples module for cross types tests
 

@@ -7,6 +7,8 @@ import org.datatools.bigdatatypes.bigquery.BigQueryTypes._
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 
+/** These tests aims to test all the possible scenarios using `TestTypes`
+  */
 class BigQueryTypesSpec extends UnitSpec {
 
   behavior of "BigQueryTypesSpec"

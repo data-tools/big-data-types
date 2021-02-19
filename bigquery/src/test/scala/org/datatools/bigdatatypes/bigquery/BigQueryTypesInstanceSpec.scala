@@ -2,6 +2,7 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field
 import org.datatools.bigdatatypes.TestTypes._
+import org.datatools.bigdatatypes.bigquery.BigQueryTypesInstance.InstanceSyntax
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
@@ -15,6 +16,11 @@ import org.datatools.bigdatatypes.{BigQueryTestTypes, UnitSpec}
 class BigQueryTypesInstanceSpec extends UnitSpec {
 
   behavior of "BigQueryTypesInstanceSpec"
+
+  "SqlType Instance" should "have bigQueryFields method" in {
+    val sql: SqlType = SqlTypeConversion[BasicTypes].getType
+    sql.bigQueryFields shouldBe BigQueryTestTypes.basicTypes
+  }
 
   "basic case class" should "be converted into BigQueryFields" in {
     val sql: SqlType = SqlTypeConversion[BasicTypes].getType
