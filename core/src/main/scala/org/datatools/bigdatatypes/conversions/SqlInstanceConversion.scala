@@ -21,11 +21,5 @@ object SqlInstanceConversion {
     */
   def apply[A](implicit a: SqlInstanceConversion[A]): SqlInstanceConversion[A] = a
 
-  /** Factory constructor - allows easier construction of instances
-    */
-  def instance[A](f: A => SqlType): SqlInstanceConversion[A] =
-    new SqlInstanceConversion[A] {
-      def getType(value: A): SqlType = f(value)
-    }
 }
 
