@@ -43,7 +43,7 @@ lazy val coreDependencies = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.cloud" % "google-cloud-bigquery" % "1.127.0",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.127.2",
   scalatest % "it,test"
 )
 
@@ -52,7 +52,7 @@ lazy val sparkDependencies = Seq(
   "org.apache.spark" %% "spark-sql" % "3.1.0" % Provided,
   scalatest % Test
 )
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.3"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.5"
 
 //Project settings
 lazy val root = (project in file("."))
