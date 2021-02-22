@@ -17,7 +17,7 @@ object BigQueryTable {
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C, D](datasetName, tableName, None)
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C, D, E](datasetName, tableName, None)
   /** For Instances as input */
-  def createTable[A: BigQueryTypesInstance](value: A)(datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A](value: A, datasetName, tableName, None)
+  def createTable[A: BigQueryTypesInstance](value: A, datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A](value: A, datasetName, tableName, None)
 
   /** Create partitioned table
     */
@@ -28,7 +28,7 @@ object BigQueryTable {
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A, B, C, D, E](datasetName, tableName, Some(timePartitionColumn))
 
   /** For Instances as input */
-  def createTable[A: BigQueryTypesInstance](value: A)(datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A](value, datasetName, tableName, Some(timePartitionColumn))
+  def createTable[A: BigQueryTypesInstance](value: A, datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A](value, datasetName, tableName, Some(timePartitionColumn))
 
   /** Create a table in BigQuery
     */
@@ -78,7 +78,7 @@ object BigQueryTable {
     }
     tryTable.toEither.left.map {
       case bigQueryException: BigQueryException => bigQueryException.getError
-      case e: Exception => new BigQueryError("Unknown error", e.getClass.toString, e.getMessage)
+      case e: Exception => new BigQueryError("Unknown error, probably a Service Account is not configured", e.getClass.toString, e.getMessage)
     }
   }
 

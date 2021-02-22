@@ -23,7 +23,6 @@ class SparkTypesImplicitFormatsSpec extends UnitSpec {
 
     implicit val formats: Formats = SnakifyFormats
     SparkSchemas.fields[Dummy] shouldBe expectedSchema
-    println(SparkSchemas.fields[Dummy])
     SparkSchemas.fields[Dummy] shouldBe expectedFields
   }
 }
