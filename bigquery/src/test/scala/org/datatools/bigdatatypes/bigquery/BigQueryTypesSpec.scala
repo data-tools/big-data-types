@@ -54,4 +54,9 @@ class BigQueryTypesSpec extends UnitSpec {
     fields shouldBe BigQueryTestTypes.extendedTypes
   }
 
+  "bigQueryFields method for Case Classes" should "return BigQuery Fields" in {
+    val instance = BasicTypes(1, 1, 1, 1, 1, true, "test")
+    instance.bigQueryFields shouldBe BigQueryTestTypes.basicTypes
+  }
+
 }

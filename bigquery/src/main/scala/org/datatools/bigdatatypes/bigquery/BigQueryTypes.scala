@@ -84,6 +84,6 @@ object BigQueryTypes {
    * @tparam A is a Case Class
    */
   implicit class BigQueryFieldSyntax[A <: Product](value: A) {
-    def getBigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.bigQueryFields
+    def bigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.bigQueryFields
   }
 }

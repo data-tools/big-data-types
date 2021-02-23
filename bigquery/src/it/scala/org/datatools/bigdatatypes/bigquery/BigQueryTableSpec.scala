@@ -2,6 +2,7 @@ package org.datatools.bigdatatypes.bigquery
 
 import org.datatools.bigdatatypes.IntegrationSpec
 import org.datatools.bigdatatypes.DummyModels._
+import org.datatools.bigdatatypes.TestTypes.ExtendedTypes
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 import org.datatools.bigdatatypes.types.basic.SqlType
@@ -118,5 +119,10 @@ class BigQueryTableSpec extends IntegrationSpec {
   "SqlType instance" should "create a BigQuery Table" in {
     val sql = SqlTypeConversion[BasicTypes].getType
     BigQueryTable.createTable(sql, dataset, "sqlType_table").isRight shouldBe true
+  }
+
+  it should "create a BigQuery Partitioned Table" in {
+    val sql = SqlTypeConversion[ExtendedTypes].getType
+    BigQueryTable.createTable(sql, dataset, "sqlType_partitioned_table", "myTimestamp").isRight shouldBe true
   }
 }
