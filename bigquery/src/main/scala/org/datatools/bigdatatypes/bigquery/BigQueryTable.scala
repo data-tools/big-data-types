@@ -1,7 +1,8 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{BigQuery, BigQueryError, BigQueryException, BigQueryOptions, Table, TableDefinition, TableId, TableInfo}
-import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions.generateTableDefinition
+import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions.{generateSchema, generateTableDefinition}
+
 import scala.util.{Failure, Try}
 
 object BigQueryTable {
@@ -15,6 +16,8 @@ object BigQueryTable {
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C](datasetName, tableName, None)
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C, D](datasetName, tableName, None)
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A, B, C, D, E](datasetName, tableName, None)
+  /** For Instances as input */
+  def createTable[A: BigQueryTypesInstance](value: A, datasetName: String, tableName: String): Either[BigQueryError, Table] = createTable[A](value: A, datasetName, tableName, None)
 
   /** Create partitioned table
     */
@@ -24,13 +27,38 @@ object BigQueryTable {
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A, B, C, D](datasetName, tableName, Some(timePartitionColumn))
   def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A, B, C, D, E](datasetName, tableName, Some(timePartitionColumn))
 
+  /** For Instances as input */
+  def createTable[A: BigQueryTypesInstance](value: A, datasetName: String, tableName: String, timePartitionColumn: String): Either[BigQueryError, Table] = createTable[A](value, datasetName, tableName, Some(timePartitionColumn))
+
   /** Create a table in BigQuery
     */
-  private def createTable[A: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A](timePartitionColumn))
-  private def createTable[A: BigQueryTypes, B: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B](timePartitionColumn))
-  private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B, C](timePartitionColumn))
-  private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B, C, D](timePartitionColumn))
-  private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = tryTable(TableId.of(datasetName, tableName), generateTableDefinition[A, B, C, D, E](timePartitionColumn))
+  private def createTable[A: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = {
+    val schema = generateSchema[A]
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition(schema, timePartitionColumn))
+  }
+
+  private def createTable[A: BigQueryTypes, B: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = {
+    val schema = generateSchema[A, B]
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition(schema, timePartitionColumn))
+  }
+  private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = {
+    val schema = generateSchema[A, B, C]
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition(schema, timePartitionColumn))
+  }
+  private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = {
+    val schema = generateSchema[A, B, C, D]
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition(schema, timePartitionColumn))
+  }
+  private def createTable[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes](datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = {
+    val schema = generateSchema[A, B, C, D, E]
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition(schema, timePartitionColumn))
+  }
+
+  /** For Instances - Only one is accepted for now */
+  private def createTable[A: BigQueryTypesInstance](value: A, datasetName: String, tableName: String, timePartitionColumn: Option[String]): Either[BigQueryError, Table] = {
+    val schema = generateSchema[A](value)
+    tryTable(TableId.of(datasetName, tableName), generateTableDefinition(schema, timePartitionColumn))
+  }
 
   /** Giving a `TableId` and a `TableDefinition` tries to create the table in BigQuery
    *
@@ -50,7 +78,7 @@ object BigQueryTable {
     }
     tryTable.toEither.left.map {
       case bigQueryException: BigQueryException => bigQueryException.getError
-      case e: Exception => new BigQueryError("Unknown error", e.getClass.toString, e.getMessage)
+      case e: Exception => new BigQueryError("Unknown error, probably a Service Account is not configured", e.getClass.toString, e.getMessage)
     }
   }
 

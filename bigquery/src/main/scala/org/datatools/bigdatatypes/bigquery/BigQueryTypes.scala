@@ -32,12 +32,13 @@ object BigQueryTypes {
     }
 
   /** Instance derivation via SqlTypeConversion.
-    * Automatically converts camelCase names into snake_case in the process
     */
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypes[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
-  private def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
+  //TODO improving this and adding all the SqlType options will remove a warning and will allow a syntax like:
+  //TODO val myInt: Int = 5  -> BigQueryTypesInstance[Int].getBigQueryFields(myInt)
+  def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
       getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(basic.SqlStruct(records, mode))
@@ -63,7 +64,7 @@ object BigQueryTypes {
     case SqlTimestamp(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.TIMESTAMP).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlDate(mode) =>
-      Field.newBuilder(name, StandardSQLTypeName.DATETIME).setMode(sqlModeToBigQueryMode(mode)).build()
+      Field.newBuilder(name, StandardSQLTypeName.DATE).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlStruct(subType, mode) =>
       Field
         .newBuilder(name, StandardSQLTypeName.STRUCT, getSchema(SqlStruct(subType)): _*)
@@ -83,6 +84,6 @@ object BigQueryTypes {
    * @tparam A is a Case Class
    */
   implicit class BigQueryFieldSyntax[A <: Product](value: A) {
-    def getBigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.bigQueryFields
+    def bigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.bigQueryFields
   }
 }

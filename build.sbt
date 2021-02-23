@@ -61,7 +61,8 @@ lazy val root = (project in file("."))
   .aggregate(
     core,
     bigquery,
-    spark
+    spark,
+    examples
   )
 
 lazy val core = (project in file("core")).settings(
@@ -93,6 +94,24 @@ lazy val spark = (project in file("spark"))
     libraryDependencies ++= sparkDependencies
   )
   .dependsOn(core % "test->test;compile->compile")
+
+// Examples module for testing, with all modules included, not built
+lazy val examples = (project in file("examples"))
+  .settings(
+    name := projectName + "-examples",
+    noPublishSettings,
+    crossScalaVersions := List(scala212, scala213),
+    crossVersionSharedSources,
+    libraryDependencies ++= sparkDependencies //due to Spark provided dependencies
+  )
+  .dependsOn(core % "test->test;compile->compile")
+  .dependsOn(bigquery % "test->test;compile->compile")
+  .settings(
+    noPublishSettings,
+    crossScalaVersions := List(scala212)
+  )
+  .dependsOn(spark % "test->test;compile->compile")
+
 
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =

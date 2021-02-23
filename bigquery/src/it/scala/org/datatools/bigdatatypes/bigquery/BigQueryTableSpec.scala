@@ -1,7 +1,10 @@
 package org.datatools.bigdatatypes.bigquery
 
+import java.sql.{Date, Timestamp}
+
 import org.datatools.bigdatatypes.IntegrationSpec
 import org.datatools.bigdatatypes.DummyModels._
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 
 import scala.util.Right
@@ -111,5 +114,16 @@ class BigQueryTableSpec extends IntegrationSpec {
         "my_timestamp"
       )
       .isRight shouldBe true
+  }
+
+  "SqlType instance" should "create a BigQuery Table" in {
+    val sql = SqlTypeConversion[BasicTypes].getType
+    BigQueryTable.createTable(sql, dataset, "sqlType_table").isRight shouldBe true
+  }
+
+  it should "create a BigQuery Partitioned Table" in {
+    case class DummyDate(myInt: Int, myTimestamp: Timestamp, myDate: Date)
+    val sql = SqlTypeConversion[DummyDate].getType
+    BigQueryTable.createTable(sql, dataset, "sqlType_partitioned_table", "myTimestamp").isRight shouldBe true
   }
 }
