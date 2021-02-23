@@ -1,10 +1,9 @@
 package org.datatools.bigdatatypes.bigquery
 
-import org.datatools.bigdatatypes.DummyModels.BasicTypes
+import org.datatools.bigdatatypes.TestTypes.BasicTypes
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
-import org.datatools.bigdatatypes.types.basic.SqlType
 
 class BigQueryTableUnitSpec extends UnitSpec {
 
