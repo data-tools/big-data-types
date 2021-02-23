@@ -121,7 +121,7 @@ class BigQueryTableSpec extends IntegrationSpec {
     BigQueryTable.createTable(sql, dataset, "sqlType_table").isRight shouldBe true
   }
 
-  it should "create a BigQuery Partitioned Table" in {
+  ignore should "create a BigQuery Partitioned Table" in {
     case class DummyDate(myInt: Int, myTimestamp: Timestamp, myDate: Date)
     val sql = SqlTypeConversion[DummyDate].getType
     BigQueryTable.createTable(sql, dataset, "sqlType_partitioned_table", "myTimestamp").isRight shouldBe true
