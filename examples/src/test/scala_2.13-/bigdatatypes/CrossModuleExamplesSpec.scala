@@ -3,7 +3,7 @@ package bigdatatypes
 import org.apache.spark.sql.types.StructType
 import org.datatools.bigdatatypes.TestTypes._
 import org.datatools.bigdatatypes.{BigQueryTestTypes, TestTypes, UnitSpec}
-import org.datatools.bigdatatypes.bigquery.BigQueryTypesInstance
+import org.datatools.bigdatatypes.bigquery.{BigQueryTable, BigQueryTypesInstance}
 import org.datatools.bigdatatypes.bigquery.BigQueryTypesInstance._
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SparkTypes
@@ -36,7 +36,9 @@ class CrossModuleExamplesSpec extends UnitSpec {
   }
 
   "Spark Schema" should "create a Big Query Table" in {
-
+    val schema = SparkTypes[BasicTypes].sparkSchema
+    //Just an example, it will be left as there is no BigQuery Environment set up
+    BigQueryTable.createTable(schema, "dataset", "table").isLeft shouldBe true
   }
 
 

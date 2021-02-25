@@ -4,13 +4,26 @@
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.data-tools/big-data-types-core_2.13)
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 
-A library to transform Case Classes into Database schemas
+A library to transform Case Classes into Database schemas and to convert implemented types into another types
 
-This is a type safe library that converts basic Scala types and Case Classes into different database types and schemas using Shapeless, 
-making possible to extract a database schema from a Case Class and to work with Case Classes when writing,
-reading or creating tables in different databases. 
+This is a type safe library that converts basic Scala types and Case Classes into different database types and schemas using Shapeless,
+it also allows converting implemented types into another types, for example, an Spark Schema can be automatically converted into a BigQuery table,
+without having code that relates BigQuery and Spark.
 
-For now, it supports BigQuery and Spark.
+What we can do with this library:
+- BigQuery:
+    -- Create BigQuery Tables (or Schemas) using Case Classes
+    -- Apply custom transformations during conversion, e.g: convert field names from camelCase into snake_case
+- Spark: Create Spark Schemas from Case Classes
+- Transformations:
+    - On all modules, during a conversion (From Case Class to specific type) apply custom transformations. e.g: convert field names from camelCase into snake_case
+- Using multiple modules:
+    - Probably the most powerful thing of the library, any implemented type can be converted to any implemented type. e.g:
+    A Spark Schema can be converted into a BigQuery Table.
+    - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
+    they will get automatically conversions for the rest of the types
+
+For now, it supports **BigQuery** and **Spark**.
 
 
 - [Big Data Types](#big-data-types)
@@ -66,7 +79,7 @@ case class MyTable(field1: Int, field2: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 ```
 This also works with Structs, Lists and Options.
-See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/main/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
+See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/99b48ca00420f30ade37faa0ed03f5b464aa9e5e/bigquery/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
 
 ### Transform field names
 There is a `Format` object that allows us to decide how to transform field names, for example, changing CamelCase for snake case
@@ -253,7 +266,10 @@ schema =
 
 ---
 
-# Implicit Formats
+# Transformations
+Transformations can be applied easily during conversions. For example, field names can be modified.
+
+## Implicit Formats
 Formats can handle different configurations that we want to apply to schemas, like transforming field names, 
 defining precision for numeric types and so on.
 
@@ -261,7 +277,7 @@ For now, it only contains a possibility for field names transformations.
 
 They can be used by creating an implicit val with a Formats class or by importing one of the available implicit vals in `Formats` object 
 
-## DefaultFormats
+### DefaultFormats
 `DefaultFormats` is a trait that applies no transformation to field names
 To use it, you can create an implicit val:
 ```scala
@@ -274,7 +290,7 @@ import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 ```
 
 
-## SnakifyFormats
+### SnakifyFormats
 `SnakifyFormats` is a trait that converts camelCase field names to snake_case names
 To use it, you can create an implicit val:
 ```scala
@@ -286,7 +302,7 @@ or just import the one available:
 import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 ```
 
-## Creating a custom Formats
+### Creating a custom Formats
 Formats can be extended, so if we want to transform keys differently, for example adding a suffix to all of our fields
 ```scala
 import org.datatools.bigdatatypes.formats.Formats
@@ -296,3 +312,28 @@ trait SuffixFormats extends Formats {
 object SuffixFormats extends SuffixFormats
 ```
 All your field names will have "_at" at the end
+
+
+# Multiple Modules
+Importing more than one module can be a powerful tool as they have compatible transformations between them.
+
+For example, importing BigQuery and Spark will allow a conversion between them, making possible to create BigQuery Tables using Spark Schemas
+As an example:
+
+```scala
+//DataFrames
+val mySparkDataFrame: DataFrame = ???
+BigQueryTable.createTable(mySparkDataFrame, "dataset_name", "table_name")
+
+//Datasets
+val mySparkDataset: Dataset[A] = ???
+BigQueryTable.createTable(mySparkDataset, "dataset_name", "table_name")
+```
+Or we can just get the BigQuery Schema
+```scala
+val mySparkDataFrame: DataFrame = ???
+val bq: List[Field] = mySparkDataFrame.bigQueryFields
+```
+
+More examples can be found in [Tests of the Examples Module](https://github.com/data-tools/big-data-types/blob/44255f99d32293f83eee333760fc31c9bd0f0d02/examples/src/test/scala_2.13-/bigdatatypes/CrossModuleExamplesSpec.scala)
+
