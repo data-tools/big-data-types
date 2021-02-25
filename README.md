@@ -41,10 +41,12 @@ For now, it supports **BigQuery** and **Spark**.
     + [Create a Dataframe](#create-a-dataframe)
     + [Spark Schema from Multiple Case Classes](#spark-schema-from-multiple-case-classes)
   * [Field transformations](#field-transformations)
-- [Implicit Formats](#implicit-formats)
-  * [DefaultFormats](#defaultformats)
-  * [SnakifyFormats](#snakifyformats)
-  * [Creating a custom Formats](#creating-a-custom-formats)
+- [Transformations](#transformations)
+  * [Implicit Formats](#implicit-formats)
+    + [DefaultFormats](#defaultformats)
+    + [SnakifyFormats](#snakifyformats)
+    + [Creating a custom Formats](#creating-a-custom-formats)
+- [Multiple Modules](#multiple-modules)
 
 # Quick Start
 The library has different modules that can be imported separately
