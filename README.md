@@ -11,9 +11,7 @@ it also allows converting implemented types into another types, for example, an 
 without having code that relates BigQuery and Spark.
 
 What we can do with this library:
-- BigQuery:
-    -- Create BigQuery Tables (or Schemas) using Case Classes
-    -- Apply custom transformations during conversion, e.g: convert field names from camelCase into snake_case
+- BigQuery: Create BigQuery Tables (or Schemas) using Case Classes
 - Spark: Create Spark Schemas from Case Classes
 - Transformations:
     - On all modules, during a conversion (From Case Class to specific type) apply custom transformations. e.g: convert field names from camelCase into snake_case
