@@ -1,10 +1,12 @@
-name: ci-tests
+name: BigQuery-Integration
 
 on:
-  pull_request:
   push:
+    branches:
+      - main
 
 env:
+  BIG_QUERY_PROJECT: ${{ secrets.BIGQUERY_PROJECT }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
@@ -17,8 +19,14 @@ jobs:
         uses: olafurpg/setup-scala@v10
         with:
           java-version: "adopt@1.8"
-      - name: Build and Unit Tests
-        run: sbt -v -Dfile.encoding=UTF-8 +clean coverage +test
+      - name: Set up GCloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.BIGQUERY_PROJECT }}
+          service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT_64 }}
+          export_default_credentials: true
+      - name: Integration Tests
+        run: sbt -v -Dfile.encoding=UTF-8 coverage +it:test
       - name: Coverage Report
         run: sbt -v -Dfile.encoding=UTF-8 coverageReport
       - name: Codecov
