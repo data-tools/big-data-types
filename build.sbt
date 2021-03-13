@@ -5,7 +5,7 @@ version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.5"
-lazy val scala212 = "2.12.12"
+lazy val scala212 = "2.12.13"
 lazy val scala211 = "2.11.12"
 lazy val supportedScalaVersions = List(scala213, scala212)
 scalaVersion := scala212
@@ -43,16 +43,16 @@ lazy val coreDependencies = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.cloud" % "google-cloud-bigquery" % "1.127.4",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.127.8",
   scalatest % "it,test"
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.1.0" % Provided,
-  "org.apache.spark" %% "spark-sql" % "3.1.0" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.1.1" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.1.1" % Provided,
   scalatest % Test
 )
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.4"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.6"
 
 //Project settings
 lazy val root = (project in file("."))
