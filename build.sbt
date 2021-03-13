@@ -4,7 +4,7 @@ lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
-lazy val scala213 = "2.13.3"
+lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.13"
 lazy val scala211 = "2.11.12"
 lazy val supportedScalaVersions = List(scala213, scala212)
