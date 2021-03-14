@@ -20,7 +20,6 @@ object SqlTypeConversionSpark {
   implicit val longType: SqlTypeConversion[LongType] = SqlTypeConversion.instance(SqlLong())
   implicit val doubleType: SqlTypeConversion[DoubleType] = SqlTypeConversion.instance(SqlDouble())
   implicit val floatType: SqlTypeConversion[FloatType] = SqlTypeConversion.instance(SqlFloat())
-  //TODO use implicit Formats for default Decimal precision
   implicit val bigDecimalType: SqlTypeConversion[BigDecimal] = SqlTypeConversion.instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[BooleanType] = SqlTypeConversion.instance(SqlBool())
   implicit val stringType: SqlTypeConversion[StringType] = SqlTypeConversion.instance(SqlString())
@@ -50,7 +49,6 @@ object SqlTypeConversionSpark {
     def getType: SqlType = SqlInstanceConversion[StructField].getType(value)
   }
 
-  //TODO use implicit Formats for default Decimal precision
   /** Given a Spark DataType, converts it into a SqlType
     */
   @tailrec

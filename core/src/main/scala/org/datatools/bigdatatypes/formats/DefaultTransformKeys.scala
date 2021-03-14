@@ -1,8 +1,12 @@
 package org.datatools.bigdatatypes.formats
 
-//TODO add precision for Decimal types
 trait Formats {
+  /** Used to transform field names */
   def transformKeys(s: String): String
+
+  /** Define precision for BigDecimal types */
+  case class BigDecimalPrecision(precision: Int, scale:Int)
+  val bigDecimal: BigDecimalPrecision = BigDecimalPrecision(10, 0)
 }
 
 /** A list of predefined formats to be imported. Only one can be imported at the same time

@@ -1,3 +1,7 @@
+### Big Data Types v0.3.1
+
+- BigDecimal precision configurable via implicit Formats
+
 ### Big Data Types v0.3.0
 
 - Spark: Added reverse conversion (From Spark schemas to generic SqlTypes)

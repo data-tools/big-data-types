@@ -52,7 +52,6 @@ object SparkTypes {
   }
 
   /** Basic SqlTypes conversions to BigQuery Fields
-    * TODO: Use Formats to specify a default precision for DecimalType
     */
   private def getSchemaWithName(name: String, sqlType: SqlType)(implicit f: Formats): StructField = sqlType match {
     case SqlInt(mode) =>
@@ -64,7 +63,11 @@ object SparkTypes {
     case SqlDouble(mode) =>
       StructField(name, sparkType(mode, DoubleType), isNullable(mode))
     case SqlDecimal(mode) =>
-      StructField(name, sparkType(mode, DataTypes.createDecimalType), isNullable(mode))
+      StructField(
+        name,
+        sparkType(mode, DataTypes.createDecimalType(f.bigDecimal.precision, f.bigDecimal.scale)),
+        isNullable(mode)
+      )
     case SqlBool(mode) =>
       StructField(name, sparkType(mode, BooleanType), isNullable(mode))
     case SqlString(mode) =>
@@ -98,7 +101,7 @@ object SparkTypes {
     case Required => false
   }
 
-  /** Allows syntax .sparkSchema and .sparkFields for case classes instances
+  /** Extension method, allows syntax .sparkSchema and .sparkFields for case classes instances
     * @param value not used, needed for implicit
     * @tparam A is a Case Class
     */
