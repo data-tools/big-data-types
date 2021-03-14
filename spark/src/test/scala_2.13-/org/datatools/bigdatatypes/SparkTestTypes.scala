@@ -6,8 +6,6 @@ import org.apache.spark.sql.types.{ArrayType, BooleanType, DataTypes, DateType, 
   */
 object SparkTestTypes {
 
-  //TODO remove duplicated code
-
   val basicFields: Seq[StructField] =
     List(
       StructField("myInt", IntegerType, nullable = false),
