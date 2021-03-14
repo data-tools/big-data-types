@@ -1,6 +1,5 @@
 package org.datatools.bigdatatypes.formats
 
-//TODO add precision for Decimal types
 trait Formats {
   /** Used to transform field names */
   def transformKeys(s: String): String
