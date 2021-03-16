@@ -13,27 +13,27 @@ import org.datatools.bigdatatypes.types.basic._
   *
   * @tparam A the type we want to obtain an schema from
   */
-trait BigQueryTypes[A] {
+trait SqlTypeToBigQuery[A] {
 
   /** @return a list of [[Field]]s that represents [[A]]
     */
   def bigQueryFields: List[Field]
 }
 
-object BigQueryTypes {
+object SqlTypeToBigQuery {
 
   /** Summoner method. Allows the syntax */
-  def apply[A](implicit instance: BigQueryTypes[A]): BigQueryTypes[A] = instance
+  def apply[A](implicit instance: SqlTypeToBigQuery[A]): SqlTypeToBigQuery[A] = instance
 
   /** Factory constructor - allows easier construction of instances */
-  def instance[A](fs: List[Field]): BigQueryTypes[A] =
-    new BigQueryTypes[A] {
+  def instance[A](fs: List[Field]): SqlTypeToBigQuery[A] =
+    new SqlTypeToBigQuery[A] {
       def bigQueryFields: List[Field] = fs
     }
 
   /** Instance derivation via SqlTypeConversion.
     */
-  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): BigQueryTypes[A] =
+  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SqlTypeToBigQuery[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
   //TODO improving this and adding all the SqlType options will remove a warning and will allow a syntax like:
@@ -84,6 +84,6 @@ object BigQueryTypes {
    * @tparam A is a Case Class
    */
   implicit class BigQueryFieldSyntax[A <: Product](value: A) {
-    def bigQueryFields(implicit a: BigQueryTypes[A]): List[Field] = a.bigQueryFields
+    def bigQueryFields(implicit a: SqlTypeToBigQuery[A]): List[Field] = a.bigQueryFields
   }
 }

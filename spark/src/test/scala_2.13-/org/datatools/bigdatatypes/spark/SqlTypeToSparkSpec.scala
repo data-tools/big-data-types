@@ -4,11 +4,11 @@ import org.apache.spark.sql.types._
 import org.datatools.bigdatatypes.TestTypes._
 import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
-import org.datatools.bigdatatypes.spark.SparkTypes._
+import org.datatools.bigdatatypes.spark.SqlTypeToSpark._
 
 /** All conversions from Case Class to Spark Schemas
   */
-class SparkTypesSpec extends UnitSpec {
+class SqlTypeToSparkSpec extends UnitSpec {
 
   implicit val defaultFormats: Formats = DefaultFormats
 
@@ -61,8 +61,8 @@ class SparkTypesSpec extends UnitSpec {
   }
 
   "A Case Class type" should "return Spark Fields" in {
-    SparkTypes[Dummy].sparkSchema shouldBe expectedSchema
-    SparkTypes[Dummy].sparkFields shouldBe expectedFields
+    SqlTypeToSpark[Dummy].sparkSchema shouldBe expectedSchema
+    SqlTypeToSpark[Dummy].sparkFields shouldBe expectedFields
     SparkSchemas.schema[Dummy] shouldBe expectedSchema
     SparkSchemas.fields[Dummy] shouldBe expectedFields
   }

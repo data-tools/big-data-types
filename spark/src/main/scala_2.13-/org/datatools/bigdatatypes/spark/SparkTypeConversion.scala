@@ -1,7 +1,7 @@
 package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
-import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
+import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.types.basic._
 
@@ -10,7 +10,7 @@ import scala.annotation.tailrec
 /** Using SqlTypeConversion and SqlInstanceConversion type classes,
   * here are defined all the conversions to transform Spark Schemas into [[SqlType]]s
   */
-object SqlTypeConversionSpark {
+object SparkTypeConversion {
 
   type Record = (String, SqlType)
 
