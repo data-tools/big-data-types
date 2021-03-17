@@ -51,7 +51,7 @@ object SqlTypeToSpark {
       getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 
-  /** Basic SqlTypes conversions to BigQuery Fields
+  /** Basic SqlTypes conversions to Spark Types
     */
   private def getSchemaWithName(name: String, sqlType: SqlType)(implicit f: Formats): StructField = sqlType match {
     case SqlInt(mode) =>

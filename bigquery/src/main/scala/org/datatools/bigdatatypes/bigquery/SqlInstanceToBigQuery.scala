@@ -39,7 +39,7 @@ object SqlInstanceToBigQuery {
     }
 
   /** Simplify syntax for SqlType, allows:
-    * BigQueryTypesInstance[SqlType].bigQueryFields(mySqlTypeInstance)
+    * SqlInstanceToBigQuery[SqlType].bigQueryFields(mySqlTypeInstance)
     */
   implicit def fieldsFromSqlType(implicit f: Formats): SqlInstanceToBigQuery[SqlType] =
     new SqlInstanceToBigQuery[SqlType] {
