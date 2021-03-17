@@ -12,7 +12,7 @@ This is a guide on how to add a new type to the library
       - [Defining the syntax](#defining-the-syntax)
       - [Implementing the Type Class](#implementing-the-type-class)
         * [Mode inside Types](#mode-inside-types)
-          + [Everything together](#everything-together)
+      - [Everything together](#everything-together)
     + [Conversion: Type Class - SqlInstance -> New Type](#conversion--type-class---sqlinstance----new-type)
     + [Reverse conversion, Type Class implementation](#reverse-conversion--type-class-implementation)
     + [Type Conversion](#type-conversion)
@@ -231,7 +231,7 @@ In case of structs with Arrays like Spark, we use something like:
 ```
 Where if the mode is not repeated, we return the value, if it's repeated, we create an array with the value.
 
-###### Everything together
+#### Everything together
 Finally, we create a method that derives the instance from `SqlType` into our type, using our new methods. As simple as:
 ```scala
   /** Instance derivation via SqlTypeConversion.
