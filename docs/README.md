@@ -1,3 +1,23 @@
+This is a guide on how to add a new type to the library
+
+- [How to develop a new type](#how-to-develop-a-new-type)
+  * [How it works](#how-it-works)
+    + [SqlType ADT](#sqltype-adt)
+    + [Conversion / Reverse Conversion](#conversion---reverse-conversion)
+      - [Conversion](#conversion)
+      - [Reverse Conversion](#reverse-conversion)
+  * [How to do it](#how-to-do-it)
+    + [Create a new subproject in SBT](#create-a-new-subproject-in-sbt)
+    + [Conversion: Type Class - SqlType -> New Type](#conversion--type-class---sqltype----new-type)
+      - [Defining the syntax](#defining-the-syntax)
+      - [Implementing the Type Class](#implementing-the-type-class)
+        * [Mode inside Types](#mode-inside-types)
+          + [Everything together](#everything-together)
+    + [Conversion: Type Class - SqlInstance -> New Type](#conversion--type-class---sqlinstance----new-type)
+    + [Reverse conversion, Type Class implementation](#reverse-conversion--type-class-implementation)
+    + [Type Conversion](#type-conversion)
+
+
 # How to develop a new type
 
 Adding a new type to the library will allow conversions from any developed type into the new one 
@@ -137,6 +157,7 @@ As the types usually can be recursive (nested objects) we can start defining a m
 - Will take an SqlType 
 - Will use implicit `Formats` as an optional key transformation
 - Will return our desired type
+
 ```scala
   /** Creates the schema (list of fields)
     * Applies an implicit [[Formats.transformKeys]] in the process
@@ -322,6 +343,9 @@ mySparkSchema.myNewType
 Implement `SqlTypeConversion` type class to have conversion from the new type to `SqlType` 
 
 ### Type Conversion
+
+
+Work in progress ... sorry about that
 
 
 
