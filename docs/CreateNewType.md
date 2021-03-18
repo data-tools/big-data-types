@@ -406,6 +406,7 @@ object SparkTypeConversion {
 `inheritMode` can be confusing, but it is only to make the method tailrec
 
 - One last (optional) step. If we want to make the usage easier, we can create an _extension method_
+
 ```scala
   /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
     * @param value in a StructType (Spark Schema)
