@@ -24,9 +24,12 @@ What we can do with this library:
 
 For now, it supports **BigQuery** and **Spark**.
 
+Check also [how to create a new type](./docs/CreateNewType.md) for the library
+
 
 - [Big Data Types](#big-data-types)
 - [Quick Start](#quick-start)
+- [How it works](#how-it-works)
 - [BigQuery](#bigquery)
   * [Create BigQuery Tables](#create-bigquery-tables)
     + [Transform field names](#transform-field-names)
