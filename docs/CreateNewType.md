@@ -1,21 +1,21 @@
 This is a guide on how to add a new type to the library
 
 - [How to develop a new type](#how-to-develop-a-new-type)
-  * [How it works](#how-it-works)
-    + [SqlType ADT](#sqltype-adt)
-    + [Conversion / Reverse Conversion](#conversion---reverse-conversion)
-      - [Conversion](#conversion)
-      - [Reverse Conversion](#reverse-conversion)
-  * [How to do it](#how-to-do-it)
-    + [Create a new subproject in SBT](#create-a-new-subproject-in-sbt)
-    + [Conversion: Type Class - SqlType -> New Type](#conversion--type-class---sqltype----new-type)
-      - [Defining the syntax](#defining-the-syntax)
-      - [Implementing the Type Class](#implementing-the-type-class)
-        * [Mode inside Types](#mode-inside-types)
-      - [Everything together](#everything-together)
-    + [Conversion: SqlInstance -> New Type](#conversion--sqlinstance----new-type)
-    + [Reverse conversion: New Type -> SqlType](#reverse-conversion--new-type----sqltype)
-    + [Everything together](#everything-together-1)
+- [How it works](#how-it-works)
+  * [SqlType ADT](#sqltype-adt)
+  * [Conversion / Reverse Conversion](#conversion---reverse-conversion)
+    + [Conversion](#conversion)
+    + [Reverse Conversion](#reverse-conversion)
+- [How to do it](#how-to-do-it)
+  * [Create a new subproject in SBT](#create-a-new-subproject-in-sbt)
+  * [Conversion: Type Class - SqlType -> New Type](#conversion--type-class---sqltype----new-type)
+    + [Defining the syntax](#defining-the-syntax)
+    + [Implementing the Type Class](#implementing-the-type-class)
+      - [Mode inside Types](#mode-inside-types)
+    + [Everything together](#everything-together)
+  * [Conversion: SqlInstance -> New Type](#conversion--sqlinstance----new-type)
+  * [Reverse conversion: New Type -> SqlType](#reverse-conversion--new-type----sqltype)
+  * [Everything together](#everything-together-1)
 
 
 # How to develop a new type
@@ -23,7 +23,7 @@ This is a guide on how to add a new type to the library
 Adding a new type to the library will allow conversions from any developed type into the new one 
 and from the new one into any of the others
 
-## How it works
+# How it works
 
 There is an ADT (sealed trait) called `SqlType` that is used as a generic type for any transformation. 
 It works as a bridge, so any developed type can be transformed into SqlType and SqlType can be converted into specific types.
@@ -37,7 +37,7 @@ An important note of nomenclature:
 - We call `Conversion` to anything that converts `into the geneic SqlType`
 - We call `Reverse Conversion` to anything that converts `from generic SqlType into specific`
 
-### SqlType ADT
+## SqlType ADT
 [SqlType](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala/org/datatools/bigdatatypes/types/basic/SqlType.scala) 
 is an Algebraic Data Type that aims to generalize all the cases that we can have from different types. 
 
@@ -47,13 +47,13 @@ It consists in a few case class with a `Mode` (Nullable, Required or Repeated) a
 map of `String` and `SqlType`, being the String the name of the "field"
 
 
-### Conversion / Reverse Conversion
+## Conversion / Reverse Conversion
 There are 2 type of conversions that we should cover
 
 - `Conversion` = Generic SqlType -> Our Type
 - `Reverse Conversion` = Our type -> Generic SqlType
 
-#### Conversion 
+### Conversion 
 `SqlType -> our type` = `All types -> our type`
 For the _normal_ _Conversion_ we have to create two new _Type Classes_ 
 The **Core** of the library already have a _Type Class_ that converts Case Classes into `SqlTypes` so our new _Type Classes_ only need to derive from there.
@@ -64,7 +64,7 @@ The **Core** of the library already have a _Type Class_ that converts Case Class
 
 One will be based on the other one, so don't worry, one will be really short.
 
-#### Reverse Conversion
+### Reverse Conversion
 `our type -> SqlType` = `our type -> all types`
 
 In order to implement the conversion from our new type to `SqlType` we have to implement 
@@ -73,12 +73,12 @@ an existing _Type Class_ called `SqlTypeConversion`
 By doing this, we will get automatically conversion to the rest of the types of the library
 
 
-## How to do it
+# How to do it
 
 As covered in [Conversion](#conversion), we have to implement 2 types classes, one for types, another for instances.
 Both will derive `SqlTypeConversion` type class into our specific type and by doing so, we will get automatically all conversions into our new type
 
-### Create a new subproject in SBT
+## Create a new subproject in SBT
 For a new type, we need a new submodule in SBT, by doing so, we don't force anyone to import all implemented types in the library, so anyone can pick only the types that is interested in
 
 An example from Spark. This defines a new module `big-data-types-spark`.
@@ -118,9 +118,9 @@ lazy val root = (project in file("."))
 
 Now, you can create a new root folder with your type name with the typical structure (src/main/scala_ ...)
 
-### Conversion: Type Class - SqlType -> New Type
+## Conversion: Type Class - SqlType -> New Type
 
-#### Defining the syntax
+### Defining the syntax
 - First, create a new package called something like `org.datatools.bigdatatypes.{mynewtype}`
 - Add the Type Class (trait) with a method `() => A` being `A` our new type/schema
 For example:
@@ -135,7 +135,7 @@ trait SqlTypeToSpark[A] {
 In this case, `sparkFields` will be the name of the method that we will use to obtain our new type. 
 Pick a representative name but don't worry too much, at the end we can create a wrapper class that we'll use our _Type Class_.
 
-#### Implementing the Type Class
+### Implementing the Type Class
 We can start by creating a companion object with `apply` and a factory constructor that will make easier construction of instances
 ````scala
 object SqlTypeToSpark {
@@ -205,7 +205,7 @@ Same example from Spark:
 
 We have to understand `Mode` at this point.
 
-##### Mode inside Types
+#### Mode inside Types
 There are different ways to handle Arrays or repeated values in a structure and two are the most common.
 - Define a Mode that can be `Nullable`, `Required` or `Repeated` (this how `SqlType` works).
 -- An Array will look like a normal type with `Repeated` mode -> e.g: `SqlInt(mode = Repeated)`
@@ -231,7 +231,7 @@ In case of structs with Arrays like Spark, we use something like:
 ```
 Where if the mode is not repeated, we return the value, if it's repeated, we create an array with the value.
 
-#### Everything together
+### Everything together
 Finally, we create a method that derives the instance from `SqlType` into our type, using our new methods. As simple as:
 ```scala
   /** Instance derivation via SqlTypeConversion.
@@ -260,7 +260,7 @@ but we also want to convert other types that live only in the running phase, lik
 e.g: An Spark Schema is not just a type, it's an instance of StructType, so we need to pass an instance to our new converter
 
 
-### Conversion: SqlInstance -> New Type
+## Conversion: SqlInstance -> New Type
 
 This will be quick as we already have methods that convert an `SqlType` into our new type, so we only need to extend them to accept an instance as argument
 
@@ -338,7 +338,7 @@ anyInstance.myNewType
 mySparkSchema.myNewType
 ```
 
-### Reverse conversion: New Type -> SqlType
+## Reverse conversion: New Type -> SqlType
 In this case we don't have to create a new Type Class, we have to implement the existing one with our concrete specification.
 
 Implement [SqlTypeConversion](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala/org/datatools/bigdatatypes/conversions/SqlTypeConversion.scala) type class to have conversion from the new type to `SqlType` 
@@ -419,7 +419,7 @@ This method will allow any instance of the library to obtain our new type
 And, that's it! We have a way to convert our new type into `SqlType`, but what does mean? 
 It means that _**we can import any other type from the library and convert our new type into any of the others.**_
 
-### Everything together
+## Everything together
 Recap: 
  - We have 2 new type classes that converts `SqlType` into our new type
     - The syntax can be confusing, but remember that probably no one will use an explicit conversion from `SqlType` into our new Type.
