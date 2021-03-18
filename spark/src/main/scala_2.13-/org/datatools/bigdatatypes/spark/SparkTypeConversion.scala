@@ -1,7 +1,7 @@
 package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
-import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
+import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.types.basic._
 
@@ -10,7 +10,7 @@ import scala.annotation.tailrec
 /** Using SqlTypeConversion and SqlInstanceConversion type classes,
   * here are defined all the conversions to transform Spark Schemas into [[SqlType]]s
   */
-object SqlTypeConversionSpark {
+object SparkTypeConversion {
 
   type Record = (String, SqlType)
 
@@ -35,16 +35,16 @@ object SqlTypeConversionSpark {
   implicit val structType: SqlInstanceConversion[StructType] =
     (value: StructType) => SqlStruct(loopStructType(value))
 
-  /** Syntactic sugars for Spark schemas into SqlTypes */
+  /** Extension methods for Spark schemas into SqlTypes */
 
-  /** Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+  /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
     * @param value in a StructType (Spark Schema)
     */
   implicit class StructTypeSyntax(value: StructType) {
     def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
   }
 
-  /** Enables myField: StructField -> myField.getType */
+  /** Extension method. Enables myField: StructField -> myField.getType */
   implicit class StructFieldSyntax(value: StructField) {
     def getType: SqlType = SqlInstanceConversion[StructField].getType(value)
   }

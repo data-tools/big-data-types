@@ -2,12 +2,12 @@ package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
 import org.datatools.bigdatatypes.formats.{Formats, SnakifyFormats}
-import org.datatools.bigdatatypes.spark.SparkTypes._
+import org.datatools.bigdatatypes.spark.SqlTypeToSpark._
 import org.datatools.bigdatatypes.UnitSpec
 
 /** Testing implicit formats
   */
-class SparkTypesImplicitFormatsSpec extends UnitSpec {
+class SqlTypeToSparkImplicitFormatsSpec extends UnitSpec {
 
   behavior of "SparkTypesImplicitFormatsSpec"
 

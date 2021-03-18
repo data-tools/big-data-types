@@ -32,34 +32,34 @@ private[bigquery] object BigQueryDefinitions {
 
   /** Generates a BigQuery Table Schema given a type A
    */
-  def generateSchema[A: BigQueryTypes]: Schema = Schema.of(toJava(BigQueryTypes[A].bigQueryFields))
+  def generateSchema[A: SqlTypeToBigQuery]: Schema = Schema.of(toJava(SqlTypeToBigQuery[A].bigQueryFields))
 
-  def generateSchema[A: BigQueryTypes, B: BigQueryTypes]: Schema =
-    Schema.of(toJava(BigQueryTypes[A].bigQueryFields ++ BigQueryTypes[B].bigQueryFields))
+  def generateSchema[A: SqlTypeToBigQuery, B: SqlTypeToBigQuery]: Schema =
+    Schema.of(toJava(SqlTypeToBigQuery[A].bigQueryFields ++ SqlTypeToBigQuery[B].bigQueryFields))
 
-  def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes]: Schema =
-    Schema.of(toJava(BigQueryTypes[A].bigQueryFields ++ BigQueryTypes[B].bigQueryFields ++ BigQueryTypes[C].bigQueryFields))
+  def generateSchema[A: SqlTypeToBigQuery, B: SqlTypeToBigQuery, C: SqlTypeToBigQuery]: Schema =
+    Schema.of(toJava(SqlTypeToBigQuery[A].bigQueryFields ++ SqlTypeToBigQuery[B].bigQueryFields ++ SqlTypeToBigQuery[C].bigQueryFields))
 
-  def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes]: Schema =
+  def generateSchema[A: SqlTypeToBigQuery, B: SqlTypeToBigQuery, C: SqlTypeToBigQuery, D: SqlTypeToBigQuery]: Schema =
     Schema.of(
-      toJava(BigQueryTypes[A].bigQueryFields ++
-        BigQueryTypes[B].bigQueryFields ++
-        BigQueryTypes[C].bigQueryFields ++
-        BigQueryTypes[D].bigQueryFields)
+      toJava(SqlTypeToBigQuery[A].bigQueryFields ++
+        SqlTypeToBigQuery[B].bigQueryFields ++
+        SqlTypeToBigQuery[C].bigQueryFields ++
+        SqlTypeToBigQuery[D].bigQueryFields)
     )
 
-  def generateSchema[A: BigQueryTypes, B: BigQueryTypes, C: BigQueryTypes, D: BigQueryTypes, E: BigQueryTypes]: Schema =
+  def generateSchema[A: SqlTypeToBigQuery, B: SqlTypeToBigQuery, C: SqlTypeToBigQuery, D: SqlTypeToBigQuery, E: SqlTypeToBigQuery]: Schema =
     Schema.of(
-      toJava(BigQueryTypes[A].bigQueryFields ++
-        BigQueryTypes[B].bigQueryFields ++
-        BigQueryTypes[C].bigQueryFields ++
-        BigQueryTypes[D].bigQueryFields ++
-        BigQueryTypes[E].bigQueryFields)
+      toJava(SqlTypeToBigQuery[A].bigQueryFields ++
+        SqlTypeToBigQuery[B].bigQueryFields ++
+        SqlTypeToBigQuery[C].bigQueryFields ++
+        SqlTypeToBigQuery[D].bigQueryFields ++
+        SqlTypeToBigQuery[E].bigQueryFields)
     )
 
   /** For BigQueryTypesInstance
     * Multiples instances not supported for now
     */
-  def generateSchema[A: BigQueryTypesInstance](value: A): Schema = Schema.of(toJava(BigQueryTypesInstance[A].bigQueryFields(value)))
+  def generateSchema[A: SqlInstanceToBigQuery](value: A): Schema = Schema.of(toJava(SqlInstanceToBigQuery[A].bigQueryFields(value)))
 
 }

@@ -11,7 +11,7 @@ import org.datatools.bigdatatypes.types.basic._
   *
   * @tparam A the type we want to obtain an schema from
   */
-trait SparkTypes[A] {
+trait SqlTypeToSpark[A] {
 
   /** @return a list of [[StructField]]s that represents [[A]]
     */
@@ -23,20 +23,20 @@ trait SparkTypes[A] {
   def sparkSchema: StructType = StructType(sparkFields)
 }
 
-object SparkTypes {
+object SqlTypeToSpark {
 
   /** Summoner method. Allows the syntax */
-  def apply[A](implicit instance: SparkTypes[A]): SparkTypes[A] = instance
+  def apply[A](implicit instance: SqlTypeToSpark[A]): SqlTypeToSpark[A] = instance
 
   /** Factory constructor - allows easier construction of instances */
-  def instance[A](fs: List[StructField]): SparkTypes[A] =
-    new SparkTypes[A] {
+  def instance[A](fs: List[StructField]): SqlTypeToSpark[A] =
+    new SqlTypeToSpark[A] {
       def sparkFields: List[StructField] = fs
     }
 
   /** Instance derivation via SqlTypeConversion.
     */
-  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SparkTypes[A] =
+  implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SqlTypeToSpark[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
   /** Creates the schema (list of fields)
@@ -51,7 +51,7 @@ object SparkTypes {
       getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 
-  /** Basic SqlTypes conversions to BigQuery Fields
+  /** Basic SqlTypes conversions to Spark Types
     */
   private def getSchemaWithName(name: String, sqlType: SqlType)(implicit f: Formats): StructField = sqlType match {
     case SqlInt(mode) =>
@@ -106,7 +106,7 @@ object SparkTypes {
     * @tparam A is a Case Class
     */
   implicit class SparkSchemaSyntax[A <: Product](value: A) {
-    def sparkSchema(implicit a: SparkTypes[A]): StructType = a.sparkSchema
-    def sparkFields(implicit a: SparkTypes[A]): List[StructField] = a.sparkFields
+    def sparkSchema(implicit a: SqlTypeToSpark[A]): StructType = a.sparkSchema
+    def sparkFields(implicit a: SqlTypeToSpark[A]): List[StructField] = a.sparkFields
   }
 }
