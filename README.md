@@ -66,7 +66,8 @@ libraryDependencies += "io.github.data-tools" % "big-data-types-core_2.13" % "{v
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red)
  and ![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) are available in Maven
 
-
+# How it works
+Check the [complete guide on how to create a new type](./docs/CreateNewType.md) to understand how the library works internally
  
 # BigQuery
 
