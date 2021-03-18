@@ -35,16 +35,16 @@ object SparkTypeConversion {
   implicit val structType: SqlInstanceConversion[StructType] =
     (value: StructType) => SqlStruct(loopStructType(value))
 
-  /** Syntactic sugars for Spark schemas into SqlTypes */
+  /** Extension methods for Spark schemas into SqlTypes */
 
-  /** Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+  /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
     * @param value in a StructType (Spark Schema)
     */
   implicit class StructTypeSyntax(value: StructType) {
     def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
   }
 
-  /** Enables myField: StructField -> myField.getType */
+  /** Extension method. Enables myField: StructField -> myField.getType */
   implicit class StructFieldSyntax(value: StructField) {
     def getType: SqlType = SqlInstanceConversion[StructField].getType(value)
   }

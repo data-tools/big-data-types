@@ -13,9 +13,9 @@ This is a guide on how to add a new type to the library
       - [Implementing the Type Class](#implementing-the-type-class)
         * [Mode inside Types](#mode-inside-types)
       - [Everything together](#everything-together)
-    + [Conversion: Type Class - SqlInstance -> New Type](#conversion--type-class---sqlinstance----new-type)
-    + [Reverse conversion, Type Class implementation](#reverse-conversion--type-class-implementation)
-    + [Type Conversion](#type-conversion)
+    + [Conversion: SqlInstance -> New Type](#conversion--sqlinstance----new-type)
+    + [Reverse conversion: New Type -> SqlType](#reverse-conversion--new-type----sqltype)
+    + [Everything together](#everything-together-1)
 
 
 # How to develop a new type
@@ -260,7 +260,7 @@ but we also want to convert other types that live only in the running phase, lik
 e.g: An Spark Schema is not just a type, it's an instance of StructType, so we need to pass an instance to our new converter
 
 
-### Conversion: Type Class - SqlInstance -> New Type
+### Conversion: SqlInstance -> New Type
 
 This will be quick as we already have methods that convert an `SqlType` into our new type, so we only need to extend them to accept an instance as argument
 
@@ -338,14 +338,110 @@ anyInstance.myNewType
 mySparkSchema.myNewType
 ```
 
+### Reverse conversion: New Type -> SqlType
+In this case we don't have to create a new Type Class, we have to implement the existing one with our concrete specification.
 
-### Reverse conversion, Type Class implementation
-Implement `SqlTypeConversion` type class to have conversion from the new type to `SqlType` 
+Implement [SqlTypeConversion](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala/org/datatools/bigdatatypes/conversions/SqlTypeConversion.scala) type class to have conversion from the new type to `SqlType` 
+It looks like this:
+```scala
+trait SqlTypeConversion[-A] {
 
-### Type Conversion
+  def getType: SqlType
+}
+```
 
+We can get an example of implementations from the same file, where Scala Types are being converted into SqlTypes like this:
+```scala
+implicit val intType: SqlTypeConversion[Int] = instance(SqlInt())
+implicit val longType: SqlTypeConversion[Long] = instance(SqlLong())
+implicit val doubleType: SqlTypeConversion[Double] = instance(SqlDouble())
+```
+As we did before, `SqlTypeConversion` already have a factory constructor called `instance()` that will make constructions of SqlTypes easier
 
-Work in progress ... sorry about that
+So, let's go to our code. 
+
+- First, create a new object called `MyNewTypeConversion`, and add the basic type conversions (we don't care about names at this moment), like the one from Spark:
+```scala
+object SparkTypeConversion {
+
+  /** SqlTypeConversion type class specifications for simple types
+    */
+  implicit val intType: SqlTypeConversion[IntegerType] = SqlTypeConversion.instance(SqlInt())
+  implicit val longType: SqlTypeConversion[LongType] = SqlTypeConversion.instance(SqlLong())
+  implicit val doubleType: SqlTypeConversion[DoubleType] = SqlTypeConversion.instance(SqlDouble())
+```
+
+- Probably we use an instance of our type, for example, in Spark, we have `StructField` and `StructType` as instances, so we cover them using `SqlInstanceConversion` _Type Class_
+```scala
+  implicit val structField: SqlInstanceConversion[StructField] =
+    (value: StructField) => convertSparkType(value.dataType, value.nullable)
+
+  implicit val structType: SqlInstanceConversion[StructType] =
+    (value: StructType) => SqlStruct(loopStructType(value))
+``` 
+`convertSparkType` and `loopSructType` are just methods that generate our types, see the example below:
+
+```scala
+  /** Given a Spark DataType, converts it into a SqlType
+    */
+  @tailrec
+  private def convertSparkType(dataType: DataType,
+                               nullable: Boolean,
+                               inheritMode: Option[SqlTypeMode] = None
+  ): SqlType = dataType match {
+    case IntegerType             => SqlInt(inheritMode.getOrElse(isNullable(nullable)))
+    case LongType                => SqlLong(inheritMode.getOrElse(isNullable(nullable)))
+    case DoubleType              => SqlDouble(inheritMode.getOrElse(isNullable(nullable)))
+    case FloatType               => SqlFloat(inheritMode.getOrElse(isNullable(nullable)))
+    case DecimalType()           => SqlDecimal(inheritMode.getOrElse(isNullable(nullable)))
+    case BooleanType             => SqlBool(inheritMode.getOrElse(isNullable(nullable)))
+    case StringType              => SqlString(inheritMode.getOrElse(isNullable(nullable)))
+    case TimestampType           => SqlTimestamp(inheritMode.getOrElse(isNullable(nullable)))
+    case DateType                => SqlDate(inheritMode.getOrElse(isNullable(nullable)))
+    case ArrayType(basicType, _) => convertSparkType(basicType, nullable, Some(Repeated))
+    case StructType(fields) =>
+      SqlStruct(loopStructType(StructType(fields)), inheritMode.getOrElse(isNullable(nullable)))
+  }
+```
+`inheritMode` can be confusing, but it is only to make the method tailrec
+
+- One last (optional) step. If we want to make the usage easier, we can create an _extension method_
+```scala
+  /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+    * @param value in a StructType (Spark Schema)
+    */
+  implicit class StructTypeSyntax(value: StructType) {
+    def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
+  }
+```
+This method will allow any instance of the library to obtain our new type
+
+And, that's it! We have a way to convert our new type into `SqlType`, but what does mean? 
+It means that _**we can import any other type from the library and convert our new type into any of the others.**_
+
+### Everything together
+Recap: 
+ - We have 2 new type classes that converts `SqlType` into our new type
+    - The syntax can be confusing, but remember that probably no one will use an explicit conversion from `SqlType` into our new Type.
+ - We have the specification of `SqlTypeConversion` and `SqlInstanceConversion` that converts our new type into `SqlType`
+ 
+For the latter, we could create a _Wrapper_ that will add some custom features or improve the syntax.
+ 
+In the case of Spark, we have an object that allows us to do a simple thing like `SparkSchemas.schema[MyCaseClass]` and also gives us the ability to concatenate case classes
+ ```scala
+object SparkSchemas {
+  def schema[A: SqlTypeToSpark]: StructType = SqlTypeToSpark[A].sparkSchema
+  def schema[A: SqlTypeToSpark, B: SqlTypeToSpark]: StructType = StructType(fields[A, B])
+
+  def fields[A: SqlTypeToSpark]: List[StructField] = SqlTypeToSpark[A].sparkFields
+  def fields[A: SqlTypeToSpark, B: SqlTypeToSpark]: List[StructField] = SqlTypeToSpark[A].sparkFields ++ SqlTypeToSpark[B].sparkFields
+}
+```
+ 
+
+That's all!
+
+Feel free to contribute, open issues, discussions or give feedback
 
 
 
