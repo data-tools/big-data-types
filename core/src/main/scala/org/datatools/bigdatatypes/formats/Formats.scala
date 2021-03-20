@@ -1,8 +1,13 @@
 package org.datatools.bigdatatypes.formats
 
+import org.datatools.bigdatatypes.types.basic.SqlType
+
 trait Formats {
   /** Used to transform field names */
-  def transformKeys(s: String): String
+  def transformKey(name: String): String = name
+
+  /** Used to transform field names based on their type */
+  def transformKey[A <: SqlType](name: String, t: A): String = name
 
   /** Define precision for BigDecimal types */
   case class BigDecimalPrecision(precision: Int, scale:Int)
@@ -20,18 +25,8 @@ object Formats {
   */
 trait DefaultFormats extends Formats {
 
-  override def transformKeys(key: String): String = key
+  override def transformKey(name: String): String = name
 }
 object DefaultFormats extends DefaultFormats
 
-/** Converts CamelCase field names to snake_case
-  */
-trait SnakifyFormats extends Formats {
 
-  override def transformKeys(key: String): String = key
-    .replaceAll("([A-Z]+)([A-Z][a-z])", "$1_$2")
-    .replaceAll("([a-z\\d])([A-Z])", "$1_$2")
-    .toLowerCase
-}
-
-object SnakifyFormats extends SnakifyFormats

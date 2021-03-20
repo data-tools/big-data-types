@@ -40,7 +40,8 @@ object SqlTypeToSpark {
     instance(getSchema(SqlTypeConversion[A].getType))
 
   /** Creates the schema (list of fields)
-    * Applies an implicit [[Formats.transformKeys]] in the process
+    * Applies an implicit [[Formats.transformKey]] in the process
+ *
     * @param sqlType [[SqlType]]
     * @param f [[Formats]] to apply while constructing the schema
     * @return List of [[StructField]] representing the schema of the given type
@@ -48,7 +49,7 @@ object SqlTypeToSpark {
   private def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
-      getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(SqlStruct(records, mode))
+      getSchemaWithName(f.transformKey(name), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 
   /** Basic SqlTypes conversions to Spark Types

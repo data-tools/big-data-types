@@ -41,7 +41,7 @@ object SqlTypeToBigQuery {
   def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
-      getSchemaWithName(f.transformKeys(name), sqlType) :: getSchema(basic.SqlStruct(records, mode))
+      getSchemaWithName(f.transformKey(name), sqlType) :: getSchema(basic.SqlStruct(records, mode))
   }
 
   /** Basic SqlTypes conversions to BigQuery Fields
