@@ -310,7 +310,7 @@ Formats can be extended, so if we want to transform keys differently, for exampl
 ```scala
 import org.datatools.bigdatatypes.formats.Formats
 trait SuffixFormats extends Formats {
-  override def transformKeys(key: String): String = key + "_at"
+  override transformKey[A <: SqlType](name: String, t: A): String = key + "_at"
 }
 object SuffixFormats extends SuffixFormats
 ```
