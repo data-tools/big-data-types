@@ -1,6 +1,7 @@
 ### Big Data Types v0.3.1
 
 - BigDecimal precision configurable via implicit Formats
+- Changed Key transformation in `Formats`, now key transformations can be based on types
 
 ### Big Data Types v0.3.0
 

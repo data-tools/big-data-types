@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.formats
 
-import org.datatools.bigdatatypes.types.basic.{SqlBool, SqlDate, SqlInt, SqlTimestamp, SqlType}
+import org.datatools.bigdatatypes.types.basic.{SqlBool, SqlDate, SqlTimestamp, SqlType}
 
 /** Converts CamelCase field names to snake_case
   */
@@ -14,3 +14,5 @@ trait KeyTypeExampleFormats extends Formats {
     case _                            => name
   }
 }
+
+object KeyTypeExampleFormats extends KeyTypeExampleFormats

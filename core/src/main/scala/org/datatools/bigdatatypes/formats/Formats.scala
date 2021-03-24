@@ -3,8 +3,6 @@ package org.datatools.bigdatatypes.formats
 import org.datatools.bigdatatypes.types.basic.SqlType
 
 trait Formats {
-  /** Used to transform field names */
-  def transformKey(name: String): String = name
 
   /** Used to transform field names based on their type */
   def transformKey[A <: SqlType](name: String, t: A): String = name
@@ -25,7 +23,7 @@ object Formats {
   */
 trait DefaultFormats extends Formats {
 
-  override def transformKey(name: String): String = name
+  override def transformKey[A <: SqlType](name: String, t: A): String = name
 }
 object DefaultFormats extends DefaultFormats
 
