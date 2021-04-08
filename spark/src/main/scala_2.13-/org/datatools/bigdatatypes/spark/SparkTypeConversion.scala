@@ -1,9 +1,9 @@
 package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
+import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
 import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
-import org.datatools.bigdatatypes.types.basic._
 
 import scala.annotation.tailrec
 

@@ -1,7 +1,10 @@
-package org.datatools.bigdatatypes.types.basic
+package org.datatools.bigdatatypes.basictypes
+
+import org.datatools.bigdatatypes.basictypes.SqlType.{SqlBool, SqlDate, SqlDecimal, SqlDouble, SqlFloat, SqlInt, SqlLong, SqlString, SqlStruct, SqlTimestamp}
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 
 /** Abstract representation of the type of a generic SQL database */
-sealed trait SqlType {
+enum SqlType {
 
   /** @return the [[SqlTypeMode]] of this SqlType
     */
@@ -29,15 +32,16 @@ sealed trait SqlType {
       }
     else this
 
+  case SqlInt(mode: SqlTypeMode = Required)
+  case SqlLong(mode: SqlTypeMode = Required)
+  case SqlFloat(mode: SqlTypeMode = Required)
+  case SqlDouble(mode: SqlTypeMode = Required)
+  case SqlDecimal(mode: SqlTypeMode = Required)
+  case SqlBool(mode: SqlTypeMode = Required)
+  case SqlString(mode: SqlTypeMode = Required)
+  case SqlTimestamp(mode: SqlTypeMode = Required)
+  case SqlDate(mode: SqlTypeMode = Required)
+  case SqlStruct(records: List[(String, SqlType)], mode: SqlTypeMode = Required)
 }
 
-case class SqlInt(mode: SqlTypeMode = Required) extends SqlType
-case class SqlLong(mode: SqlTypeMode = Required) extends SqlType
-case class SqlFloat(mode: SqlTypeMode = Required) extends SqlType
-case class SqlDouble(mode: SqlTypeMode = Required) extends SqlType
-case class SqlDecimal(mode: SqlTypeMode = Required) extends SqlType
-case class SqlBool(mode: SqlTypeMode = Required) extends SqlType
-case class SqlString(mode: SqlTypeMode = Required) extends SqlType
-case class SqlTimestamp(mode: SqlTypeMode = Required) extends SqlType
-case class SqlDate(mode: SqlTypeMode = Required) extends SqlType
-case class SqlStruct(records: List[(String, SqlType)], mode: SqlTypeMode = Required) extends SqlType
+

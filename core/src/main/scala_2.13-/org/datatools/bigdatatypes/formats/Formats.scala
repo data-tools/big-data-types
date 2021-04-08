@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.formats
 
-import org.datatools.bigdatatypes.types.basic.SqlType
+import org.datatools.bigdatatypes.basictypes.SqlType
 
 trait Formats {
 

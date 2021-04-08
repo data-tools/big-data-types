@@ -1,8 +1,8 @@
 package org.datatools.bigdatatypes.conversions
 
-import java.sql.{Date, Timestamp}
+import org.datatools.bigdatatypes.basictypes.SqlType
 
-import org.datatools.bigdatatypes.types.basic._
+import java.sql.{Date, Timestamp}
 import shapeless._
 import shapeless.labelled.FieldType
 

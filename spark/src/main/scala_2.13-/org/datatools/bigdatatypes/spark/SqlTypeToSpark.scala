@@ -1,9 +1,9 @@
 package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types._
+import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats
-import org.datatools.bigdatatypes.types.basic._
 
 /** Type class to convert generic SqlTypes into Spark specific fields
   * In Spark, an schema is made with a Struct of fields so as an example:

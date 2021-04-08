@@ -1,6 +1,6 @@
 package org.datatools.bigdatatypes.conversions
 
-import org.datatools.bigdatatypes.types.basic._
+import org.datatools.bigdatatypes.basictypes.SqlType
 
 /** Type class to convert instances into [[SqlType]]
   *

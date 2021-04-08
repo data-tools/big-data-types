@@ -1,8 +1,10 @@
-package org.datatools.bigdatatypes.types.basic
+package org.datatools.bigdatatypes.basictypes
+
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.{Nullable, Repeated, Required}
 
 /** The mode of a sql type. e.g: Required, Nullable, Repeated.
   */
-sealed trait SqlTypeMode {
+enum SqlTypeMode {
 
   /** Tells you if you can change the mode for another.
     *
@@ -19,13 +21,13 @@ sealed trait SqlTypeMode {
     case (_, _)               => true
   }
 
+  /** Nullable field */
+  case Nullable
+
+  /** Repeated or array field */
+  case Repeated
+
+  /** Mandatory field */
+  case Required
 }
 
-/** Nullable field */
-case object Nullable extends SqlTypeMode
-
-/** Repeated or array field */
-case object Repeated extends SqlTypeMode
-
-/** Mandatory field */
-case object Required extends SqlTypeMode

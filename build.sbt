@@ -6,11 +6,11 @@ name := projectName
 
 lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
-lazy val scala211 = "2.11.12"
-lazy val supportedScalaVersions = List(scala213, scala212)
-scalaVersion := scala212
+lazy val scala3 = "3.0.0-RC2"
+lazy val supportedScalaVersions = List(scala3, scala213, scala212)
+scalaVersion := scala3
 
-assemblyMergeStrategy in assembly := {
+assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case x                             => MergeStrategy.first
 }
@@ -29,16 +29,17 @@ lazy val publishSettings = Seq(
   licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   publishMavenStyle := true
 )
-lazy val noPublishSettings =
-  skip in publish := true
+lazy val noPublishSettings = {
+  publish / skip := true
+}
 
 publishSettings
 
 //Dependencies
 lazy val coreDependencies = Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "org.clapper" %% "grizzled-slf4j" % "1.3.4",
-  "com.chuusai" %% "shapeless" % "2.3.3",
+  "org.clapper" % "grizzled-slf4j_2.13" % "1.3.4",
+  "com.chuusai" % "shapeless_2.13" % "2.3.3",
   scalatest % Test
 )
 
@@ -57,7 +58,9 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.7"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings)
+  .settings(
+    noPublishSettings,
+    crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
@@ -68,6 +71,7 @@ lazy val root = (project in file("."))
 lazy val core = (project in file("core")).settings(
   name := projectName + "-core",
   publishSettings,
+  scalaVersion := scala3,
   crossScalaVersions := supportedScalaVersions,
   crossVersionSharedSources,
   libraryDependencies ++= coreDependencies
@@ -79,7 +83,7 @@ lazy val bigquery = (project in file("bigquery"))
     name := projectName + "-bigquery",
     publishSettings,
     Defaults.itSettings,
-    crossScalaVersions := supportedScalaVersions,
+    crossScalaVersions := List(scala212, scala213),
     crossVersionSharedSources,
     libraryDependencies ++= bigqueryDependencies
   )
@@ -116,11 +120,12 @@ lazy val examples = (project in file("examples"))
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
-    (unmanagedSourceDirectories in sc) ++= {
-      (unmanagedSourceDirectories in sc).value.flatMap { dir: File =>
+    (sc / unmanagedSourceDirectories) ++= {
+      (sc /unmanagedSourceDirectories).value.flatMap { dir: File =>
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
+            case Some((3, _)) => Seq(new File(dir.getPath + "_3"))
             case Some((2, y)) if y >= 13 => Seq(new File(dir.getPath + "_2.13+"))
             case Some((2, y)) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
           }

@@ -1,8 +1,8 @@
 package org.datatools.bigdatatypes
 
-import java.sql.{Date, Timestamp}
+import org.datatools.bigdatatypes.basictypes._
 
-import org.datatools.bigdatatypes.types.basic._
+import java.sql.{Date, Timestamp}
 
 /** Case Classes and their SqlType representations
   * This should be used to test SqlTypeConversion and all reverse conversions from other modules

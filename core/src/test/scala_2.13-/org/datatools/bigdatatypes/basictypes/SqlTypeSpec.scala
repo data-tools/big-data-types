@@ -1,4 +1,4 @@
-package org.datatools.bigdatatypes.types.basic
+package org.datatools.bigdatatypes.basictypes
 
 import org.datatools.bigdatatypes.UnitSpec
 

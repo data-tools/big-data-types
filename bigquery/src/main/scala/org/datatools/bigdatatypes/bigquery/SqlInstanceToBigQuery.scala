@@ -1,9 +1,9 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field
+import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 import org.datatools.bigdatatypes.formats.Formats
-import org.datatools.bigdatatypes.types.basic.SqlType
 
 /** Type class to convert generic SqlTypes received as instance into BigQuery specific fields
   * This uses [[SqlTypeToBigQuery]] to create BigQuery Fields

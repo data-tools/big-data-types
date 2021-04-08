@@ -1,10 +1,9 @@
 package org.datatools.bigdatatypes.conversions
 
 import java.sql.{Date, Timestamp}
-
 import org.datatools.bigdatatypes.TestTypes._
 import org.datatools.bigdatatypes.UnitSpec
-import org.datatools.bigdatatypes.types.basic._
+import org.datatools.bigdatatypes.basictypes._
 
 class SqlTypeConversionSpec extends UnitSpec {
 

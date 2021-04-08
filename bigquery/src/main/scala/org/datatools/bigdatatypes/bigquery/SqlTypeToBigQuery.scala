@@ -2,10 +2,9 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, StandardSQLTypeName}
+import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
 import org.datatools.bigdatatypes.conversions._
 import org.datatools.bigdatatypes.formats.Formats
-import org.datatools.bigdatatypes.types.basic
-import org.datatools.bigdatatypes.types.basic._
 
 /** Type class to convert generic SqlTypes into BigQuery specific fields
   * In BigQuery, a table is made with a List of fields so as an example:
