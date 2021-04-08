@@ -43,33 +43,35 @@ object SqlTypeConversion {
     new SqlTypeConversion[Int] {
       def getType: SqlType = ???
     }
-   */
+
 
   given SqlTypeConversion[Int] with {
     def getType: SqlType = SqlInt()
   }
+  */
+
 
   // Basic types
-  given intType2: SqlTypeConversion[Int] = instance(SqlInt())
-  given longType: SqlTypeConversion[Long] = instance(SqlLong())
-  given doubleType: SqlTypeConversion[Double] = instance(SqlDouble())
-  given floatType: SqlTypeConversion[Float] = instance(SqlFloat())
-  given bigDecimalType: SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
-  given booleanType: SqlTypeConversion[Boolean] = instance(SqlBool())
-  given stringType: SqlTypeConversion[String] = instance(SqlString())
+  given SqlTypeConversion[Int] = instance(SqlInt())
+  given SqlTypeConversion[Long] = instance(SqlLong())
+  given SqlTypeConversion[Double] = instance(SqlDouble())
+  given SqlTypeConversion[Float] = instance(SqlFloat())
+  given SqlTypeConversion[BigDecimal] = instance(SqlDecimal())
+  given SqlTypeConversion[Boolean] = instance(SqlBool())
+  given SqlTypeConversion[String] = instance(SqlString())
   // Extended types
-  given timestampType: SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
-  given dateType: SqlTypeConversion[Date] = instance(SqlDate())
+  given SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
+  given SqlTypeConversion[Date] = instance(SqlDate())
 
 
   /** type class derivation for Option
     */
-  implicit def optionType[A](implicit cnv: SqlTypeConversion[A]): SqlTypeConversion[Option[A]] =
+  given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Option[A]] =
     instance(cnv.getType.changeMode(Nullable))
 
   /** Type class derivation for Repeated / Iterable types
     */
-  implicit def listLikeType[A](implicit cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
+  given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
     instance(cnv.getType.changeMode(Repeated))
 
   /** Generic derivation of this type class, allows recursive conversions
@@ -93,7 +95,7 @@ trait SqlStructTypeConversion[A] extends SqlTypeConversion[A] {
 object SqlStructTypeConversion {
 
   /** Summoner method */
-  def apply[A](implicit instance: SqlStructTypeConversion[A]): SqlStructTypeConversion[A] = instance
+  def apply[A](using instance: SqlStructTypeConversion[A]): SqlStructTypeConversion[A] = instance
 
   /** Factory constructor */
   def instance[A](record: SqlStruct): SqlStructTypeConversion[A] =
