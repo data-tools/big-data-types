@@ -51,7 +51,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.cloud" % "google-cloud-bigquery" % "1.127.11",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.127.12",
   scalatest % "it,test"
 )
 
