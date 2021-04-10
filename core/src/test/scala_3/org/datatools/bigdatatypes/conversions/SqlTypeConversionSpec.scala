@@ -6,7 +6,9 @@ import org.datatools.bigdatatypes.basictypes._
 import org.datatools.bigdatatypes.basictypes.SqlType._
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 import org.datatools.bigdatatypes.TestTypes._
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
+import org.datatools.bigdatatypes.conversions.SqlStructTypeConversion
 import org.datatools.bigdatatypes.conversions.SqlStructTypeConversion._
 
 class SqlTypeConversionSpec extends UnitSpec {
@@ -53,7 +55,7 @@ class SqlTypeConversionSpec extends UnitSpec {
     }
 
   "basic case class" should "be converted into SqlTypes" in {
-    val sqlType: SqlType = SqlTypeConversion[BasicTypes].getType
+    val sqlType: SqlType = SqlStructTypeConversion[BasicTypes].getType
     sqlType shouldBe basicTypes
     }
 

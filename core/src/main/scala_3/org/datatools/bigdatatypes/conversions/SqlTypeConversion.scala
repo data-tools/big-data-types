@@ -89,7 +89,9 @@ object SqlTypeConversion {
     instance(hEncoder.value.getType)
 */
   given hlistField2[A <: Product](using struct: SqlStructTypeConversion[A]): SqlTypeConversion[A] =
-  instance(struct.getType)
+    instance(struct.getType)
+
+  given hnilConversion2: SqlTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
 
 
 }
@@ -113,6 +115,11 @@ object SqlStructTypeConversion {
       def getType: SqlStruct = record
     }
 
+  /* WIP: this resolves de implicit derivation, but is can't be a SqlType
+  given SqlStructTypeConversion[Int] = instance(SqlStruct(List.empty[(String, SqlType)]))
+  */
+
+
   /** HNil instance */
   given hnilConversion2: SqlStructTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
 
@@ -121,7 +128,7 @@ object SqlStructTypeConversion {
     instance(SqlStruct((m.fromProduct(struct.getType).productElementName(0) -> struct.getType) :: struct.getType.records))
 */
 
-  inline given [A <: Product] (using m: Mirror.ProductOf[A])(using struct: SqlStructTypeConversion[A]): SqlStructTypeConversion[A] =
+  inline given [A <: Product] (using m: Mirror.ProductOf[A]): SqlStructTypeConversion[A] =
     new SqlStructTypeConversion[A]:
       type ElemTransformers = Tuple.Map[m.MirroredElemTypes, SqlStructTypeConversion]
       val fields = summonAll[ElemTransformers]
@@ -130,7 +137,7 @@ object SqlStructTypeConversion {
       println(elements.head)
 
       def getType: SqlStruct =
-        SqlStruct((m.fromProduct(struct.getType).productElementName(0) -> elements.head.getType) :: elements.head.getType.records)
+        SqlStruct(("test" -> elements.head.getType) :: elements.head.getType.records)
 
 
   /*
