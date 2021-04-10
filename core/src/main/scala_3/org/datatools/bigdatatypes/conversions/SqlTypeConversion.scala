@@ -1,12 +1,12 @@
 package org.datatools.bigdatatypes.conversions
 
+import compiletime.package$package.summonAll
+import deriving.Mirror
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.basictypes.SqlType._
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 
 import java.sql.{Date, Timestamp}
-import shapeless._
-import shapeless.labelled.FieldType
 
 /** Type class to convert any Scala type to an [[SqlType]]
   *
@@ -48,6 +48,11 @@ object SqlTypeConversion {
   given SqlTypeConversion[Int] with {
     def getType: SqlType = SqlInt()
   }
+
+  given SqlTypeConversion[Int] =
+    new SqlTypeConversion[Int] {
+      def getType: SqlType = ???
+    }
   */
 
 
@@ -74,6 +79,7 @@ object SqlTypeConversion {
   given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
     instance(cnv.getType.changeMode(Repeated))
 
+  /*
   /** Generic derivation of this type class, allows recursive conversions
     */
   implicit def genericType[A, H](implicit
@@ -81,6 +87,10 @@ object SqlTypeConversion {
       hEncoder: Lazy[SqlStructTypeConversion[H]]
   ): SqlTypeConversion[A] =
     instance(hEncoder.value.getType)
+*/
+  given hlistField2[A <: Product](using struct: SqlStructTypeConversion[A]): SqlTypeConversion[A] =
+  instance(struct.getType)
+
 
 }
 
@@ -104,8 +114,26 @@ object SqlStructTypeConversion {
     }
 
   /** HNil instance */
-  implicit val hnilConversion: SqlStructTypeConversion[HNil] = instance(SqlStruct(List.empty[(String, SqlType)]))
+  given hnilConversion2: SqlStructTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
 
+  /*
+  given hlistField2[A <: Product](using m: Mirror.ProductOf[A], struct: SqlStructTypeConversion[A]): SqlStructTypeConversion[A] =
+    instance(SqlStruct((m.fromProduct(struct.getType).productElementName(0) -> struct.getType) :: struct.getType.records))
+*/
+
+  inline given [A <: Product] (using m: Mirror.ProductOf[A])(using struct: SqlStructTypeConversion[A]): SqlStructTypeConversion[A] =
+    new SqlStructTypeConversion[A]:
+      type ElemTransformers = Tuple.Map[m.MirroredElemTypes, SqlStructTypeConversion]
+      val fields = summonAll[ElemTransformers]
+      val elements = summonAll[ElemTransformers].toList.asInstanceOf[List[SqlStructTypeConversion[Any]]]
+      val head = elements.head
+      println(elements.head)
+
+      def getType: SqlStruct =
+        SqlStruct((m.fromProduct(struct.getType).productElementName(0) -> elements.head.getType) :: elements.head.getType.records)
+
+
+  /*
   /** HList instance derivation */
   implicit def hlistField[K <: Symbol, H, T <: HList](implicit
       witness: Witness.Aux[K],
@@ -113,4 +141,6 @@ object SqlStructTypeConversion {
       tField: SqlStructTypeConversion[T]
   ): SqlStructTypeConversion[FieldType[K, H] :: T] =
     instance(SqlStruct((witness.value.name -> hField.value.getType) :: tField.getType.records))
+  */
+
 }
