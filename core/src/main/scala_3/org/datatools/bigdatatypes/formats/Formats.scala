@@ -15,8 +15,8 @@ trait Formats {
 /** A list of predefined formats to be imported. Only one can be imported at the same time
   */
 object Formats {
-  implicit val implicitDefaultFormats: Formats = DefaultFormats
-  implicit val implicitSnakifyFormats: Formats = SnakifyFormats
+  given implicitDefaultFormats: Formats = DefaultFormats
+  given implicitSnakifyFormats: Formats = SnakifyFormats
 }
 
 /** Default Formats transforms nothing
