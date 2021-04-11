@@ -13,7 +13,7 @@ import java.sql.{Date, Timestamp}
   *
   * @tparam A is a Scala type
   */
-trait SqlTypeConversion[-A] {
+trait SqlTypeConversion[A] {
 
   /** @return the [[SqlType]] representation of [[A]]
     */
@@ -89,8 +89,21 @@ object SqlTypeConversion {
   ): SqlTypeConversion[A] =
     instance(hEncoder.value.getType)
 */
-  given hlistField2[A <: Product](using struct: SqlStructTypeConversion[A]): SqlTypeConversion[A] =
-  instance(struct.getType)
+
+  inline given [A <: Product] (using m: Mirror.ProductOf[A]): SqlTypeConversion[A] =
+    new SqlTypeConversion[A] {
+      type ElemTransformers = Tuple.Map[m.MirroredElemTypes, SqlTypeConversion]
+      type ElemLabels = Tuple.Map[m.MirroredElemTypes, SqlTypeConversion]
+      //val fields = summonAll[ElemTransformers]
+      val labels = summonAll[ElemLabels]
+      println(labels)
+      val elements = summonAll[ElemTransformers].toList.asInstanceOf[List[SqlTypeConversion[Any]]]
+      val maps = elements.map(v => ("test" -> v.getType))
+
+      def getType: SqlType =
+        //SqlInt()
+        SqlStruct(maps)
+    }
 
 
 }
@@ -115,7 +128,7 @@ object SqlStructTypeConversion {
     }
 
   /** HNil instance */
-  given hnilConversion2: SqlStructTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
+  //given hnilConversion2: SqlStructTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
 
   /*
   given hlistField2[A <: Product](using m: Mirror.ProductOf[A], struct: SqlStructTypeConversion[A]): SqlStructTypeConversion[A] =
