@@ -1,8 +1,5 @@
 package org.datatools.bigdatatypes.basictypes
 
-import org.datatools.bigdatatypes.basictypes
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode
-
 /** Abstract representation of the type of a generic SQL database */
 sealed trait SqlType {
 
@@ -14,9 +11,9 @@ sealed trait SqlType {
     * [[List[Option[String] ] ]] and [[Option[List[String] ] ]] should be SqlString(Repeated)
     *
     * @param mode the mode we want to convert to
-    * @return a new [[basictypes.SqlType]] with the mode
+    * @return a new [[SqlType]] with the mode
     */
-  def changeMode(mode: SqlTypeMode): basictypes.SqlType =
+  def changeMode(mode: SqlTypeMode): SqlType =
     if (this.mode.isValidConversion(mode))
       this match {
         case SqlInt(_)             => SqlInt(mode)
@@ -34,13 +31,13 @@ sealed trait SqlType {
 
 }
 
-case class SqlInt(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlLong(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlFloat(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlDouble(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlDecimal(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlBool(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlString(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlTimestamp(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlDate(mode: SqlTypeMode = Required) extends basictypes.SqlType
-case class SqlStruct(records: List[(String, basictypes.SqlType)], mode: SqlTypeMode = Required) extends basictypes.SqlType
+case class SqlInt(mode: SqlTypeMode = Required) extends SqlType
+case class SqlLong(mode: SqlTypeMode = Required) extends SqlType
+case class SqlFloat(mode: SqlTypeMode = Required) extends SqlType
+case class SqlDouble(mode: SqlTypeMode = Required) extends SqlType
+case class SqlDecimal(mode: SqlTypeMode = Required) extends SqlType
+case class SqlBool(mode: SqlTypeMode = Required) extends SqlType
+case class SqlString(mode: SqlTypeMode = Required) extends SqlType
+case class SqlTimestamp(mode: SqlTypeMode = Required) extends SqlType
+case class SqlDate(mode: SqlTypeMode = Required) extends SqlType
+case class SqlStruct(records: List[(String, SqlType)], mode: SqlTypeMode = Required) extends SqlType

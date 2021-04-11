@@ -1,7 +1,5 @@
 package org.datatools.bigdatatypes.basictypes
 
-import org.datatools.bigdatatypes.basictypes
-
 /** The mode of a sql type. e.g: Required, Nullable, Repeated.
   */
 sealed trait SqlTypeMode {
@@ -15,7 +13,7 @@ sealed trait SqlTypeMode {
     * @param newMode the mode we want to convert to
     * @return true if this conversion makes sense, false if not
     */
-  def isValidConversion(newMode: basictypes.SqlTypeMode): Boolean = (this, newMode) match {
+  def isValidConversion(newMode: SqlTypeMode): Boolean = (this, newMode) match {
     case (Repeated, _)        => false
     case (Nullable, Required) => false
     case (_, _)               => true
@@ -24,10 +22,10 @@ sealed trait SqlTypeMode {
 }
 
 /** Nullable field */
-case object Nullable extends basictypes.SqlTypeMode
+case object Nullable extends SqlTypeMode
 
 /** Repeated or array field */
-case object Repeated extends basictypes.SqlTypeMode
+case object Repeated extends SqlTypeMode
 
 /** Mandatory field */
-case object Required extends basictypes.SqlTypeMode
+case object Required extends SqlTypeMode
