@@ -1,3 +1,7 @@
+### Big Data Types v0.3.2
+- Core module migrated to Scala 3
+-- Build changed for Scala 3 versions and Shapeless removed
+
 ### Big Data Types v0.3.1
 
 - BigDecimal precision configurable via implicit Formats
