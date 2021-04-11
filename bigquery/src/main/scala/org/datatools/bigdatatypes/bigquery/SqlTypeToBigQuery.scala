@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, StandardSQLTypeName}
-import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
+import org.datatools.bigdatatypes.basictypes._
 import org.datatools.bigdatatypes.conversions._
 import org.datatools.bigdatatypes.formats.Formats
 
@@ -40,7 +40,7 @@ object SqlTypeToBigQuery {
   def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
-      getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(basic.SqlStruct(records, mode))
+      getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 
   /** Basic SqlTypes conversions to BigQuery Fields
