@@ -8,14 +8,6 @@ import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 
 import java.sql.{Date, Timestamp}
 
-inline def summonAll[Names <: Tuple, Types <: Tuple]: List[SqlTypeConversion[_]] = {
-  inline (erasedValue[Names], erasedValue[Types]) match {
-    case _: (_, EmptyTuple) => Nil
-    case _: ((n *: ns), (t *: ts)) =>
-      summonInline[SqlTypeConversion[t]] :: summonAll[ns, ts]
-  }
-}
-
 /** Type class to convert any Scala type to an [[SqlType]]
   *
   * @tparam A is a Scala type
@@ -46,23 +38,6 @@ object SqlTypeConversion {
       def getType: SqlType = sqlType
     }
 
-  /*
-  implicit val intType: SqlTypeConversion[Int] =
-    new SqlTypeConversion[Int] {
-      def getType: SqlType = ???
-    }
-
-
-  given SqlTypeConversion[Int] with {
-    def getType: SqlType = SqlInt()
-  }
-
-  given SqlTypeConversion[Int] =
-    new SqlTypeConversion[Int] {
-      def getType: SqlType = ???
-    }
-  */
-
 
   // Basic types
   given SqlTypeConversion[Int] = instance(SqlInt())
@@ -76,7 +51,6 @@ object SqlTypeConversion {
   given SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
   given SqlTypeConversion[Date] = instance(SqlDate())
 
-
   /** type class derivation for Option
     */
   given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Option[A]] =
@@ -87,19 +61,13 @@ object SqlTypeConversion {
   given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
     instance(cnv.getType.changeMode(Repeated))
 
-  /*
-  /** Generic derivation of this type class, allows recursive conversions
-    */
-  implicit def genericType[A, H](implicit
-      generic: LabelledGeneric.Aux[A, H],
-      hEncoder: Lazy[SqlStructTypeConversion[H]]
-  ): SqlTypeConversion[A] =
-    instance(hEncoder.value.getType)
-*/
-
   //given emptyTuple: SqlTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
 
-
+  /** Creates an SqlStruct for the given Product
+    * @param s Mirror
+    * @param elems List of tuples with names and SqlTypeConversions
+    * @tparam T a Product
+    */
   def instanceStructProduct[T](s: Mirror.ProductOf[T], elems: List[(String, SqlTypeConversion[_])]): SqlTypeConversion[T] = {
     new SqlTypeConversion[T] {
       def getType: SqlType = {
@@ -114,6 +82,8 @@ object SqlTypeConversion {
 
   //inline def labelFromMirror[A](using m: Mirror.Of[A]): String = constValue[m.MirroredLabel]
 
+  /** Used to get a list of names of the values inside of a product
+    */
   inline def getElemLabels[A <: Tuple]: List[String] = inline erasedValue[A] match {
     case _: EmptyTuple => Nil // stop condition - the tuple is empty
     case _: (head *: tail) =>  // yes, in scala 3 we can match on tuples head and tail to deconstruct them step by step
@@ -122,13 +92,24 @@ object SqlTypeConversion {
       headElementLabel :: tailElementLabels // concat head + tail
   }
 
-  inline given derived[T](using m: Mirror.Of[T]): SqlTypeConversion[T] =
+  /** Derives anything asked as SqlTypeConversion. Only products are implemented
+    */
+  inline given derived[T](using m: Mirror.Of[T]): SqlTypeConversion[T] = {
     lazy val elemInstances = summonAll[m.MirroredElemLabels, m.MirroredElemTypes]
     val labels = getElemLabels[m.MirroredElemLabels]
     val zip = labels zip elemInstances
     labels.foreach(println)
     inline m match
-      case s: Mirror.SumOf[T]     => ???
+      case s: Mirror.SumOf[T] => ??? //the library only works for products
       case p: Mirror.ProductOf[T] => instanceStructProduct(p, zip)
+  }
+
+  inline def summonAll[Names <: Tuple, Types <: Tuple]: List[SqlTypeConversion[_]] = {
+    inline (erasedValue[Names], erasedValue[Types]) match {
+      case _: (_, EmptyTuple) => Nil
+      case _: ((n *: ns), (t *: ts)) =>
+        summonInline[SqlTypeConversion[t]] :: summonAll[ns, ts]
+    }
+  }
 
 }
