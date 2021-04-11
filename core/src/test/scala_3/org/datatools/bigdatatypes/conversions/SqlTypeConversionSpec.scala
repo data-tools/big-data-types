@@ -16,51 +16,48 @@ class SqlTypeConversionSpec extends UnitSpec {
   it should "bigDecimalType" in {
     val sqlType: SqlType = SqlTypeConversion[Int].getType
     sqlType shouldBe SqlInt(Required)
-    }
+  }
 
   "Int type" should "be converted into SqlInt" in {
     val sqlType: SqlType = SqlTypeConversion[Int].getType
     sqlType shouldBe SqlInt(Required)
-    }
+  }
   "Long type" should "be converted into SqlLong" in {
     val sqlType: SqlType = SqlTypeConversion[Long].getType
     sqlType shouldBe SqlLong(Required)
-    }
+  }
   "Double type" should "be converted into SqlDouble" in {
     val sqlType: SqlType = SqlTypeConversion[Double].getType
     sqlType shouldBe SqlDouble(Required)
-    }
+  }
   "Float type" should "be converted into SqlFloat" in {
     val sqlType: SqlType = SqlTypeConversion[Float].getType
     sqlType shouldBe SqlFloat(Required)
-    }
+  }
   "BigDecimal type" should "be converted into SqlDecimal" in {
     val sqlType: SqlType = SqlTypeConversion[BigDecimal].getType
     sqlType shouldBe SqlDecimal(Required)
-    }
+  }
   "Boolean type" should "be converted into SqlBool" in {
     val sqlType: SqlType = SqlTypeConversion[Boolean].getType
     sqlType shouldBe SqlBool(Required)
-    }
+  }
   "String type" should "be converted into SqlString" in {
     val sqlType: SqlType = SqlTypeConversion[String].getType
     sqlType shouldBe SqlString(Required)
-    }
+  }
 
   "Basic Option type" should "be converted into Nullable type" in {
     val sqlType: SqlType = SqlTypeConversion[Option[String]].getType
     sqlType shouldBe SqlString(Nullable)
-    }
+  }
 
   "basic case class" should "be converted into SqlTypes" in {
     val sqlType: SqlType = SqlTypeConversion[BasicTypes].getType
     sqlType shouldBe basicTypes
-    }
+  }
 
-
-/*
-
-"Case Class with Option" should "be converted into SqlTypes with nullable" in {
+  "Case Class with Option" should "be converted into SqlTypes with nullable" in {
     val sqlType: SqlType = SqlTypeConversion[BasicOption].getType
     sqlType shouldBe basicOption
   }
@@ -132,6 +129,5 @@ class SqlTypeConversionSpec extends UnitSpec {
     val sqlType: SqlType = SqlTypeConversion[ExtendedTypes].getType
     sqlType shouldBe extendedTypes
   }
-  */
 
 }

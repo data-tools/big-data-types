@@ -58,7 +58,10 @@ object SqlTypeConversion {
 
   /** Type class derivation for Repeated / Iterable types
     */
-  given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Iterable[A]] =
+  given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[List[A]] =
+    instance(cnv.getType.changeMode(Repeated))
+
+  given [A](using cnv: SqlTypeConversion[A]): SqlTypeConversion[Seq[A]] =
     instance(cnv.getType.changeMode(Repeated))
 
   //given emptyTuple: SqlTypeConversion[EmptyTuple] = instance(SqlStruct(List.empty[(String, SqlType)]))
