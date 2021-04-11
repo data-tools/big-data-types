@@ -3,7 +3,7 @@ package org.datatools.bigdatatypes.spark
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.datatools.bigdatatypes.TestTypes._
 import org.datatools.bigdatatypes.UnitSpec
-import org.datatools.bigdatatypes.basictypes.SqlType
+import org.datatools.bigdatatypes.basictypes._
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SparkTypeConversion._
