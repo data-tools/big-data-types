@@ -2,12 +2,12 @@ package org.datatools.bigdatatypes
 
 import org.apache.spark.sql.types.StructType
 import org.datatools.bigdatatypes.TestTypes.BasicTypes
+import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.InstanceSyntax
 import org.datatools.bigdatatypes.bigquery.{SqlInstanceToBigQuery, SqlTypeToBigQuery}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SparkSchemas
 import org.datatools.bigdatatypes.spark.SparkTypeConversion.{StructTypeSyntax, structType}
-import org.datatools.bigdatatypes.types.basic.SqlType
 
 class CrossModuleExamplesSpec extends UnitSpec {
 

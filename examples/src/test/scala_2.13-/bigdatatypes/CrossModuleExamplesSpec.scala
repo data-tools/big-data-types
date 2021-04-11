@@ -2,13 +2,13 @@ package bigdatatypes
 
 import org.apache.spark.sql.types.StructType
 import org.datatools.bigdatatypes.TestTypes._
+import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.{BigQueryTestTypes, TestTypes, UnitSpec}
 import org.datatools.bigdatatypes.bigquery.{BigQueryTable, SqlInstanceToBigQuery}
 import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery._
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SqlTypeToSpark
 import org.datatools.bigdatatypes.spark.SparkTypeConversion._
-import org.datatools.bigdatatypes.types.basic.SqlType
 
 class CrossModuleExamplesSpec extends UnitSpec {
 
