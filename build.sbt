@@ -8,7 +8,7 @@ lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
 lazy val scala3 = "3.0.0-RC2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
-scalaVersion := scala212
+scalaVersion := scala213
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard

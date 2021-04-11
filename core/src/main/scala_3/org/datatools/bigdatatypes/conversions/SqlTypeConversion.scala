@@ -101,7 +101,6 @@ object SqlTypeConversion {
     lazy val elemInstances = summonAll[m.MirroredElemLabels, m.MirroredElemTypes]
     val labels = getElemLabels[m.MirroredElemLabels]
     val zip = labels zip elemInstances
-    labels.foreach(println)
     inline m match
       case s: Mirror.SumOf[T] => ??? //the library only works for products
       case p: Mirror.ProductOf[T] => instanceStructProduct(p, zip)
