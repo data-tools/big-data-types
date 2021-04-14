@@ -134,7 +134,7 @@ lazy val crossVersionSharedSources: Seq[Setting[_]] =
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((3, _))            => Seq(new File(dir.getPath + "_3"))
+            case Some((3, _))            => Seq(new File(dir.getPath + "_2.13+"))
             case Some((2, y)) if y >= 13 => Seq(new File(dir.getPath + "_2.13+"))
             case Some((2, y)) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
           }
