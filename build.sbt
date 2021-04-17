@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.3.2"
+lazy val versionNumber = "0.3.3"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -51,7 +51,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.cloud" % "google-cloud-bigquery" % "1.127.12",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.128.0" % Provided,
   scalatest % "it,test"
 )
 

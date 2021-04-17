@@ -1,3 +1,7 @@
+### Big Data Types v0.3.3
+- BigQuery module compiled for Scala 3
+  -- Some imports refactored in Core Scala2 to be equal to Scala3 (related to enums)
+  
 ### Big Data Types v0.3.2
 - Core module migrated to Scala 3
 -- Build changed for Scala 3 versions and Shapeless removed
