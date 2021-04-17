@@ -1,5 +1,7 @@
 package org.datatools.bigdatatypes
 
+import org.datatools.bigdatatypes.basictypes.SqlType._
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 import org.datatools.bigdatatypes.basictypes._
 
 import java.sql.{Date, Timestamp}
