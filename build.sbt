@@ -8,7 +8,7 @@ lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
 lazy val scala3 = "3.0.0-RC2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
-scalaVersion := scala3
+scalaVersion := scala213
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -51,7 +51,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.8", //needed for some incompatibility with BQ & Scala3
+  "com.google.auto.value" % "auto-value-annotations" % "1.8", //needed for an incompatibility between BQ & Scala3
   "com.google.cloud" % "google-cloud-bigquery" % "1.128.0",
   scalatest % "it,test"
 )
@@ -97,7 +97,6 @@ lazy val bigquery = (project in file("bigquery"))
     name := projectName + "-bigquery",
     publishSettings,
     Defaults.itSettings,
-    //scalaVersion := scala213,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
     libraryDependencies ++= bigqueryDependencies
