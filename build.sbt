@@ -8,7 +8,7 @@ lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
 lazy val scala3 = "3.0.0-RC2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
-scalaVersion := scala212
+scalaVersion := scala3
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -51,6 +51,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
+  "com.google.auto.value" % "auto-value-annotations" % "1.8", //needed for some incompatibility with BQ & Scala3
   "com.google.cloud" % "google-cloud-bigquery" % "1.128.0" % Provided,
   scalatest % "it,test"
 )
