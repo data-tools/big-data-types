@@ -51,7 +51,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.cloud" % "google-cloud-bigquery" % "1.127.11",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.127.12",
   scalatest % "it,test"
 )
 
@@ -134,7 +134,7 @@ lazy val crossVersionSharedSources: Seq[Setting[_]] =
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((3, _))            => Seq(new File(dir.getPath + "_3"))
+            case Some((3, _))            => Seq(new File(dir.getPath + "_2.13+"))
             case Some((2, y)) if y >= 13 => Seq(new File(dir.getPath + "_2.13+"))
             case Some((2, y)) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
           }

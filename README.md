@@ -66,8 +66,8 @@ libraryDependencies += "io.github.data-tools" % "big-data-types-spark_2.12" % "{
 libraryDependencies += "io.github.data-tools" % "big-data-types-core_2.13" % "{version}"
 ```
 
-Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red)
- and ![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) are available in Maven
+Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
+and ![Scala 3.0.0-RC2](https://img.shields.io/badge/Scala-3.0.0--RC2-red) are available in Maven
 
 # How it works
 Check the [complete guide on how to create a new type](./docs/CreateNewType.md) to understand how the library works internally
@@ -154,7 +154,7 @@ through any of the GCloud options.
 Probably the most common will be to specify a service account and a project id.
 It can be added on environment variables. The library expects:
 - PROJECT_ID: <your_project_id>
-- GOOGLE_APPLICATION_CREDENTIAL: <path_to_your_service_account_json_file>
+- GOOGLE_APPLICATION_CREDENTIALS: <path_to_your_service_account_json_file>
 
 ---
 
