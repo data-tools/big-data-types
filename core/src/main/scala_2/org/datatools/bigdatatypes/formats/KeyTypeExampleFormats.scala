@@ -1,6 +1,7 @@
 package org.datatools.bigdatatypes.formats
 
-import org.datatools.bigdatatypes.basictypes._
+import org.datatools.bigdatatypes.basictypes.SqlType
+import org.datatools.bigdatatypes.basictypes.SqlType._
 
 /** Converts CamelCase field names to snake_case
   */
