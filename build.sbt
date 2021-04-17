@@ -8,7 +8,7 @@ lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
 lazy val scala3 = "3.0.0-RC2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
-scalaVersion := scala213
+scalaVersion := scala212
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
@@ -65,7 +65,9 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.7"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings, crossScalaVersions := Nil)
+  .settings(noPublishSettings,
+    scalacOptions += "-Ytasty-reader",
+    crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
@@ -94,7 +96,8 @@ lazy val bigquery = (project in file("bigquery"))
     name := projectName + "-bigquery",
     publishSettings,
     Defaults.itSettings,
-    crossScalaVersions := List(scala212, scala213),
+    //scalaVersion := scala213,
+    crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
     libraryDependencies ++= bigqueryDependencies
   )

@@ -4,6 +4,8 @@ import java.sql.{Date, Timestamp}
 import org.datatools.bigdatatypes.TestTypes._
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes._
+import org.datatools.bigdatatypes.basictypes.SqlType._
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 
 class SqlTypeConversionSpec extends UnitSpec {
 
