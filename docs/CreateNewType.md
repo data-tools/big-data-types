@@ -1,5 +1,7 @@
 This is a guide on how to add a new type to the library
 
+You can also see [this document in web format](https://data-tools.github.io/big-data-types/docs/CreateNewType.html)
+
 - [How to develop a new type](#how-to-develop-a-new-type)
 - [How it works](#how-it-works)
   * [SqlType ADT](#sqltype-adt)

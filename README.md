@@ -11,6 +11,8 @@ This is a type safe library that converts basic Scala types and Case Classes int
 it also allows converting implemented types into another types, for example, an Spark Schema can be automatically converted into a BigQuery table,
 without having code that relates BigQuery and Spark.
 
+You can also see [this page in web format](https://data-tools.github.io/big-data-types/)
+
 What we can do with this library:
 - BigQuery: Create BigQuery Tables (or Schemas) using Case Classes
 - Spark: Create Spark Schemas from Case Classes
