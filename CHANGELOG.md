@@ -1,3 +1,6 @@
+### Big Data Types v0.3.4
+- Scala 3.0.0-RC3
+
 ### Big Data Types v0.3.3
 - BigQuery module compiled for Scala 3
   -- Some imports refactored in Core Scala2 to be equal to Scala3 (related to enums)
