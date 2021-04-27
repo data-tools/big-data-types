@@ -1,12 +1,12 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.3.3"
+lazy val versionNumber = "0.3.4"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
-lazy val scala3 = "3.0.0-RC2"
+lazy val scala3 = "3.0.0-RC3"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
 
