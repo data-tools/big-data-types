@@ -61,18 +61,24 @@ lazy val sparkDependencies = Seq(
   "org.apache.spark" %% "spark-sql" % "3.1.1" % Provided,
   scalatest % Test
 )
+
+lazy val cassandraDependencies = Seq(
+  "com.datastax.oss" % "java-driver-core" % "4.11.0",
+  "com.datastax.oss" % "java-driver-query-builder" % "4.11.0",
+  scalatest % Test
+)
+
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.7"
 
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings,
-    scalacOptions += "-Ytasty-reader",
-    crossScalaVersions := Nil)
+  .settings(noPublishSettings, scalacOptions += "-Ytasty-reader", crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
     spark,
+    cassandra,
     examples
   )
 
@@ -110,6 +116,17 @@ lazy val spark = (project in file("spark"))
     crossScalaVersions := List(scala212),
     crossVersionSharedSources,
     libraryDependencies ++= sparkDependencies
+  )
+  .dependsOn(core % "test->test;compile->compile")
+
+lazy val cassandra = (project in file("cassandra"))
+  .configs(IntegrationTest)
+  .settings(
+    name := projectName + "-cassandra",
+    publishSettings,
+    crossScalaVersions := supportedScalaVersions,
+    crossVersionSharedSources,
+    libraryDependencies ++= cassandraDependencies
   )
   .dependsOn(core % "test->test;compile->compile")
 
