@@ -1,12 +1,12 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.3.3"
+lazy val versionNumber = "0.3.4"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.5"
 lazy val scala212 = "2.12.12"
-lazy val scala3 = "3.0.0-RC2"
+lazy val scala3 = "3.0.0-RC3"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
 
@@ -51,8 +51,8 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.8", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "1.128.0",
+  "com.google.auto.value" % "auto-value-annotations" % "1.8.1", //needed for an incompatibility between BQ & Scala3
+  "com.google.cloud" % "google-cloud-bigquery" % "1.128.3",
   scalatest % "it,test"
 )
 
@@ -68,7 +68,7 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.7"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.8"
 
 //Project settings
 lazy val root = (project in file("."))
