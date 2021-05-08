@@ -7,9 +7,9 @@
 
 A library to transform Case Classes into Database schemas and to convert implemented types into another types
 
-This is a type safe library that converts basic Scala types and Case Classes into different database types and schemas using Shapeless,
+This is a type safe library that converts basic Scala types and product types into different database types and schemas using Shapeless,
 it also allows converting implemented types into another types, for example, an Spark Schema can be automatically converted into a BigQuery table,
-without having code that relates BigQuery and Spark.
+without having code that relates BigQuery and Spark directly.
 
 You can also see [this page in web format](https://data-tools.github.io/big-data-types/)
 
