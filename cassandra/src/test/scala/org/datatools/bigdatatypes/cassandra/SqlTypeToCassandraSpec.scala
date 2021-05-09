@@ -1,5 +1,47 @@
 package org.datatools.bigdatatypes.cassandra
 
-class SqlTypeToCassandraSpec {
+import org.datatools.bigdatatypes.TestTypes.BasicTypes
+import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
+import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
 
+
+class SqlTypeToCassandraSpec extends UnitSpec {
+
+  implicit val defaultFormats: Formats = DefaultFormats
+
+  behavior of "SparkTypesSpec for all TestTypes"
+
+  "Basic types" should "create Cassandra tuples" in {
+    SqlTypeToCassandra[BasicTypes].cassandraFields shouldBe CassandraTestTypes.basicFields
+  }
+
+  it should "create Cassandra Table" in {
+    val a = CassandraTables.table[BasicTypes]("TestTable", "myLong")
+    a shouldBe CassandraTestTypes.basicFields
+  }
+/*
+  "Basic Optional types" should "create an Spark Schema" in {
+    SparkSchemas.fields[BasicOptionTypes] shouldBe SparkTestTypes.basicOptionTypes
+  }
+
+  "A List field" should "be converted into Spark Array type" in {
+    SparkSchemas.fields[BasicList] shouldBe SparkTestTypes.basicWithList
+  }
+
+  "Nested field" should "be converted into Spark Nested field" in {
+    SparkSchemas.fields[BasicStruct] shouldBe SparkTestTypes.basicNested
+  }
+
+  "Optional Nested field" should "be converted into nullable Spark Nested field" in {
+    SparkSchemas.fields[BasicOptionalStruct] shouldBe SparkTestTypes.basicOptionalNested
+  }
+
+  "List of nested objects (matrix)" should "be converted into Spark Nested Array" in {
+    SparkSchemas.fields[ListOfStruct] shouldBe SparkTestTypes.basicNestedWithList
+  }
+
+  "Extended types" should "create an Spark Schema" in {
+    SparkSchemas.fields[ExtendedTypes] shouldBe SparkTestTypes.extendedTypes
+  }
+*/
 }
