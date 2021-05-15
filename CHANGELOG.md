@@ -1,3 +1,6 @@
+### Big Data Types v0.3.5
+- Scala 3.0.0
+
 ### Big Data Types v0.3.4
 - Scala 3.0.0-RC3
 
