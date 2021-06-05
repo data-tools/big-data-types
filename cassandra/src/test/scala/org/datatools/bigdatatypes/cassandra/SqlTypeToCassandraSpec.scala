@@ -1,6 +1,7 @@
 package org.datatools.bigdatatypes.cassandra
 
-import org.datatools.bigdatatypes.TestTypes.BasicTypes
+import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
+import org.datatools.bigdatatypes.TestTypes.{BasicOptionTypes, BasicTypes}
 import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
 
@@ -15,15 +16,11 @@ class SqlTypeToCassandraSpec extends UnitSpec {
     SqlTypeToCassandra[BasicTypes].cassandraFields shouldBe CassandraTestTypes.basicFields
   }
 
-  it should "create Cassandra Table" in {
-    val a = CassandraTables.table[BasicTypes]("TestTable", "myLong")
-    a shouldBe CassandraTestTypes.basicFields
+
+  "Basic Optional types" should "create an Spark Schema" in {
+    SqlTypeToCassandra[BasicOptionTypes].cassandraFields shouldBe CassandraTestTypes.basicOptionTypes
   }
 /*
-  "Basic Optional types" should "create an Spark Schema" in {
-    SparkSchemas.fields[BasicOptionTypes] shouldBe SparkTestTypes.basicOptionTypes
-  }
-
   "A List field" should "be converted into Spark Array type" in {
     SparkSchemas.fields[BasicList] shouldBe SparkTestTypes.basicWithList
   }
