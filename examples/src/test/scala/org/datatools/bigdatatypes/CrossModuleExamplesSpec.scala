@@ -5,6 +5,7 @@ import org.datatools.bigdatatypes.TestTypes.BasicTypes
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.InstanceSyntax
 import org.datatools.bigdatatypes.bigquery.{SqlInstanceToBigQuery, SqlTypeToBigQuery}
+import org.datatools.bigdatatypes.cassandra.CassandraTables
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SparkSchemas
 import org.datatools.bigdatatypes.spark.SparkTypeConversion.{StructTypeSyntax, structType}

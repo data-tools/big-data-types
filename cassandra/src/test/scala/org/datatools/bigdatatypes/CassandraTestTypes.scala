@@ -15,59 +15,18 @@ object CassandraTestTypes {
       ("myString", DataTypes.TEXT)
     )
 
-  // There is no nullable parameter for Cassandra
-  // val basicOptionTypes: Seq[(String, DataType)]
-
-  /*
-  val basicWithList: Seq[StructField] =
+  val basicWithList: Seq[(String, DataType)] =
     List(
-      StructField("myInt", IntegerType, nullable = false),
-      StructField("myList", ArrayType(IntegerType), nullable = true)
+      ("myInt", DataTypes.INT),
+      ("myList", DataTypes.listOf(DataTypes.INT))
     )
 
-  val basicNested: Seq[StructField] =
+  val extendedTypes: Seq[(String, DataType)] =
     List(
-      StructField("myInt", IntegerType, nullable = false),
-      StructField(
-        "myStruct",
-        StructType(basicFields),
-        nullable = false
-      )
+      ("myInt", DataTypes.INT),
+      ("myTimestamp", DataTypes.TIMESTAMP),
+      ("myDate", DataTypes.DATE)
     )
 
-  val basicOptionalNested: Seq[StructField] =
-    List(
-      StructField("myInt", IntegerType, nullable = false),
-      StructField(
-        "myStruct",
-        StructType(basicFields),
-        nullable = true
-      )
-    )
-
-  val basicNestedWithList: Seq[StructField] =
-    List(
-      StructField(
-        "matrix",
-        ArrayType(
-          StructType(
-            List(
-              StructField("x", IntegerType, nullable = false),
-              StructField("y", IntegerType, nullable = false)
-            )
-          )
-        ),
-        nullable = true
-      )
-    )
-
-  val extendedTypes: Seq[StructField] =
-    List(
-      StructField("myInt", IntegerType, nullable = false),
-      StructField("myTimestamp", TimestampType, nullable = false),
-      StructField("myDate", DateType, nullable = false)
-    )
-
-   */
 
 }

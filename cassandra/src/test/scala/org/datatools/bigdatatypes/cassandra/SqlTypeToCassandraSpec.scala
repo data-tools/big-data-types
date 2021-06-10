@@ -1,10 +1,9 @@
 package org.datatools.bigdatatypes.cassandra
 
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
-import org.datatools.bigdatatypes.TestTypes.{BasicOptionTypes, BasicTypes}
+import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicTypes, ExtendedTypes}
 import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
-
 
 class SqlTypeToCassandraSpec extends UnitSpec {
 
@@ -16,29 +15,16 @@ class SqlTypeToCassandraSpec extends UnitSpec {
     SqlTypeToCassandra[BasicTypes].cassandraFields shouldBe CassandraTestTypes.basicFields
   }
 
-
-  "Basic Optional types" should "create an Spark Schema" in {
-    SqlTypeToCassandra[BasicOptionTypes].cassandraFields shouldBe CassandraTestTypes.basicOptionTypes
-  }
-/*
-  "A List field" should "be converted into Spark Array type" in {
-    SparkSchemas.fields[BasicList] shouldBe SparkTestTypes.basicWithList
+  "Basic Optional types" should "create an Cassandra tuples" in {
+    SqlTypeToCassandra[BasicOptionTypes].cassandraFields shouldBe CassandraTestTypes.basicFields
   }
 
-  "Nested field" should "be converted into Spark Nested field" in {
-    SparkSchemas.fields[BasicStruct] shouldBe SparkTestTypes.basicNested
+  "A List field" should "be converted into Cassandra repeated" in {
+    SqlTypeToCassandra[BasicList].cassandraFields shouldBe CassandraTestTypes.basicWithList
   }
 
-  "Optional Nested field" should "be converted into nullable Spark Nested field" in {
-    SparkSchemas.fields[BasicOptionalStruct] shouldBe SparkTestTypes.basicOptionalNested
-  }
+    "Extended types" should "create an Spark Schema" in {
+      SqlTypeToCassandra[ExtendedTypes].cassandraFields shouldBe CassandraTestTypes.extendedTypes
+    }
 
-  "List of nested objects (matrix)" should "be converted into Spark Nested Array" in {
-    SparkSchemas.fields[ListOfStruct] shouldBe SparkTestTypes.basicNestedWithList
-  }
-
-  "Extended types" should "create an Spark Schema" in {
-    SparkSchemas.fields[ExtendedTypes] shouldBe SparkTestTypes.extendedTypes
-  }
-*/
 }

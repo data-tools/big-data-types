@@ -141,6 +141,7 @@ lazy val examples = (project in file("examples"))
   )
   .dependsOn(core % "test->test;compile->compile")
   .dependsOn(bigquery % "test->test;compile->compile")
+  .dependsOn(cassandra % "test->test;compile->compile")
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212)
