@@ -23,7 +23,7 @@ object SqlTypeToCassandra {
       def cassandraFields: List[(String, DataType)] = fs
     }
 
-  private def getSchema(sqlType: SqlType)(implicit f: Formats): List[(String, DataType)] = sqlType match {
+  def getSchema(sqlType: SqlType)(implicit f: Formats): List[(String, DataType)] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))

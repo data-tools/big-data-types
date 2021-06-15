@@ -1,3 +1,7 @@
+### Big Data Types v0.4.0
+- Cassandra module added
+- More cross examples added
+
 ### Big Data Types v0.3.4
 - Scala 3.0.0-RC3
 

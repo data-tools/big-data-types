@@ -24,9 +24,22 @@ What we can do with this library:
     - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
     they will get automatically conversions for the rest of the types
 
-For now, it supports **BigQuery** and **Spark**.
+For now, it supports **BigQuery**, **Cassandra** and **Spark**.
 
 Check also [how to create a new type](./docs/CreateNewType.md) for the library
+
+
+# TL;DR:
+Available conversions:
+
+| From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |JsonSchema|
+|------------|------------------|--------          |-----             |------------------|----------|
+|Scala Types |       -          |:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|          |
+|BigQuery    |                  |:heavy_minus_sign:|                  |                  |          |
+|Spark       |                  |:heavy_check_mark:|        -         |:heavy_check_mark:|          |
+|Cassandra   |                  |                  |                  |        -         |          |
+|JsonSchema  |                  |                  |                  |                  |     -    |
+
 
 
 - [Big Data Types](#big-data-types)
@@ -69,7 +82,7 @@ libraryDependencies += "io.github.data-tools" % "big-data-types-core_2.13" % "{v
 ```
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
-and ![Scala 3.0.0-RC2](https://img.shields.io/badge/Scala-3.0.0--RC2-red) are available in Maven
+and ![Scala 3.0](https://img.shields.io/badge/Scala-3.0-red) are available in Maven
 
 # How it works
 Check the [complete guide on how to create a new type](./docs/CreateNewType.md) to understand how the library works internally
