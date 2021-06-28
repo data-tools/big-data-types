@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.3.4"
+lazy val versionNumber = "0.3.5"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -40,7 +40,7 @@ publishSettings
 lazy val coreDependencies2 = Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
-  "com.chuusai" %% "shapeless" % "2.3.3",
+  "com.chuusai" %% "shapeless" % "2.3.6",
   scalatest % Test
 )
 
@@ -52,7 +52,7 @@ lazy val coreDependencies3 = Seq(
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.8.1", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "1.128.3",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.129.0",
   scalatest % "it,test"
 )
 
@@ -141,7 +141,6 @@ lazy val examples = (project in file("examples"))
   )
   .dependsOn(core % "test->test;compile->compile")
   .dependsOn(bigquery % "test->test;compile->compile")
-  .dependsOn(cassandra % "test->test;compile->compile")
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212)
