@@ -42,6 +42,7 @@ Available conversions:
 
 
 - [Big Data Types](#big-data-types)
+- [TL;DR:](#tl-dr-)
 - [Quick Start](#quick-start)
 - [How it works](#how-it-works)
 - [BigQuery](#bigquery)
