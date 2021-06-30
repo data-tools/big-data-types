@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.3.5"
+lazy val versionNumber = "0.4.0"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -61,18 +61,24 @@ lazy val sparkDependencies = Seq(
   "org.apache.spark" %% "spark-sql" % "3.1.2" % Provided,
   scalatest % Test
 )
+
+lazy val cassandraDependencies = Seq(
+  "com.datastax.oss" % "java-driver-core" % "4.11.0",
+  "com.datastax.oss" % "java-driver-query-builder" % "4.11.0",
+  scalatest % Test
+)
+
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.9"
 
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings,
-    scalacOptions += "-Ytasty-reader",
-    crossScalaVersions := Nil)
+  .settings(noPublishSettings, scalacOptions += "-Ytasty-reader", crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
     spark,
+    cassandra,
     examples
   )
 
@@ -113,6 +119,17 @@ lazy val spark = (project in file("spark"))
   )
   .dependsOn(core % "test->test;compile->compile")
 
+lazy val cassandra = (project in file("cassandra"))
+  .configs(IntegrationTest)
+  .settings(
+    name := projectName + "-cassandra",
+    publishSettings,
+    crossScalaVersions := supportedScalaVersions,
+    crossVersionSharedSources,
+    libraryDependencies ++= cassandraDependencies
+  )
+  .dependsOn(core % "test->test;compile->compile")
+
 // Examples module for testing, with all modules included, not built
 lazy val examples = (project in file("examples"))
   .settings(
@@ -124,6 +141,7 @@ lazy val examples = (project in file("examples"))
   )
   .dependsOn(core % "test->test;compile->compile")
   .dependsOn(bigquery % "test->test;compile->compile")
+  .dependsOn(cassandra % "test->test;compile->compile")
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212)

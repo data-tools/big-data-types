@@ -1,7 +1,6 @@
 # Big Data Types
 [![CI Tests](https://github.com/data-tools/big-data-types/workflows/ci-tests/badge.svg)](https://github.com/data-tools/big-data-types/actions/workflows/ci-tests.yml)
 [![BQ IT](https://github.com/data-tools/big-data-types/workflows/BigQuery-Integration/badge.svg)](https://github.com/data-tools/big-data-types/actions/workflows/bigquery-integration.yml)
-[![codecov](https://codecov.io/gh/data-tools/big-data-types/branch/main/graph/badge.svg)](https://codecov.io/gh/data-tools/big-data-types)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.data-tools/big-data-types-core_2.13)
 [![Scala Steward badge](https://img.shields.io/badge/Scala_Steward-helping-blue.svg?style=flat&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAMAAAARSr4IAAAAVFBMVEUAAACHjojlOy5NWlrKzcYRKjGFjIbp293YycuLa3pYY2LSqql4f3pCUFTgSjNodYRmcXUsPD/NTTbjRS+2jomhgnzNc223cGvZS0HaSD0XLjbaSjElhIr+AAAAAXRSTlMAQObYZgAAAHlJREFUCNdNyosOwyAIhWHAQS1Vt7a77/3fcxxdmv0xwmckutAR1nkm4ggbyEcg/wWmlGLDAA3oL50xi6fk5ffZ3E2E3QfZDCcCN2YtbEWZt+Drc6u6rlqv7Uk0LdKqqr5rk2UCRXOk0vmQKGfc94nOJyQjouF9H/wCc9gECEYfONoAAAAASUVORK5CYII=)](https://scala-steward.org)
 
@@ -24,12 +23,26 @@ What we can do with this library:
     - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
     they will get automatically conversions for the rest of the types
 
-For now, it supports **BigQuery** and **Spark**.
+For now, it supports **BigQuery**, **Cassandra** and **Spark**.
 
 Check also [how to create a new type](./docs/CreateNewType.md) for the library
 
 
+# TL;DR:
+Available conversions:
+
+| From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |JsonSchema        |
+|------------|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
+|Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|                  |
+|BigQuery    |                  |:heavy_minus_sign:|                  |                  |                  |
+|Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|                  |
+|Cassandra   |                  |                  |                  |        -         |                  |
+|JsonSchema  |                  |                  |                  |                  |     -            |
+
+
+
 - [Big Data Types](#big-data-types)
+- [TL;DR:](#tl-dr-)
 - [Quick Start](#quick-start)
 - [How it works](#how-it-works)
 - [BigQuery](#bigquery)
@@ -45,6 +58,9 @@ Check also [how to create a new type](./docs/CreateNewType.md) for the library
     + [Create a Dataframe](#create-a-dataframe)
     + [Spark Schema from Multiple Case Classes](#spark-schema-from-multiple-case-classes)
   * [Field transformations](#field-transformations)
+- [Cassandra](#cassandra)
+  * [Case Classes to Cassandra CreateTable](#case-classes-to-cassandra-createtable)
+  * [Other types to Cassandra CreateTable](#other-types-to-cassandra-createtable)
 - [Transformations](#transformations)
   * [Implicit Formats](#implicit-formats)
     + [DefaultFormats](#defaultformats)
@@ -69,7 +85,7 @@ libraryDependencies += "io.github.data-tools" % "big-data-types-core_2.13" % "{v
 ```
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
-and ![Scala 3.0.0](https://img.shields.io/badge/Scala-3.0.0-red) are available in Maven
+and ![Scala 3.0](https://img.shields.io/badge/Scala-3.0-red) are available in Maven
 
 # How it works
 Check the [complete guide on how to create a new type](./docs/CreateNewType.md) to understand how the library works internally
@@ -272,6 +288,28 @@ schema =
 ```
 
 ---
+
+# Cassandra
+Cassandra module is using the [Query builder in the DataStax Java Driver](https://github.com/datastax/java-driver/tree/4.x/manual/query_builder/schema) 
+to return `CreateTable` objects from product types such a Case Classes (or other types from the library, like Spark Schemas)
+This module doesn't have anything to connect directly to a Cassandra instance, 
+this is only a bridge between Scala product types (and other types from the library) to the DataStax Query Builder
+
+In other words, with this module you can use Case Classes to create a `CreateTable` 
+object that you can use to interact with a real Cassandra instance
+
+## Case Classes to Cassandra CreateTable
+Quick example using Case Classes
+```scala
+case class MyTable(id: String, name: String, age: Int)
+val table: CreateTable = CassandraTables.table[MyTable]("TableName", "id")
+```
+
+## Other types to Cassandra CreateTable
+```scala
+val sparkSchema = sparkDataFrame.schema
+CassandraTables.table(sparkSchema, "tableName", "primaryKeyFieldName")
+```
 
 # Transformations
 Transformations can be applied easily during conversions. For example, field names can be modified.

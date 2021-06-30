@@ -173,6 +173,8 @@ As the types usually can be recursive (nested objects) we can start defining a m
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 ```
+**_Note:_** this method probably could be copied, changing only the return type for our type
+
 And another method (`getSchemaWithName` in this example) to specify the specific types:
 In this case, we are showing an example from BigQuery as it seems simpler to understand:
 ```scala
