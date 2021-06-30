@@ -31,13 +31,12 @@ Check also [how to create a new type](./docs/CreateNewType.md) for the library
 # TL;DR:
 Available conversions:
 
-| From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |JsonSchema        |
-|------------|:----------------:|:----------------:|:----------------:|:----------------:|:----------------:|
-|Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|                  |
-|BigQuery    |                  |:heavy_minus_sign:|                  |                  |                  |
-|Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|                  |
-|Cassandra   |                  |                  |                  |        -         |                  |
-|JsonSchema  |                  |                  |                  |                  |     -            |
+| From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |
+|------------|:----------------:|:----------------:|:----------------:|:----------------:|
+|Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|
+|BigQuery    |                  |        -         |                  |                  |
+|Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|
+|Cassandra   |                  |                  |                  |        -         |
 
 
 
