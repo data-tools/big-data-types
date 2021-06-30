@@ -4,8 +4,8 @@ lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
-lazy val scala213 = "2.13.5"
-lazy val scala212 = "2.12.12"
+lazy val scala213 = "2.13.6"
+lazy val scala212 = "2.12.14"
 lazy val scala3 = "3.0.0"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
@@ -40,7 +40,7 @@ publishSettings
 lazy val coreDependencies2 = Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
-  "com.chuusai" %% "shapeless" % "2.3.6",
+  "com.chuusai" %% "shapeless" % "2.3.7",
   scalatest % Test
 )
 
@@ -52,13 +52,13 @@ lazy val coreDependencies3 = Seq(
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.8.1", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "1.129.0",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.133.1",
   scalatest % "it,test"
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.1.1" % Provided,
-  "org.apache.spark" %% "spark-sql" % "3.1.1" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.1.2" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.1.2" % Provided,
   scalatest % Test
 )
 
