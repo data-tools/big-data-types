@@ -52,7 +52,7 @@ lazy val coreDependencies3 = Seq(
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.8.1", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "1.135.3",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.135.4",
   scalatest % "it,test"
 )
 
