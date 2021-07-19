@@ -38,14 +38,14 @@ publishSettings
 
 //Dependencies
 lazy val coreDependencies2 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.3",
+  "ch.qos.logback" % "logback-classic" % "1.2.4",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.7",
   scalatest % Test
 )
 
 lazy val coreDependencies3 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.3",
+  "ch.qos.logback" % "logback-classic" % "1.2.4",
   "org.clapper" % "grizzled-slf4j_2.13" % "1.3.4",
   scalatest % Test
 )
