@@ -6,7 +6,7 @@ name := projectName
 
 lazy val scala213 = "2.13.6"
 lazy val scala212 = "2.12.14"
-lazy val scala3 = "3.0.0"
+lazy val scala3 = "3.0.1"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
 
@@ -51,7 +51,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.8.1", //needed for an incompatibility between BQ & Scala3
+  "com.google.auto.value" % "auto-value-annotations" % "1.8.8", //needed for an incompatibility between BQ & Scala3
   "com.google.cloud" % "google-cloud-bigquery" % "1.135.4",
   scalatest % "it,test"
 )
