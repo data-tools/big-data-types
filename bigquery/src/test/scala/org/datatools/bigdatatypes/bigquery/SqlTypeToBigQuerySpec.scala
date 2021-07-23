@@ -38,10 +38,9 @@ class SqlTypeToBigQuerySpec extends UnitSpec {
     fields shouldBe BigQueryTestTypes.basicNested
   }
 
-  /** shouldBe fails for a reason in this test */
   "case class with optional nested object" should "be converted into BigQueryFields" in {
     val fields: Seq[Field] = SqlTypeToBigQuery[BasicOptionalStruct].bigQueryFields
-    fields should be equals BigQueryTestTypes.basicOptionalNested
+    fields shouldBe BigQueryTestTypes.basicOptionalNested
   }
 
   "Case class with Struct List" should "be converted into Repeated BigQueryFields" in {

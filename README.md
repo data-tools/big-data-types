@@ -34,7 +34,7 @@ Available conversions:
 | From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |
 |------------|:----------------:|:----------------:|:----------------:|:----------------:|
 |Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|
-|BigQuery    |                  |        -         |                  |                  |
+|BigQuery    |                  |        -         |:white_check_mark:|:white_check_mark:|
 |Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|
 |Cassandra   |                  |                  |                  |        -         |
 
