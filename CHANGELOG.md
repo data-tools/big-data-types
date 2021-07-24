@@ -1,3 +1,8 @@
+### Big Data Types v0.5.0
+- BigQuery: Reverse conversion. 
+  This allows any BigQuery object (Schema or Field) to be converted into any of the other implemented types
+- Upgrade to Scala 3.0.1
+
 ### Big Data Types v0.4.0
 - Cassandra module added
 - More cross examples added

@@ -66,7 +66,7 @@ object BigQueryTestTypes {
           "myStruct",
           StandardSQLTypeName.STRUCT,
           FieldList.of(
-            basicOption: _*
+            basicTypes: _*
           )
         )
         .setMode(Mode.NULLABLE)
