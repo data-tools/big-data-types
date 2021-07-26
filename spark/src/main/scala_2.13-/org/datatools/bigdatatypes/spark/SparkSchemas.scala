@@ -18,4 +18,14 @@ object SparkSchemas {
   def fields[A: SqlTypeToSpark, B: SqlTypeToSpark, C: SqlTypeToSpark]: List[StructField] = SqlTypeToSpark[A].sparkFields ++ SqlTypeToSpark[B].sparkFields ++ SqlTypeToSpark[C].sparkFields
   def fields[A: SqlTypeToSpark, B: SqlTypeToSpark, C: SqlTypeToSpark, D: SqlTypeToSpark]: List[StructField] = SqlTypeToSpark[A].sparkFields ++ SqlTypeToSpark[B].sparkFields ++ SqlTypeToSpark[C].sparkFields ++ SqlTypeToSpark[D].sparkFields
   def fields[A: SqlTypeToSpark, B: SqlTypeToSpark, C: SqlTypeToSpark, D: SqlTypeToSpark, E: SqlTypeToSpark]: List[StructField] = SqlTypeToSpark[A].sparkFields ++ SqlTypeToSpark[B].sparkFields ++ SqlTypeToSpark[C].sparkFields ++ SqlTypeToSpark[D].sparkFields ++ SqlTypeToSpark[E].sparkFields
+
+  /** These methods work for specific instances of other types
+   * e.g: SparkSchemas.schema(myBigQuerySchema)
+   */
+
+  def fields[A: SqlInstanceToSpark](value: A): List[StructField] = SqlInstanceToSpark[A].sparkFields(value)
+  def schema[A: SqlInstanceToSpark](value: A): StructType = StructType(fields(value))
+  //TODO make these methods available for multiple concatenated instances
+
+
 }

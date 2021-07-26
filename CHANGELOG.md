@@ -1,3 +1,9 @@
+### Big Data Types v0.5.1
+- Spark: Added methods to convert Instances into Spark inside `SparkSchemas`.
+- Spark: New extension methods that will allow any other instance to converted into Spark types
+- BigQuery: Fixed some names in extension methods
+- New cross module examples in Examples module
+
 ### Big Data Types v0.5.0
 - BigQuery: Reverse conversion. 
   This allows any BigQuery object (Schema or Field) to be converted into any of the other implemented types

@@ -6,11 +6,9 @@ import org.datatools.bigdatatypes.cassandra.CassandraTables
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SparkSchemas
 
-class CrossModuleExamplesSpec extends UnitSpec {
+class ScalaToOthers extends UnitSpec {
 
-  behavior of "CrossModuleExamplesSpec"
-
-  behavior of "Scala types to other"
+  behavior of "Scala types to other types"
 
   "Case Class" should "be converted into BigQuery Fields" in {
     val bq = SqlTypeToBigQuery[BasicTypes].bigQueryFields
