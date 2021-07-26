@@ -6,7 +6,7 @@ import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicO
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.basictypes.SqlType._
-import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.StructFieldSyntax
+import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.SchemaFieldSyntax
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
