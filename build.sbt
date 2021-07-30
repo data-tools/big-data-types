@@ -63,8 +63,8 @@ lazy val sparkDependencies = Seq(
 )
 
 lazy val cassandraDependencies = Seq(
-  "com.datastax.oss" % "java-driver-core" % "4.12.0",
-  "com.datastax.oss" % "java-driver-query-builder" % "4.12.0",
+  "com.datastax.oss" % "java-driver-core" % "4.12.1",
+  "com.datastax.oss" % "java-driver-query-builder" % "4.12.1",
   scalatest % Test
 )
 
