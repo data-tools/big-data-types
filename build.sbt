@@ -38,21 +38,21 @@ publishSettings
 
 //Dependencies
 lazy val coreDependencies2 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.3",
+  "ch.qos.logback" % "logback-classic" % "1.2.5",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.7",
   scalatest % Test
 )
 
 lazy val coreDependencies3 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.3",
+  "ch.qos.logback" % "logback-classic" % "1.2.5",
   "org.clapper" % "grizzled-slf4j_2.13" % "1.3.4",
   scalatest % Test
 )
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.8.2", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "1.137.1",
+  "com.google.cloud" % "google-cloud-bigquery" % "1.137.2",
   scalatest % "it,test"
 )
 
@@ -63,8 +63,8 @@ lazy val sparkDependencies = Seq(
 )
 
 lazy val cassandraDependencies = Seq(
-  "com.datastax.oss" % "java-driver-core" % "4.12.0",
-  "com.datastax.oss" % "java-driver-query-builder" % "4.12.0",
+  "com.datastax.oss" % "java-driver-core" % "4.12.1",
+  "com.datastax.oss" % "java-driver-query-builder" % "4.12.1",
   scalatest % Test
 )
 
