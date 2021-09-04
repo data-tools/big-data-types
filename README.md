@@ -20,7 +20,7 @@ What we can do with this library:
   - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
     they will get automatically conversions for the rest of the types
 - BigQuery: Create BigQuery Tables (or Schemas) using Case Classes or other types. 
-  - BigQuery module has also a completely integration with the system, so tables can be created using only this library.
+  - BigQuery module has also a complete integration with the system, so tables can be created using only this library.
 - Spark: Create Spark Schemas from Case Classes or from any other implemented type.
 - Cassandra: Create `CreateTable` objects from Case Classes. (They can be printed as a `create table` statement too)
 - Transformations:
