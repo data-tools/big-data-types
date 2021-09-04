@@ -6,22 +6,26 @@
 
 A library to transform Case Classes into Database schemas and to convert implemented types into another types
 
-This is a type safe library that converts basic Scala types and product types into different database types and schemas using Shapeless,
-it also allows converting implemented types into another types, for example, an Spark Schema can be automatically converted into a BigQuery table,
+This is a type safe library that converts basic Scala types and product types into different database types and schemas using 
+Shapeless for Scala 2 and Scala 3 Mirrors for Scala 3, 
+it also allows converting implemented types into another types, for example, a Spark Schema can be automatically converted into a BigQuery table,
 without having code that relates BigQuery and Spark directly.
 
 You can also see [this page in web format](https://data-tools.github.io/big-data-types/)
 
 What we can do with this library:
-- BigQuery: Create BigQuery Tables (or Schemas) using Case Classes
-- Spark: Create Spark Schemas from Case Classes
-- Transformations:
-    - On all modules, during a conversion (From Case Class to specific type) apply custom transformations. e.g: convert field names from camelCase into snake_case
 - Using multiple modules:
-    - Probably the most powerful thing of the library, any implemented type can be converted to any implemented type. e.g:
-    A Spark Schema can be converted into a BigQuery Table.
-    - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
+  - Probably the most powerful thing of the library, any implemented type can be converted to any other implemented type. e.g:
+    A Spark Schema can be converted into a BigQuery Table
+  - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
     they will get automatically conversions for the rest of the types
+- BigQuery: Create BigQuery Tables (or Schemas) using Case Classes or other types. 
+  - BigQuery module has also a completely integration with the system, so tables can be created using only this library.
+- Spark: Create Spark Schemas from Case Classes or from any other implemented type.
+- Cassandra: Create `CreateTable` objects from Case Classes. (They can be printed as a `create table` statement too)
+- Transformations:
+    - On all modules, during a conversion (From Case Class to specific type) apply custom transformations. e.g: convert field names from camelCase into snake_case, decide Timestamp formats or numerical precisions
+
 
 For now, it supports **BigQuery**, **Cassandra** and **Spark**.
 
