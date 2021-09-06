@@ -1,16 +1,11 @@
 package org.datatools.bigdatatypes
 
-import com.google.cloud.bigquery.Field.Mode
-import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
+import com.google.cloud.bigquery.Schema
 import org.datatools.bigdatatypes.BigQueryTestTypes.basicFields
-import org.datatools.bigdatatypes.TestTypes.BasicTypes
 import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.schema
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.bigquery.SqlTypeToBigQuery
 import org.datatools.bigdatatypes.cassandra.CassandraTables
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
-import org.datatools.bigdatatypes.spark.SparkSchemas
-import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.{InstanceSchemaSyntax, InstanceSyntax}
 
 class BigQueryToOthers extends UnitSpec {
 

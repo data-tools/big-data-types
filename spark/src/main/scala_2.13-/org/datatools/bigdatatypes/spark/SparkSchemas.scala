@@ -1,6 +1,8 @@
 package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types.{StructField, StructType}
+import org.datatools.bigdatatypes.formats.Formats
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 
 
 /**
@@ -23,8 +25,8 @@ object SparkSchemas {
    * e.g: SparkSchemas.schema(myBigQuerySchema)
    */
 
-  def fields[A: SqlInstanceToSpark](value: A): List[StructField] = SqlInstanceToSpark[A].sparkFields(value)
-  def schema[A: SqlInstanceToSpark](value: A): StructType = StructType(fields(value))
+  def fields[A: SqlInstanceToSpark](value: A)(implicit f: Formats): List[StructField] = SqlInstanceToSpark[A].sparkFields(value)
+  def schema[A: SqlInstanceToSpark](value: A)(implicit f: Formats): StructType = StructType(fields(value))
   //TODO make these methods available for multiple concatenated instances
 
 

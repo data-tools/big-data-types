@@ -48,7 +48,7 @@ object SqlTypeToSpark {
     * @param f [[Formats]] to apply while constructing the schema
     * @return List of [[StructField]] representing the schema of the given type
     */
-  private def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
+  def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))

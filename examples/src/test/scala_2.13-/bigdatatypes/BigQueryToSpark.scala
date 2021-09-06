@@ -2,9 +2,11 @@ package bigdatatypes
 
 import com.google.cloud.bigquery.Schema
 import org.datatools.bigdatatypes.BigQueryTestTypes.basicFields
+import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.schema
 import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.spark.SparkSchemas
+import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
 class BigQueryToSpark extends UnitSpec {
 
