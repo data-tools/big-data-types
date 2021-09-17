@@ -6,6 +6,7 @@
 - BigQuery: Fixed some names in extension methods
 - New cross module examples in Examples module
   - Added examples of conversions from BigQuery to Spark and Cassandra
+- Fixed some anchors in documentation
 
 ### Big Data Types v0.5.0
 - BigQuery: Reverse conversion. 

@@ -24,7 +24,4 @@ class ScalaToOthers extends UnitSpec {
       "CREATE TABLE testtable (myint int,mylong bigint PRIMARY KEY,myfloat float,mydouble double,mydecimal decimal,myboolean boolean,mystring text)"
   }
 
-
-
-
 }

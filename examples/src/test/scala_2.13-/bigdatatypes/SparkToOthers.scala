@@ -11,7 +11,7 @@ import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.{SparkSchemas, SqlTypeToSpark}
 import org.datatools.bigdatatypes.spark.SparkTypeConversion._
 
-class CrossModuleExamplesSpec extends UnitSpec {
+class SparkToOthers extends UnitSpec {
 
   behavior of "Spark Schemas to others"
 
@@ -59,8 +59,5 @@ class CrossModuleExamplesSpec extends UnitSpec {
       .table(sparkSchema, "testTable", "myLong")
       .toString shouldBe "CREATE TABLE testtable (myint int,mylong bigint PRIMARY KEY,myfloat float,mydouble double,mydecimal decimal,myboolean boolean,mystring text)"
   }
-
-
-
 
 }
