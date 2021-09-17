@@ -43,12 +43,12 @@ object BigQueryTypeConversion {
 
   /** Extension method. Enables val myInstance: Field -> myInstance.getType syntax
     */
-  implicit class StructTypeSyntax(value: Field) {
+  implicit class FieldTypeSyntax(value: Field) {
     def getType: SqlType = SqlInstanceConversion[Field].getType(value)
   }
 
   /** Extension method. Enables myBQTable: Schema -> myBQTable.getType */
-  implicit class StructFieldSyntax(value: Schema) {
+  implicit class SchemaFieldSyntax(value: Schema) {
     def getType: SqlType = SqlInstanceConversion[Schema].getType(value)
   }
 

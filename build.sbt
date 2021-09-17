@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.5.0"
+lazy val versionNumber = "0.5.1"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName

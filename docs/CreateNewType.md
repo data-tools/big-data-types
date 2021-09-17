@@ -10,13 +10,13 @@ You can also see [this document in web format](https://data-tools.github.io/big-
     + [Reverse Conversion](#reverse-conversion)
 - [How to do it](#how-to-do-it)
   * [Create a new subproject in SBT](#create-a-new-subproject-in-sbt)
-  * [Conversion: Type Class - SqlType -> New Type](#conversion--type-class---sqltype----new-type)
+  * [Conversion: Type Class - SqlType to New Type](#conversion--type-class---sqltype-to-new-type)
     + [Defining the syntax](#defining-the-syntax)
     + [Implementing the Type Class](#implementing-the-type-class)
       - [Mode inside Types](#mode-inside-types)
     + [Everything together](#everything-together)
-  * [Conversion: SqlInstance -> New Type](#conversion--sqlinstance----new-type)
-  * [Reverse conversion: New Type -> SqlType](#reverse-conversion--new-type----sqltype)
+  * [Conversion: SqlInstance to New Type](#conversion--sqlinstance-to-new-type)
+  * [Reverse conversion: New Type to SqlType](#reverse-conversion--new-type-to-sqltype)
   * [Everything together](#everything-together-1)
 
 
@@ -120,7 +120,7 @@ lazy val root = (project in file("."))
 
 Now, you can create a new root folder with your type name with the typical structure (src/main/scala_ ...)
 
-## Conversion: Type Class - SqlType -> New Type
+## Conversion: Type Class - SqlType to New Type
 
 ### Defining the syntax
 - First, create a new package called something like `org.datatools.bigdatatypes.{mynewtype}`
@@ -264,7 +264,7 @@ but we also want to convert other types that live only in the running phase, lik
 e.g: An Spark Schema is not just a type, it's an instance of StructType, so we need to pass an instance to our new converter
 
 
-## Conversion: SqlInstance -> New Type
+## Conversion: SqlInstance to New Type
 
 This will be quick as we already have methods that convert an `SqlType` into our new type, so we only need to extend them to accept an instance as argument
 
@@ -342,7 +342,7 @@ anyInstance.myNewType
 mySparkSchema.myNewType
 ```
 
-## Reverse conversion: New Type -> SqlType
+## Reverse conversion: New Type to SqlType
 In this case we don't have to create a new Type Class, we have to implement the existing one with our concrete specification.
 
 Implement [SqlTypeConversion](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala/org/datatools/bigdatatypes/conversions/SqlTypeConversion.scala) type class to have conversion from the new type to `SqlType` 
