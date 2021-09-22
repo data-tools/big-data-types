@@ -68,7 +68,7 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.9"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
 
 //Project settings
 lazy val root = (project in file("."))
