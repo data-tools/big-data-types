@@ -1,3 +1,8 @@
+### Big Data Types v0.5.2
+- Spark
+  - Added support for Spark in Scala 2.13
+  - Updated to Spark 3.2
+
 ### Big Data Types v0.5.1
 - Spark: 
   - Added a missing implementation for derive instances into SparkSchemas

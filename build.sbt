@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.5.1"
+lazy val versionNumber = "0.5.2"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -57,8 +57,8 @@ lazy val bigqueryDependencies = Seq(
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.1.2" % Provided,
-  "org.apache.spark" %% "spark-sql" % "3.1.2" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.2.0" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.2.0" % Provided,
   scalatest % Test
 )
 
@@ -113,7 +113,7 @@ lazy val spark = (project in file("spark"))
   .settings(
     name := projectName + "-spark",
     publishSettings,
-    crossScalaVersions := List(scala212),
+    crossScalaVersions := List(scala212, scala213),
     crossVersionSharedSources,
     libraryDependencies ++= sparkDependencies
   )
@@ -135,16 +135,16 @@ lazy val examples = (project in file("examples"))
   .settings(
     name := projectName + "-examples",
     noPublishSettings,
-    crossScalaVersions := List(scala212, scala213),
-    crossVersionSharedSources,
-    libraryDependencies ++= sparkDependencies //due to Spark provided dependencies
+    crossScalaVersions := supportedScalaVersions,
+    crossVersionSharedSourcesScala3
   )
   .dependsOn(core % "test->test;compile->compile")
   .dependsOn(bigquery % "test->test;compile->compile")
   .dependsOn(cassandra % "test->test;compile->compile")
   .settings(
     noPublishSettings,
-    crossScalaVersions := List(scala212)
+    crossScalaVersions := List(scala212, scala213),
+    libraryDependencies ++= sparkDependencies //due to Spark provided dependencies
   )
   .dependsOn(spark % "test->test;compile->compile")
 
