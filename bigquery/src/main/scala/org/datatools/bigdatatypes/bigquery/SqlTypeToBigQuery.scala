@@ -80,11 +80,11 @@ object SqlTypeToBigQuery {
   }
 
   /**
-   * Allows syntax .getBigQueryFields for case classes instances
+   * Allows syntax .asBigQuery for case classes instances
    * @param value not used, needed for implicit
-   * @tparam A is a Case Class
+   * @tparam A is a Case Class (Product type)
    */
   implicit class BigQueryFieldSyntax[A <: Product](value: A) {
-    def bigQueryFields(implicit a: SqlTypeToBigQuery[A]): List[Field] = a.bigQueryFields
+    def asBigQuery(implicit a: SqlTypeToBigQuery[A]): List[Field] = a.bigQueryFields
   }
 }

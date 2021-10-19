@@ -47,13 +47,10 @@ object SqlInstanceToCassandra {
         SqlTypeToCassandra.getSchema(value)
     }
 
-  /** Allows the syntax myInstance.cassandraFields for any instance of type A: SqlInstanceConversion
+  /** Allows the syntax myInstance.asCassandra for any instance of type A: SqlInstanceConversion
     */
   implicit class InstanceSyntax[A: SqlInstanceToCassandra](value: A) {
-    def cassandraFields: List[(String, DataType)] = SqlInstanceToCassandra[A].cassandraFields(value)
+    def asCassandra: List[(String, DataType)] = SqlInstanceToCassandra[A].cassandraFields(value)
   }
-
-  //TODO add another extension method to resolve mySqlInstance.cassandraFields
-
 }
 

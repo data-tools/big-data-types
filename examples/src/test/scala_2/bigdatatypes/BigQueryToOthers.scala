@@ -8,7 +8,7 @@ import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.spark.SparkSchemas
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
-import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.InstanceSchemaSyntax
+import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.InstanceSyntax
 
 class BigQueryToOthers extends UnitSpec {
 
@@ -44,7 +44,7 @@ class BigQueryToOthers extends UnitSpec {
   }
 
   it should "be converted into Spark Schema using extension method" in {
-    bqSchema.sparkSchema shouldBe sparkSchema
+    bqSchema.asSparkSchema shouldBe sparkSchema
   }
 
 

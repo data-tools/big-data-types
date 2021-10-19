@@ -21,18 +21,27 @@ class SparkToOthers extends UnitSpec {
     bq shouldBe BigQueryTestTypes.basicFields
   }
 
+  /* Example using a DataFrame or Dataset
+  "Spark Dataframe" should "be converted into BigQuery Fields" in {
+    val myDataFrame: DataFrame = ???
+    val spark: SparkSession = ???
+    import spark.implicits._
+    myDataFrame.schema.asBigQuery shouldBe ???
+  }
+  */
+
   it should "have a method to get BigQuery Fields" in {
     val schema: StructType = SqlTypeToSpark[BasicTypes].sparkSchema
-    schema.bigQueryFields shouldBe BigQueryTestTypes.basicFields
+    schema.asBigQuery shouldBe BigQueryTestTypes.basicFields
   }
 
   it should "be converted into SqlType Instance" in {
     val schema: StructType = SqlTypeToSpark[BasicTypes].sparkSchema
-    schema.getType shouldBe TestTypes.basicTypes
+    schema.asSqlType shouldBe TestTypes.basicTypes
   }
 
   "Spark to SqlType instance" should "be converted into BigQuery Fields" in {
-    val sql: SqlType = SparkSchemas.schema[BasicTypes].getType
+    val sql: SqlType = SparkSchemas.schema[BasicTypes].asSqlType
     SqlInstanceToBigQuery[SqlType].bigQueryFields(sql) shouldBe BigQueryTestTypes.basicFields
   }
 

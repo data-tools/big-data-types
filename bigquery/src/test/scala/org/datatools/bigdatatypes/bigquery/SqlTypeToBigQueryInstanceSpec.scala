@@ -19,7 +19,7 @@ class SqlTypeToBigQueryInstanceSpec extends UnitSpec {
 
   "SqlType Instance" should "have bigQueryFields method" in {
     val sql: SqlType = SqlTypeConversion[BasicTypes].getType
-    sql.bigQueryFields shouldBe BigQueryTestTypes.basicTypes
+    sql.asBigQuery shouldBe BigQueryTestTypes.basicTypes
   }
 
   "basic case class" should "be converted into BigQueryFields" in {

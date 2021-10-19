@@ -3,7 +3,6 @@ package org.datatools.bigdatatypes.cassandra
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createTable
 import com.datastax.oss.driver.api.querybuilder.schema.{CreateTable, CreateTableStart}
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats
 
 object CassandraTables {

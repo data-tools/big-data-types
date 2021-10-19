@@ -56,8 +56,8 @@ class SqlTypeToSparkSpec extends UnitSpec {
 
   "A Case Class instance" should "return Spark Fields" in {
     val dummy = Dummy(1, "test")
-    dummy.sparkSchema shouldBe expectedSchema
-    dummy.sparkFields shouldBe expectedFields
+    dummy.asSparkSchema shouldBe expectedSchema
+    dummy.asSparkFields shouldBe expectedFields
   }
 
   "A Case Class type" should "return Spark Fields" in {

@@ -5,11 +5,8 @@ import org.datatools.bigdatatypes.basictypes.SqlType._
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
 import org.datatools.bigdatatypes.basictypes._
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toScala
-import org.datatools.bigdatatypes.bigquery.SqlTypeToBigQuery.{getSchema, sqlModeToBigQueryMode}
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
-import org.datatools.bigdatatypes.formats.Formats
 
-import scala.annotation.tailrec
 
 /** Using SqlTypeConversion and SqlInstanceConversion type classes,
   * here are defined all the conversions to transform BigQuery Tables into [[SqlType]]s
@@ -41,15 +38,15 @@ object BigQueryTypeConversion {
 
   /** Extension methods for BigQuery Schemas and Fields into SqlTypes */
 
-  /** Extension method. Enables val myInstance: Field -> myInstance.getType syntax
+  /** Extension method. Enables val myInstance: Field -> myInstance.asSqlType syntax
     */
   implicit class FieldTypeSyntax(value: Field) {
-    def getType: SqlType = SqlInstanceConversion[Field].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[Field].getType(value)
   }
 
-  /** Extension method. Enables myBQTable: Schema -> myBQTable.getType */
+  /** Extension method. Enables myBQTable: Schema -> myBQTable.asSqlType */
   implicit class SchemaFieldSyntax(value: Schema) {
-    def getType: SqlType = SqlInstanceConversion[Schema].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[Schema].getType(value)
   }
 
   /** Given a BigQuery Field, converts it into a SqlType

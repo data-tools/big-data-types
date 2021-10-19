@@ -28,16 +28,12 @@ object SqlInstanceToSpark {
         SqlTypeToSpark.getSchema(SqlInstanceConversion[A].getType(value))
     }
 
-  /** Allows the syntax myInstance.sparkFields for any instance of type A: SqlInstanceConversion
+  /** Allows the syntax myInstance.sparkFields and myInstance.sparkSchemas
+    * for any instance of type A: SqlInstanceConversion
+    * e.g: myBigQueryTable.asSparkSchema
     */
   implicit class InstanceSyntax[A: SqlInstanceToSpark](value: A) {
-    def sparkFields: List[StructField] = SqlInstanceToSpark[A].sparkFields(value)
-  }
-
-  /** Another extension method to get an Spark Schema from any type
-    * usage: myInstance.sparkSchema
-    */
-  implicit class InstanceSchemaSyntax[A: SqlInstanceToSpark](value: A) {
-    def sparkSchema: StructType = StructType(SqlInstanceToSpark[A].sparkFields(value))
+    def asSparkFields: List[StructField] = SqlInstanceToSpark[A].sparkFields(value)
+    def asSparkSchema: StructType = StructType(SqlInstanceToSpark[A].sparkFields(value))
   }
 }
