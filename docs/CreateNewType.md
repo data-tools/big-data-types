@@ -412,11 +412,11 @@ object SparkTypeConversion {
 - One last (optional) step. If we want to make the usage easier, we can create an _extension method_
 
 ```scala
-  /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+  /** Extension method. Enables val myInstance: StructType -> myInstance.asSqlType syntax and DataFrame.schema.asSqlType syntax
     * @param value in a StructType (Spark Schema)
     */
   implicit class StructTypeSyntax(value: StructType) {
-    def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[StructType].getType(value)
   }
 ```
 This method will allow any instance of the library to obtain our new type

@@ -45,4 +45,23 @@ object CassandraTables {
     val withoutPk = tuples.dropWhile(tuple => tuple._1 == primaryKey)
     withoutPk.foldLeft(tmpTable)((tmpTable, tuple) => tmpTable.withColumn(tuple._1, tuple._2))
   }
+
+  /**
+    * Extension methods that allow any other type instance to be converted into a Cassandra CreateTable
+    * @tparam A any type from the library with SqlInstanceConversion
+    */
+  implicit class AsCassandraInstanceSyntax[A: SqlInstanceToCassandra](value: A) {
+    def asCassandra(tableName: String, primaryKey: String): CreateTable =
+      CassandraTables.table(SqlInstanceToCassandra[A].cassandraFields(value), tableName, primaryKey)
+  }
+
+  /**
+    * Extension method that allows any case class (or product type) to be converted into a Cassandra CreateTable
+    * @param value not used, needed for implicit
+    * @tparam A Product type (e.g a case class)
+    */
+  implicit class AsCassandraProductSyntax[A <: Product](value: A) {
+    def asCassandra(tableName: String, primaryKey: String)(implicit a: SqlTypeToCassandra[A]): CreateTable =
+      CassandraTables.table(a.cassandraFields, tableName, primaryKey)
+  }
 }
