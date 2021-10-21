@@ -5,6 +5,14 @@ import com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createTable
 import com.datastax.oss.driver.api.querybuilder.schema.{CreateTable, CreateTableStart}
 import org.datatools.bigdatatypes.formats.Formats
 
+/**
+  * This objects wraps the functionality of the Type Classes in the library to offer them in a easier way
+  * The type conversions in the library for Cassandra work internally with `List[(String, DataType)]`
+  * as it is better typed and allow better conversions.
+  * This object exposes a few methods (and extension methods) that return a `CreateTable` from Cassandra.
+  * A CreateTable have a `table name` and a `primary key` and more options (partitions, clustering, etc.)
+  * can be added to the returned object
+  */
 object CassandraTables {
 
   /** Build a CreateTable object with the given Product, table name and primary Key.
