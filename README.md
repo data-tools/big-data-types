@@ -215,7 +215,7 @@ It works for Options, Sequences and any level of nested objects
 Also, a Spark Schema can be extracted from a Case Class instance
 ```scala
 val model = MyModel(1, "test")
-model.asSpark
+model.asSparkSchema
 ```
 
 ### Create a Dataframe
