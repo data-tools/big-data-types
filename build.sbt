@@ -5,7 +5,7 @@ version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.6"
-lazy val scala212 = "2.12.14"
+lazy val scala212 = "2.12.15"
 lazy val scala3 = "3.0.2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
