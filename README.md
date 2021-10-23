@@ -55,36 +55,45 @@ Available conversions:
     + [Create a table with more than one Case Class](#create-a-table-with-more-than-one-case-class)
   * [Create BigQuery schema from a Case Class](#create-bigquery-schema-from-a-case-class)
   * [From a Case Class instance](#from-a-case-class-instance)
+  * [From any other type](#from-any-other-type)
   * [Connecting to your BigQuery environment](#connecting-to-your-bigquery-environment)
 - [Spark](#spark)
   * [Spark Schema from Case Class](#spark-schema-from-case-class)
     + [Create a Dataframe](#create-a-dataframe)
     + [Spark Schema from Multiple Case Classes](#spark-schema-from-multiple-case-classes)
+    + [Spark Schema from other types](#spark-schema-from-other-types)
   * [Field transformations](#field-transformations)
 - [Cassandra](#cassandra)
   * [Case Classes to Cassandra CreateTable](#case-classes-to-cassandra-createtable)
   * [Other types to Cassandra CreateTable](#other-types-to-cassandra-createtable)
+    + [Or from a product type (case class)](#or-from-a-product-type--case-class-)
+    + [Or from an instance of other types](#or-from-an-instance-of-other-types)
 - [Transformations](#transformations)
   * [Implicit Formats](#implicit-formats)
     + [DefaultFormats](#defaultformats)
     + [SnakifyFormats](#snakifyformats)
     + [Creating a custom Formats](#creating-a-custom-formats)
 - [Multiple Modules](#multiple-modules)
+  + [An example from Spark to Cassandra](#an-example-from-spark-to-cassandra)
 
 # Quick Start
 The library has different modules that can be imported separately
 - BigQuery
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types-bigquery_2.13" % "{version}"
+libraryDependencies += "io.github.data-tools" %% "big-data-types-bigquery" % "{version}"
 ```
 - Spark
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types-spark_2.12" % "{version}"
+libraryDependencies += "io.github.data-tools" %% "big-data-types-spark" % "{version}"
+```
+- Cassandra
+```
+libraryDependencies += "io.github.data-tools" %% "big-data-types-cassandra" % "{version}"
 ```
 - Core
     - To get support for abstract SqlTypes, it is included in the others, so it is not needed if you are using one of the others
 ```
-libraryDependencies += "io.github.data-tools" % "big-data-types-core_2.13" % "{version}"
+libraryDependencies += "io.github.data-tools" %% "big-data-types-core" % "{version}"
 ```
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
@@ -164,7 +173,14 @@ import org.datatools.bigdatatypes.bigquery.BigQueryTypes._
 
 case class MyTable(field1: Int, field2: String)
 val data = MyTable(1, "test")
-val fields: List[Field] = data.getBigQueryFields
+val fields: List[Field] = data.asBigQuery
+```
+
+## From any other type
+e.g: Spark Schema
+```scala
+val myDataframe: Dataframe = ???
+val bqSchema: Schema = myDataframe.schema.asBigQuery
 ```
 
 See more info about [creating tables on BigQuery](https://cloud.google.com/bigquery/docs/tables#java) in the official documentation
@@ -199,7 +215,7 @@ It works for Options, Sequences and any level of nested objects
 Also, a Spark Schema can be extracted from a Case Class instance
 ```scala
 val model = MyModel(1, "test")
-model.sparkSchema
+model.asSparkSchema
 ```
 
 ### Create a Dataframe
@@ -268,6 +284,13 @@ df.show(4)
 */
 ```
 
+### Spark Schema from other types
+
+```scala
+val myBigQuerySchema: Schema = ???
+val schema: StructType = myBigQuerySchema.asSparkSchema
+```
+
 
 ## Field transformations
 Also, custom transformations can be applied to field names, something that usually is quite hard to do with Spark Datasets.
@@ -312,6 +335,19 @@ val table: CreateTable = CassandraTables.table[MyTable]("TableName", "id")
 ```scala
 val sparkSchema = sparkDataFrame.schema
 CassandraTables.table(sparkSchema, "tableName", "primaryKeyFieldName")
+```
+
+### Or from a product type (case class)
+```scala
+case class MyModel(a: Int, b: String)
+val instance = MyModel(1, "test")
+instance.asCassandra("TestTable", "primaryKey")
+```
+
+### Or from an instance of other types
+```scala
+val mySparkDataframe: Dataframe = ???
+mySparkDataframe.asCassandra("TestTable", "primaryKey")
 ```
 
 # Transformations
@@ -378,8 +414,13 @@ BigQueryTable.createTable(mySparkDataset, "dataset_name", "table_name")
 Or we can just get the BigQuery Schema
 ```scala
 val mySparkDataFrame: DataFrame = ???
-val bq: List[Field] = mySparkDataFrame.bigQueryFields
+val bq: List[Field] = mySparkDataFrame.schema.asBigQuery
 ```
 
+### An example from Spark to Cassandra
+```scala
+val mySparkDataFrame: DataFrame = ???
+val cassandraTable: CreateTable = mySparkDataFrame.schema.asCassandra("TableName", "primaryKey")
+```
 More examples can be found in [Tests of the Examples Module](https://github.com/data-tools/big-data-types/blob/44255f99d32293f83eee333760fc31c9bd0f0d02/examples/src/test/scala_2.13-/bigdatatypes/CrossModuleExamplesSpec.scala)
 

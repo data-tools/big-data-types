@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.5.2"
+lazy val versionNumber = "1.0.0"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -35,6 +35,8 @@ lazy val noPublishSettings = {
 }
 
 publishSettings
+
+lazy val scalacCommon = Seq("-Xsource:3")
 
 //Dependencies
 lazy val coreDependencies2 = Seq(
@@ -73,7 +75,10 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings, scalacOptions += "-Ytasty-reader", crossScalaVersions := Nil)
+  .settings(
+    noPublishSettings,
+    scalacOptions ++= scalacCommon,
+    crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
@@ -85,6 +90,7 @@ lazy val root = (project in file("."))
 lazy val core = (project in file("core")).settings(
   name := projectName + "-core",
   publishSettings,
+  scalacOptions ++= scalacCommon,
   crossScalaVersions := supportedScalaVersions,
   crossVersionSharedSourcesScala3, //different one for Scala 2 or 3
   //for Scala 2 or 3
@@ -102,6 +108,7 @@ lazy val bigquery = (project in file("bigquery"))
   .settings(
     name := projectName + "-bigquery",
     publishSettings,
+    scalacOptions ++= scalacCommon,
     Defaults.itSettings,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
@@ -113,6 +120,7 @@ lazy val spark = (project in file("spark"))
   .settings(
     name := projectName + "-spark",
     publishSettings,
+    scalacOptions ++= scalacCommon,
     crossScalaVersions := List(scala212, scala213),
     crossVersionSharedSources,
     libraryDependencies ++= sparkDependencies
@@ -124,6 +132,7 @@ lazy val cassandra = (project in file("cassandra"))
   .settings(
     name := projectName + "-cassandra",
     publishSettings,
+    scalacOptions ++= scalacCommon,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
     libraryDependencies ++= cassandraDependencies
@@ -135,6 +144,7 @@ lazy val examples = (project in file("examples"))
   .settings(
     name := projectName + "-examples",
     noPublishSettings,
+    scalacOptions ++= scalacCommon,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSourcesScala3
   )

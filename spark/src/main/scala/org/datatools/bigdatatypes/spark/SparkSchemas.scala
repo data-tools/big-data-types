@@ -2,7 +2,6 @@ package org.datatools.bigdatatypes.spark
 
 import org.apache.spark.sql.types.{StructField, StructType}
 import org.datatools.bigdatatypes.formats.Formats
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 
 
 /**

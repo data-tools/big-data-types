@@ -40,7 +40,7 @@ class CustomFormatsSpec extends UnitSpec {
             "myDummy",
             StandardSQLTypeName.STRUCT,
             FieldList.of(
-              fields: _*
+              fields*
             )
           )
           .setMode(Mode.REQUIRED)

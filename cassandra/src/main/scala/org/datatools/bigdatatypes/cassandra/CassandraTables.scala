@@ -3,9 +3,16 @@ package org.datatools.bigdatatypes.cassandra
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createTable
 import com.datastax.oss.driver.api.querybuilder.schema.{CreateTable, CreateTableStart}
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats
 
+/**
+  * This objects wraps the functionality of the Type Classes in the library to offer them in a easier way
+  * The type conversions in the library for Cassandra work internally with `List[(String, DataType)]`
+  * as it is better typed and allow better conversions.
+  * This object exposes a few methods (and extension methods) that return a `CreateTable` from Cassandra.
+  * A CreateTable have a `table name` and a `primary key` and more options (partitions, clustering, etc.)
+  * can be added to the returned object
+  */
 object CassandraTables {
 
   /** Build a CreateTable object with the given Product, table name and primary Key.
@@ -45,5 +52,24 @@ object CassandraTables {
       pk.fold(t.withPartitionKey(primaryKey, DataTypes.TEXT))(tuple => t.withPartitionKey(tuple._1, tuple._2))
     val withoutPk = tuples.dropWhile(tuple => tuple._1 == primaryKey)
     withoutPk.foldLeft(tmpTable)((tmpTable, tuple) => tmpTable.withColumn(tuple._1, tuple._2))
+  }
+
+  /**
+    * Extension methods that allow any other type instance to be converted into a Cassandra CreateTable
+    * @tparam A any type from the library with SqlInstanceConversion
+    */
+  implicit class AsCassandraInstanceSyntax[A: SqlInstanceToCassandra](value: A) {
+    def asCassandra(tableName: String, primaryKey: String): CreateTable =
+      CassandraTables.table(SqlInstanceToCassandra[A].cassandraFields(value), tableName, primaryKey)
+  }
+
+  /**
+    * Extension method that allows any case class (or product type) to be converted into a Cassandra CreateTable
+    * @param value not used, needed for implicit
+    * @tparam A Product type (e.g a case class)
+    */
+  implicit class AsCassandraProductSyntax[A <: Product](value: A) {
+    def asCassandra(tableName: String, primaryKey: String)(implicit a: SqlTypeToCassandra[A]): CreateTable =
+      CassandraTables.table(a.cassandraFields, tableName, primaryKey)
   }
 }

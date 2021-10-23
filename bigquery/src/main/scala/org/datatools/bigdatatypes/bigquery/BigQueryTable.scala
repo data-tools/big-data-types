@@ -66,7 +66,7 @@ object BigQueryTable {
    * @param tableDefinition definition of the table
    * @return `Either[BigQueryError, Table]`
    */
-  def tryTable(tableId: TableId, tableDefinition: TableDefinition): Either[BigQueryError, Table] = {
+  private def tryTable(tableId: TableId, tableDefinition: TableDefinition): Either[BigQueryError, Table] = {
     val tableInfo: TableInfo = TableInfo.newBuilder(tableId, tableDefinition).build()
     val tryTable: Try[Table] = Try(service.create(tableInfo)) recoverWith {
       case bigQueryException: BigQueryException =>

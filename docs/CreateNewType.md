@@ -330,10 +330,10 @@ Finally, an extension method could help to improve the syntax. (Note: Scala 3 is
 
 Inside the same object, we create an implicit class with our new syntax:
 ```scala
-  /** Allows the syntax myInstance.bigQueryFields for any instance of type A: SqlInstanceConversion
+  /** Allows the syntax myInstance.asBigQuery for any instance of type A: SqlInstanceConversion
     */
   implicit class InstanceSyntax[A: SqlInstanceToBigQuery](value: A) {
-    def bigQueryFields: List[Field] = SqlInstanceToBigQuery[A].bigQueryFields(value)
+    def asBigQuery: List[Field] = SqlInstanceToBigQuery[A].bigQueryFields(value)
   }
 ```
 And, we will win a new syntax like:
@@ -412,11 +412,11 @@ object SparkTypeConversion {
 - One last (optional) step. If we want to make the usage easier, we can create an _extension method_
 
 ```scala
-  /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+  /** Extension method. Enables val myInstance: StructType -> myInstance.asSqlType syntax and DataFrame.schema.asSqlType syntax
     * @param value in a StructType (Spark Schema)
     */
   implicit class StructTypeSyntax(value: StructType) {
-    def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[StructType].getType(value)
   }
 ```
 This method will allow any instance of the library to obtain our new type

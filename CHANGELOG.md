@@ -1,3 +1,7 @@
+## Big Data Types v1.0.0
+- Better public API definition
+- Extension methods renamed to a better name (This is a breaking change)
+
 ### Big Data Types v0.5.2
 - Spark
   - Added support for Spark in Scala 2.13

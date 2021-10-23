@@ -1,9 +1,9 @@
 package org.datatools.bigdatatypes.spark
 
-import org.apache.spark.sql.types._
-import org.datatools.bigdatatypes.basictypes._
-import org.datatools.bigdatatypes.basictypes.SqlType._
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
+import org.apache.spark.sql.types.*
+import org.datatools.bigdatatypes.basictypes.*
+import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats
 
@@ -48,7 +48,7 @@ object SqlTypeToSpark {
     * @param f [[Formats]] to apply while constructing the schema
     * @return List of [[StructField]] representing the schema of the given type
     */
-  def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
+  private[spark] def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
@@ -104,12 +104,12 @@ object SqlTypeToSpark {
     case Required => false
   }
 
-  /** Extension method, allows syntax .sparkSchema and .sparkFields for case classes instances
+  /** Extension method, allows syntax .asSparkSchema and .asSparkFields for case classes instances
     * @param value not used, needed for implicit
     * @tparam A is a Case Class
     */
   implicit class SparkSchemaSyntax[A <: Product](value: A) {
-    def sparkSchema(implicit a: SqlTypeToSpark[A]): StructType = a.sparkSchema
-    def sparkFields(implicit a: SqlTypeToSpark[A]): List[StructField] = a.sparkFields
+    def asSparkSchema(implicit a: SqlTypeToSpark[A]): StructType = a.sparkSchema
+    def asSparkFields(implicit a: SqlTypeToSpark[A]): List[StructField] = a.sparkFields
   }
 }

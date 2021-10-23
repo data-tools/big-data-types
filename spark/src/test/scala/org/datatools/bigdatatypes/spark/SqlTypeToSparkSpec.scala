@@ -1,10 +1,10 @@
 package org.datatools.bigdatatypes.spark
 
-import org.apache.spark.sql.types._
-import org.datatools.bigdatatypes.TestTypes._
+import org.apache.spark.sql.types.*
+import org.datatools.bigdatatypes.TestTypes.*
 import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
-import org.datatools.bigdatatypes.spark.SqlTypeToSpark._
+import org.datatools.bigdatatypes.spark.SqlTypeToSpark.*
 
 /** All conversions from Case Class to Spark Schemas
   */
@@ -56,8 +56,8 @@ class SqlTypeToSparkSpec extends UnitSpec {
 
   "A Case Class instance" should "return Spark Fields" in {
     val dummy = Dummy(1, "test")
-    dummy.sparkSchema shouldBe expectedSchema
-    dummy.sparkFields shouldBe expectedFields
+    dummy.asSparkSchema shouldBe expectedSchema
+    dummy.asSparkFields shouldBe expectedFields
   }
 
   "A Case Class type" should "return Spark Fields" in {

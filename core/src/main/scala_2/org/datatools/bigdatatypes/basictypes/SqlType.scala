@@ -1,7 +1,7 @@
 package org.datatools.bigdatatypes.basictypes
 
-import org.datatools.bigdatatypes.basictypes.SqlType._
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
 
 
 /** Abstract representation of the type of a generic SQL database */

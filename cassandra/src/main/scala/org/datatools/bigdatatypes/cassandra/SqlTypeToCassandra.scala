@@ -1,7 +1,7 @@
 package org.datatools.bigdatatypes.cassandra
 
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
-import org.datatools.bigdatatypes.basictypes.SqlType._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode.Repeated
 import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
@@ -23,7 +23,7 @@ object SqlTypeToCassandra {
       def cassandraFields: List[(String, DataType)] = fs
     }
 
-  def getSchema(sqlType: SqlType)(implicit f: Formats): List[(String, DataType)] = sqlType match {
+  private[cassandra] def getSchema(sqlType: SqlType)(implicit f: Formats): List[(String, DataType)] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
@@ -54,5 +54,14 @@ object SqlTypeToCassandra {
     */
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SqlTypeToCassandra[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
+
+  /**
+    * Allows syntax .asCassandra for case classes (product) instances
+    * @param value not used, needed for implicit
+    * @tparam A is a Case Class
+    */
+  implicit class AsCassandraSyntax[A <: Product](value: A) {
+    def asCassandra(implicit a: SqlTypeToCassandra[A]): List[(String, DataType)] = a.cassandraFields
+  }
 
 }

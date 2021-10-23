@@ -1,11 +1,11 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Schema
-import org.datatools.bigdatatypes.BigQueryTestTypes._
+import org.datatools.bigdatatypes.BigQueryTestTypes.*
 import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicOptionalStruct, BasicStruct, BasicTypes, ExtendedTypes, ListOfStruct}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes.SqlType
-import org.datatools.bigdatatypes.basictypes.SqlType._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.SchemaFieldSyntax
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
@@ -45,38 +45,38 @@ class BigQueryTypeConversionSpec extends UnitSpec {
 
   "Basic BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(basicFields.toList))
-    val sqlType: SqlType = bqSchema.getType
+    val sqlType: SqlType = bqSchema.asSqlType
     sqlType shouldBe reduceBQTypes(SqlTypeConversion[BasicTypes].getType)
   }
 
   "Optional fields in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(basicOptionTypes.toList))
-    bqSchema.getType shouldBe reduceBQTypes(SqlTypeConversion[BasicOptionTypes].getType)
+    bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[BasicOptionTypes].getType)
   }
 
   "Repeated field in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(basicWithList.toList))
-    bqSchema.getType shouldBe reduceBQTypes(SqlTypeConversion[BasicList].getType)
+    bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[BasicList].getType)
   }
 
   "Nested field in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(basicNested.toList))
-    bqSchema.getType shouldBe reduceBQTypes(SqlTypeConversion[BasicStruct].getType)
+    bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[BasicStruct].getType)
   }
 
   "Optional Nested field in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(basicOptionalNested.toList))
-    bqSchema.getType shouldBe reduceBQTypes(SqlTypeConversion[BasicOptionalStruct].getType)
+    bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[BasicOptionalStruct].getType)
   }
 
   "Nested field with repeated records in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(basicNestedWithList.toList))
-    bqSchema.getType shouldBe reduceBQTypes(SqlTypeConversion[ListOfStruct].getType)
+    bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[ListOfStruct].getType)
   }
 
   "Extended type fields in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(extendedTypes.toList))
-    bqSchema.getType shouldBe reduceBQTypes(SqlTypeConversion[ExtendedTypes].getType)
+    bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[ExtendedTypes].getType)
   }
 
 }
