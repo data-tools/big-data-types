@@ -1,11 +1,11 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Field
-import org.datatools.bigdatatypes.TestTypes._
+import org.datatools.bigdatatypes.TestTypes.*
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.InstanceSyntax
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion._
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion.*
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.{BigQueryTestTypes, UnitSpec}
 

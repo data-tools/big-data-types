@@ -2,12 +2,12 @@ package bigdatatypes
 
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
-import org.apache.spark.sql.types.{BooleanType, DataTypes, DoubleType, FloatType, IntegerType, LongType, StringType, StructField, StructType}
+import org.apache.spark.sql.types.*
+import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.schema
-import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.spark.SparkSchemas
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
+import org.datatools.bigdatatypes.spark.SparkSchemas
 import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.InstanceSyntax
 
 class BigQueryToOthers extends UnitSpec {

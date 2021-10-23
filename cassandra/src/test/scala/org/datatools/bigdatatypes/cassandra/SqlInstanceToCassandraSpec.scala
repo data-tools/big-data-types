@@ -4,7 +4,7 @@ import org.datatools.bigdatatypes.TestTypes.BasicTypes
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
 import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
-import org.datatools.bigdatatypes.cassandra.SqlInstanceToCassandra._
+import org.datatools.bigdatatypes.cassandra.SqlInstanceToCassandra.*
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 
 class SqlInstanceToCassandraSpec extends UnitSpec {

@@ -1,11 +1,11 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Schema
-import org.datatools.bigdatatypes.BigQueryTestTypes._
+import org.datatools.bigdatatypes.BigQueryTestTypes.*
 import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicOptionalStruct, BasicStruct, BasicTypes, ExtendedTypes, ListOfStruct}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes.SqlType
-import org.datatools.bigdatatypes.basictypes.SqlType._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.SchemaFieldSyntax
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion

@@ -1,7 +1,7 @@
 package org.datatools.bigdatatypes.cassandra
 
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
-import org.datatools.bigdatatypes.basictypes.SqlType._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode.Repeated
 import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion

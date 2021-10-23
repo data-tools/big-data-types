@@ -1,15 +1,15 @@
 package bigdatatypes
 
 import org.apache.spark.sql.types.StructType
-import org.datatools.bigdatatypes.TestTypes._
+import org.datatools.bigdatatypes.TestTypes.*
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.{BigQueryTestTypes, CassandraTestTypes, TestTypes, UnitSpec}
 import org.datatools.bigdatatypes.bigquery.{BigQueryTable, SqlInstanceToBigQuery}
-import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery._
+import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.*
 import org.datatools.bigdatatypes.cassandra.{CassandraTables, SqlInstanceToCassandra}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.{SparkSchemas, SqlTypeToSpark}
-import org.datatools.bigdatatypes.spark.SparkTypeConversion._
+import org.datatools.bigdatatypes.spark.SparkTypeConversion.*
 
 class SparkToOthers extends UnitSpec {
 

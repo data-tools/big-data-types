@@ -3,7 +3,7 @@ package org.datatools.bigdatatypes.bigquery
 import java.sql.{Date, Timestamp}
 
 import org.datatools.bigdatatypes.IntegrationSpec
-import org.datatools.bigdatatypes.DummyModels._
+import org.datatools.bigdatatypes.DummyModels.*
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.formats.Formats.implicitSnakifyFormats
 

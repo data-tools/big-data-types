@@ -1,10 +1,10 @@
 package org.datatools.bigdatatypes.spark
 
-import org.apache.spark.sql.types._
-import org.datatools.bigdatatypes.TestTypes._
+import org.apache.spark.sql.types.*
+import org.datatools.bigdatatypes.TestTypes.*
 import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
-import org.datatools.bigdatatypes.spark.SqlTypeToSpark._
+import org.datatools.bigdatatypes.spark.SqlTypeToSpark.*
 
 /** All conversions from Case Class to Spark Schemas
   */

@@ -1,10 +1,9 @@
 package org.datatools.bigdatatypes.cassandra
 
-import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
 import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicTypes, ExtendedTypes}
 import org.datatools.bigdatatypes.cassandra.SqlTypeToCassandra.AsCassandraSyntax
-import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
+import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
 
 class SqlTypeToCassandraSpec extends UnitSpec {
 
