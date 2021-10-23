@@ -36,7 +36,7 @@ lazy val noPublishSettings = {
 
 publishSettings
 
-lazy val scalacCommon = Seq("-Xsource:3", "-Ytasty-reader")
+lazy val scalacCommon = Seq("-Xsource:3")
 
 //Dependencies
 lazy val coreDependencies2 = Seq(
