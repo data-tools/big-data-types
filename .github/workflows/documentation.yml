@@ -39,6 +39,7 @@ jobs:
           GIT_DEPLOY_KEY: ${{ secrets.DOCUSAURUS_DEPLOY_KEY }}
       - name: Release to GitHub Pages
         run: |
+          git config --global user.name "JavierMonton"
           cd website
           if [ -e yarn.lock ]; then
             yarn install --frozen-lockfile
