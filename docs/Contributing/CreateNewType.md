@@ -23,12 +23,12 @@ This is a guide on how to add a new type to the library
   * [Everything together](#everything-together-1)
 
 
-# How to develop a new type
+## How to develop a new type
 
 Adding a new type to the library will allow conversions from any developed type into the new one 
 and from the new one into any of the others
 
-# How it works
+## How it works
 
 There is an ADT (sealed trait) called `SqlType` that is used as a generic type for any transformation. 
 It works as a bridge, so any developed type can be transformed into SqlType and SqlType can be converted into specific types.

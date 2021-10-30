@@ -25,5 +25,5 @@ Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,!
 and ![Scala 3.0](https://img.shields.io/badge/Scala-3.0-red) are available in Maven
 
 ## How it works
-Check the [complete guide on how to create a new type](./docs/CreateNewType.md) to understand how the library works internally
+Check the [complete guide on how to create a new type](./Contributing/CreateNewType) to understand how the library works internally
  
