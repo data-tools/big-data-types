@@ -36,7 +36,7 @@ jobs:
       - name: Release to GitHub Pages
       - uses: olafurpg/setup-gpg@v3
         env:
-          GIT_DEPLOY_KEY: ${{ secrets.GIT_DEPLOY_KEY }}
+          GIT_DEPLOY_KEY: ${{ secrets.DOCUSAURUS_DEPLOY_KEY }}
         run: |
           if [ -e yarn.lock ]; then
             yarn install --frozen-lockfile
