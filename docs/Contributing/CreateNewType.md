@@ -1,6 +1,9 @@
-This is a guide on how to add a new type to the library
+---
+sidebar_position: 2
+---
 
-You can also see [this document in web format](https://data-tools.github.io/big-data-types/docs/CreateNewType.html)
+# New Types for the library
+This is a guide on how to add a new type to the library
 
 - [How to develop a new type](#how-to-develop-a-new-type)
 - [How it works](#how-it-works)
