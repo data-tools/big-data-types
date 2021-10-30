@@ -10,7 +10,7 @@ const config = {
   tagline: 'Type safe conversions between big-data tools',
   url: 'https://data-tools.github.io',
   baseUrl: '/big-data-types/',
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'data-tools', // Usually your GitHub org/user name.
@@ -48,6 +48,7 @@ const config = {
         logo: {
           alt: 'Big Data Types Logo',
           src: 'img/logo.svg',
+          srcDark: "img/logo-white.svg"
         },
         items: [
           {
