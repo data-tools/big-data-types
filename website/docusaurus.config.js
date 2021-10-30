@@ -9,12 +9,13 @@ const config = {
   title: 'Big Data Types',
   tagline: 'Type safe conversions between big-data tools',
   url: 'https://data-tools.github.io',
-  baseUrl: '/',
+  baseUrl: '/big-data-types/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'data-tools', // Usually your GitHub org/user name.
   projectName: 'big-data-types', // Usually your repo name.
+  trailingSlash: false,
 
   presets: [
     [
