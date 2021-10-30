@@ -16,7 +16,7 @@ it also allows converting implemented types into another types, for example, a S
 without having code that relates BigQuery and Spark directly.
 
 
-What we can do with this library:
+### What we can do with this library:
 - Using multiple modules:
     - Probably the most powerful thing of the library, any implemented type can be converted to any other implemented type. e.g:
       A Spark Schema can be converted into a BigQuery Table
@@ -31,7 +31,7 @@ What we can do with this library:
     
 
 
-# Available conversions:
+### Available conversions:
 
 | From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |
 |------------|:----------------:|:----------------:|:----------------:|:----------------:|

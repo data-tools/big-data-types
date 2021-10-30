@@ -44,5 +44,7 @@ trait SuffixFormats extends Formats {
 }
 object SuffixFormats extends SuffixFormats
 ```
-All your field names will have "_at" at the end
+All your field names will have "_at" at the end.
+
+`t` is the Type of the field so you can decide how to transform your keys based on the type
 

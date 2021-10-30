@@ -55,7 +55,6 @@ const config = {
             position: 'left',
             label: 'Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/data-tools/big-data-types',
             label: 'GitHub',
@@ -73,22 +72,18 @@ const config = {
                 label: 'Documentation',
                 to: '/docs/intro',
               },
+              {
+                label: 'Contributing',
+                to: '/docs/contributing/contributions',
+              },
             ],
           },
           {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'GitHub',
+                href: 'https://github.com/data-tools/big-data-types',
               },
             ],
           },
@@ -96,17 +91,13 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
                 label: 'GitHub',
                 href: 'https://github.com/data-tools/big-data-types',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Big Data Types.`,
       },
       prism: {
         theme: lightCodeTheme,
