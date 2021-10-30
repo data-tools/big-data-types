@@ -46,6 +46,3 @@ jobs:
             npm i
           fi
           npm run deploy
-      - name: Check git diff
-        if: ${{ failure() }}
-        run: git diff
