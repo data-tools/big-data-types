@@ -27,7 +27,7 @@ jobs:
           fi
           npm run build
   gh-pages-release:
-    if: github.event_name != 'pull_request'
+    #if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
