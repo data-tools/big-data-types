@@ -10,7 +10,7 @@ const config = {
   tagline: 'Type safe conversions between big-data tools',
   url: 'https://data-tools.github.io',
   baseUrl: '/big-data-types/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'data-tools', // Usually your GitHub org/user name.
