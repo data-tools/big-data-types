@@ -51,4 +51,4 @@ jobs:
           target_branch: gh-pages
           build_dir: website/build
         env:
-          GITHUB_TOKEN: ${{ secrets.DOCUSAURUS_DEPLOY_KEY }}
+          GITHUB_TOKEN: ${{ secrets.DOCUSAURUS_DEPLOY_TOKEN }}
