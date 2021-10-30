@@ -82,10 +82,6 @@ const config = {
           {
             title: 'Community',
             items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/data-tools/big-data-types',
-              },
             ],
           },
           {
