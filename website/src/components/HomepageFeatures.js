@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('../../static/img/home_image1.svg').default,
     description: (
       <>
         Import the modules that you need and start transforming your types.
@@ -14,7 +14,7 @@ const FeatureList = [
   },
   {
     title: 'Type safety',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/home_image2.svg').default,
     description: (
       <>
         Let the compiler work for you, safety conversions,
@@ -24,7 +24,7 @@ const FeatureList = [
   },
   {
     title: 'Custom transformations',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('../../static/img/home_image3.svg').default,
     description: (
       <>
           Convert automatically to camelCase, snake_case, add suffixes or decide your custom function,
