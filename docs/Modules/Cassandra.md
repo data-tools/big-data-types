@@ -33,5 +33,5 @@ instance.asCassandra("TestTable", "primaryKey")
 ### Or from an instance of other types
 ```scala
 val mySparkDataframe: Dataframe = ???
-mySparkDataframe.asCassandra("TestTable", "primaryKey")
+mySparkDataframe.schema.asCassandra("TestTable", "primaryKey")
 ```
