@@ -39,7 +39,7 @@ const config = {
       }),
     ],
   ],
-
+  plugins: ['@docusaurus/plugin-google-gtag'],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -102,9 +102,9 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ["java", "scala"],
       },
-      googleAnalytics: {
+      gtag: {
         trackingID: 'G-LZH8JTNQ4L',
-      }
+      },
     }),
 };
 
