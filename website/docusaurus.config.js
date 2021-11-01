@@ -102,6 +102,9 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ["java", "scala"],
       },
+      googleAnalytics: {
+        trackingID: 'G-SV6HY9EEFJ',
+      }
     }),
 };
 
