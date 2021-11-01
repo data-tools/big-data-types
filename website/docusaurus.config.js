@@ -103,7 +103,7 @@ const config = {
         additionalLanguages: ["java", "scala"],
       },
       googleAnalytics: {
-        trackingID: 'G-SV6HY9EEFJ',
+        trackingID: 'G-LZH8JTNQ4L',
       }
     }),
 };
