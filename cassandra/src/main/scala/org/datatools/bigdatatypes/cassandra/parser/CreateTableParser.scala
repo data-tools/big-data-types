@@ -14,6 +14,22 @@ private[cassandra] object CreateTableParser extends App {
 
   case class NameType(name: String, t: String)
 
+  /**
+    * Try to parse a [[CreateTable]] object. It will throw an exception if the parsing fails
+    * @param table [[CreateTable]]
+    * @return A list of tuples with field name and type for Cassandra.
+    */
+  def parse(table: CreateTable): Seq[(String, DataType)] = {
+    val fields = for {
+      components <- extractComponents(table)
+      fields <- toCassandraTypes(components)
+    } yield fields
+    fields match {
+      case Left(value) => throw new UnsupportedOperationException(value.msg)
+      case Right(value) => value
+    }
+  }
+
   /** Given a [[CreateTable]], uses it's representation of String to extract their fields and types
     * @param table a [[CreateTable]] instance
     * @return Either a [[ParsingError]] or a list of [[NameType]] with names and types in String
@@ -66,7 +82,7 @@ private[cassandra] object CreateTableParser extends App {
       case "decimal" => Right((field.name, DataTypes.DECIMAL))
       case "boolean" => Right((field.name, DataTypes.BOOLEAN))
       case "text"    => Right((field.name, DataTypes.TEXT))
-      case _         => Left(ErrorParsingField(field.name, s"Error parsing field: Type ${field.t} not implemented"))
+      case _         => Left(ErrorParsingField(field.name, s"type ${field.t} not implemented"))
     }
 
 }
