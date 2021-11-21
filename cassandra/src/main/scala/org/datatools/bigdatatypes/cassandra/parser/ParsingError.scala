@@ -13,7 +13,7 @@ private[parser] object ParsingError {
     override def msg: String = s"Error parsing field $fieldName, reason: $reason"
   }
   case class ParsingErrors(errors: List[ParsingError]) extends ParsingError {
-    override def msg: String = "Found Errors:" + errors.reduceLeft(_.msg + " \r\n " +  _.msg )
+    override def msg: String = "Found Errors:" + errors.map(_.msg).reduceLeft(_ + " \r\n " +  _ )
   }
 
   /** Given a list of errors, transform them into a [[ParsingErrors]]
