@@ -21,13 +21,14 @@ class CassandraToOthers extends UnitSpec {
       .withColumn("bar", DataTypes.INT)
 
   "Cassandra table" should "be converted into Spark Schema" in {
-    //val sparkSchema: StructType = myDataFrame.schema
+    // val sparkSchema: StructType = myDataFrame.schema
     val sparkSchema: StructType = StructType(
       List(
         StructField("id", StringType, nullable = false),
         StructField("foo", StringType, nullable = false),
         StructField("bar", IntegerType, nullable = false)
-      ))
+      )
+    )
     SqlInstanceToBigQuery[CreateTable]
     cassandraTable.asSparkSchema shouldBe sparkSchema
   }

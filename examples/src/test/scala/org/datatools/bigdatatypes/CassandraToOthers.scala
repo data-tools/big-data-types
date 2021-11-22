@@ -5,7 +5,6 @@ import com.datastax.oss.driver.api.querybuilder.SchemaBuilder.createTable
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
-import org.datatools.bigdatatypes.BigQueryTestTypes.basicFields
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery
 import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.{InstanceSchemaSyntax, InstanceSyntax}
