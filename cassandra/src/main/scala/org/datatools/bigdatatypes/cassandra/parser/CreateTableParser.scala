@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes.cassandra.parser
 
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
-import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{compactErrors, ErrorParsingField, ParsingErrors}
+import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{ErrorParsingField, ParsingErrors, compactErrors}
 
 private[cassandra] object CreateTableParser extends App {
 
@@ -14,8 +14,7 @@ private[cassandra] object CreateTableParser extends App {
 
   case class NameType(name: String, t: String)
 
-  /**
-    * Try to parse a [[CreateTable]] object. It will throw an exception if the parsing fails
+  /** Try to parse a [[CreateTable]] object. It will throw an exception if the parsing fails
     * @param table [[CreateTable]]
     * @return A list of tuples with field name and type for Cassandra.
     */
@@ -25,7 +24,7 @@ private[cassandra] object CreateTableParser extends App {
       fields <- toCassandraTypes(components)
     } yield fields
     fields match {
-      case Left(value) => throw new UnsupportedOperationException(value.msg)
+      case Left(value)  => throw new UnsupportedOperationException(value.msg)
       case Right(value) => value
     }
   }

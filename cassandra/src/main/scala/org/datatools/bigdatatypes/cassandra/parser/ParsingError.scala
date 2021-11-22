@@ -9,11 +9,13 @@ sealed private[parser] trait ParsingError {
 
 private[parser] object ParsingError {
   case class ErrorParsingTable(msg: String) extends ParsingError
+
   case class ErrorParsingField(fieldName: String, reason: String) extends ParsingError {
     override def msg: String = s"Error parsing field $fieldName, reason: $reason"
   }
+
   case class ParsingErrors(errors: List[ParsingError]) extends ParsingError {
-    override def msg: String = "Found Errors:" + errors.map(_.msg).reduceLeft(_ + " \r\n " +  _ )
+    override def msg: String = "Found Errors:" + errors.map(_.msg).reduceLeft(_ + " \r\n " + _)
   }
 
   /** Given a list of errors, transform them into a [[ParsingErrors]]

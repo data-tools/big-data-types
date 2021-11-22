@@ -16,7 +16,7 @@ object CassandraTypeConversion {
   implicit val bigDecimalType: SqlTypeConversion[DataTypes.DECIMAL.type] = SqlTypeConversion.instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[DataTypes.BOOLEAN.type] = SqlTypeConversion.instance(SqlBool())
   implicit val stringType: SqlTypeConversion[DataTypes.TEXT.type] = SqlTypeConversion.instance(SqlString())
-  //Extended
+  // Extended
   implicit val timestampType: SqlTypeConversion[DataTypes.TIMESTAMP.type] = SqlTypeConversion.instance(SqlTimestamp())
   implicit val dateType: SqlTypeConversion[DataTypes.DATE.type] = SqlTypeConversion.instance(SqlDate())
 
@@ -45,7 +45,7 @@ object CassandraTypeConversion {
     case DataTypes.TEXT      => SqlString()
     case DataTypes.TIMESTAMP => SqlTimestamp()
     case DataTypes.DATE      => SqlDate()
-    case l: ListType => convertCassandraType(l.getElementType, repeated = true)
+    case l: ListType         => convertCassandraType(l.getElementType, repeated = true)
   }
 
   /** Given a Cassandra Tuple, returns the Tuple ready to be used by SqlStruct */
@@ -55,13 +55,13 @@ object CassandraTypeConversion {
   private def createSqlStruct(t: Iterable[(String, DataType)]): SqlStruct =
     SqlStruct(t.toList.map(v => createTuple(v._1, v._2)))
 
-
   /** Extension method. Enables myInstance.asSqlType syntax
     * @param value is a tuple from Cassandra
     */
   implicit class CassandraTupleSyntax(value: (String, DataType)) {
     def asSqlType: SqlType = SqlInstanceConversion[(String, DataType)].getType(value)
   }
+
   /** Extension method. Enables myInstance.asSqlType syntax when the instance is a Iterable
     * @param value is a tuple from Cassandra
     */

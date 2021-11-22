@@ -1,11 +1,11 @@
 package org.datatools.bigdatatypes.cassandra
 
-import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
+import com.datastax.oss.driver.api.core.`type`.DataTypes
 import org.datatools.bigdatatypes.TestTypes.*
 import org.datatools.bigdatatypes.basictypes.*
 import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.cassandra.CassandraTypeConversion.*
-import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
+import org.datatools.bigdatatypes.conversions.SqlTypeConversion
 import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
 
 /** Reverse conversion, from Cassandra types to [[SqlType]]s
@@ -20,8 +20,7 @@ class CassandraTypeConversionSpec extends UnitSpec {
 
   "Cassandra Tuple" should "be converted into SqlType" in {
     val t = ("myInt", DataTypes.INT)
-    t.asSqlType shouldBe SqlInt()
-    SqlInstanceConversion[(String, DataType)].getType(t) shouldBe SqlInt()
+    t.asSqlType shouldBe SqlStruct(List(("myInt", SqlInt())))
   }
 
   behavior of "Common Test Types for Spark"
