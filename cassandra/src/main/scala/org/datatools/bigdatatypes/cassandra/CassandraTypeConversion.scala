@@ -1,8 +1,10 @@
 package org.datatools.bigdatatypes.cassandra
 
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes, ListType}
+import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.cassandra.parser.CreateTableParser
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 
 import scala.annotation.tailrec
@@ -31,6 +33,18 @@ object CassandraTypeConversion {
     new SqlInstanceConversion[Iterable[(String, DataType)]] {
       override def getType(value: Iterable[(String, DataType)]): SqlType = createSqlStruct(value)
     }
+
+  /**
+    * Type Class implementation for [[CreateTable]] object
+    * Warning: It is not possible to extract field names and types from a [[CreateTable]] object,
+    * this is using a String parser to extract them, so it could fail on run time.
+    */
+  implicit val cassandraCreateTable: SqlInstanceConversion[CreateTable] = new SqlInstanceConversion[CreateTable] {
+    override def getType(value: CreateTable): SqlType = {
+      val fields = CreateTableParser.parse(value)
+      createSqlStruct(fields)
+    }
+  }
 
   /** Given a Cassandra Type, returns its representation in SqlType
     */
@@ -67,6 +81,19 @@ object CassandraTypeConversion {
     */
   implicit class CassandraListTupleSyntax(value: Iterable[(String, DataType)]) {
     def asSqlType: SqlType = SqlInstanceConversion[List[(String, DataType)]].getType(value.toList)
+  }
+
+  /**
+    * Extension method that enables a CreateTable object to be converted into SqlType, using a parser
+    * Warning: There is no way to retrieve field names and types from a CreateTable, this is using a String parser
+    * to extract them, so it is less safe and it could break on run time
+    * @param table [[CreateTable]] instance
+    */
+  implicit class CassandraCreateTableSyntax(table: CreateTable) {
+    def asSqlType: SqlType = {
+      val fields = CreateTableParser.parse(table)
+      SqlInstanceConversion[List[(String, DataType)]].getType(fields.toList)
+    }
   }
 
 }

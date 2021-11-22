@@ -4,12 +4,11 @@ import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
 import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{ErrorParsingField, ParsingErrors, compactErrors}
 
-private[cassandra] object CreateTableParser extends App {
+import scala.util.matching.Regex
 
-  val text =
-    "CREATE TABLE testtable (myint int,mylong bigint PRIMARY KEY,myfloat float,mydouble double,mydecimal decimal,myboolean boolean,mystring text)"
+private[cassandra] object CreateTableParser {
 
-  val regex = """\((.*)\)""".r
+  val fieldsRegex: Regex = """\((.*)\)""".r
   val pk = " PRIMARY KEY"
 
   case class NameType(name: String, t: String)
@@ -33,10 +32,10 @@ private[cassandra] object CreateTableParser extends App {
     * @param table a [[CreateTable]] instance
     * @return Either a [[ParsingError]] or a list of [[NameType]] with names and types in String
     */
-  def extractComponents(table: CreateTable): Either[ParsingError, List[NameType]] =
-    regex
+  def extractComponents(table: CreateTable): Either[ParsingError, List[NameType]] = {
+    fieldsRegex
       .findFirstIn(table.toString)
-      .map(s => s.substring(1).substring(0, s.length - 1).replace(pk, ""))
+      .map(s => s.substring(1, s.length - 1).replace(pk, ""))
       .map(s => s.split(','))
       .map(l =>
         l.map { s =>
@@ -47,6 +46,7 @@ private[cassandra] object CreateTableParser extends App {
       case Some(value) => Right(value)
       case None        => Left(ParsingError.ErrorParsingTable("Error parsing CreateTable"))
     }
+  }
 
   /** Given a list of parsed fields, return ParsingErrors or the fields parsed and typed for Cassandra
     * @param fields is a list of Fields parsed
