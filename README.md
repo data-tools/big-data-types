@@ -18,7 +18,7 @@ Check the [Documentation website](https://data-tools.github.io/big-data-types) t
 |Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|
 |BigQuery    |                  |        -         |:white_check_mark:|:white_check_mark:|
 |Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|
-|Cassandra   |                  |                  |                  |        -         |
+|Cassandra   |                  |:white_check_mark:|:white_check_mark:|        -         |
 
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
