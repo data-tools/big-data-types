@@ -378,7 +378,23 @@ object SparkTypeConversion {
   implicit val doubleType: SqlTypeConversion[DoubleType] = SqlTypeConversion.instance(SqlDouble())
 ```
 
-- Probably we use an instance of our type, for example, in Spark, we have `StructField` and `StructType` as instances, so we cover them using `SqlInstanceConversion` _Type Class_
+- Probably we use an instance of our type, for example, in Spark, we have `StructField` and `StructType` as instances, so we cover them using `SqlInstanceConversion` _Type Class_. In Cassandra we use internally a tuple `(String, DataType)`, and it also works
+
+We create an implementation of the type class for that type, for example in Cassandra:
+```scala
+  implicit val cassandraTupleType: SqlInstanceConversion[(String, DataType)] =
+    new SqlInstanceConversion[(String, DataType)] {
+      override def getType(value: (String, DataType)): SqlType = ???
+    }
+```
+We have to return a `SqlType` that in the majority of the cases, it will be a `StructType` with all fields inside. 
+To do so, will need a recursive function that creates it.
+
+:::tip
+When implementing a type class like the ones that we have here, with only one method, 
+we can use a reduced syntax that only needs the definition of the method. See below
+:::
+This is the example from Spark, one for `StructField` and another for `StructType`, both using the _reduced_ syntax
 ```scala
   implicit val structField: SqlInstanceConversion[StructField] =
     (value: StructField) => convertSparkType(value.dataType, value.nullable)

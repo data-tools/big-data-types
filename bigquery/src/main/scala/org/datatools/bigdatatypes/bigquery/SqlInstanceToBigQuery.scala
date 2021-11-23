@@ -1,7 +1,8 @@
 package org.datatools.bigdatatypes.bigquery
 
-import com.google.cloud.bigquery.Field
+import com.google.cloud.bigquery.{Field, Schema}
 import org.datatools.bigdatatypes.basictypes.SqlType
+import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 import org.datatools.bigdatatypes.formats.Formats
 
@@ -54,5 +55,11 @@ object SqlInstanceToBigQuery {
     */
   implicit class InstanceSyntax[A: SqlInstanceToBigQuery](value: A) {
     def asBigQuery: List[Field] = SqlInstanceToBigQuery[A].bigQueryFields(value)
+  }
+
+  /** Allows the syntax myInstance.asBigQuery.schema to retrieve a real [[Schema]] for BigQuery
+    */
+  implicit class InstanceSchemaSyntax(value: List[Field]) {
+    def schema: Schema = Schema.of(toJava(value))
   }
 }
