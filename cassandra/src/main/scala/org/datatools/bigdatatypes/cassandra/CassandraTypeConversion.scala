@@ -34,12 +34,12 @@ object CassandraTypeConversion {
       override def getType(value: Iterable[(String, DataType)]): SqlType = createSqlStruct(value)
     }
 
-  /**
-    * Type Class implementation for [[CreateTable]] object
+  /** Type Class implementation for [[CreateTable]] object
     * Warning: It is not possible to extract field names and types from a [[CreateTable]] object,
     * this is using a String parser to extract them, so it could fail on run time.
     */
   implicit val cassandraCreateTable: SqlInstanceConversion[CreateTable] = new SqlInstanceConversion[CreateTable] {
+
     override def getType(value: CreateTable): SqlType = {
       val fields = CreateTableParser.parse(value)
       createSqlStruct(fields)
@@ -83,13 +83,13 @@ object CassandraTypeConversion {
     def asSqlType: SqlType = SqlInstanceConversion[List[(String, DataType)]].getType(value.toList)
   }
 
-  /**
-    * Extension method that enables a CreateTable object to be converted into SqlType, using a parser
+  /** Extension method that enables a CreateTable object to be converted into SqlType, using a parser
     * Warning: There is no way to retrieve field names and types from a CreateTable, this is using a String parser
     * to extract them, so it is less safe and it could break on run time
     * @param table [[CreateTable]] instance
     */
   implicit class CassandraCreateTableSyntax(table: CreateTable) {
+
     def asSqlType: SqlType = {
       val fields = CreateTableParser.parse(table)
       SqlInstanceConversion[List[(String, DataType)]].getType(fields.toList)

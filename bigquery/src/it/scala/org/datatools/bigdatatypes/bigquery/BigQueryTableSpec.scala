@@ -91,11 +91,13 @@ class BigQueryTableSpec extends IntegrationSpec {
       "my_timestamp"
     ) contains Right
   }
+
   "Time partitioned table with three case classes " should "create a partitioned table" in {
     BigQueryTable
       .createTable[Simple, Append1, DummyTimestampTypes](dataset, "partitionedTimestampAppend2", "my_timestamp")
       .isRight shouldBe true
   }
+
   "Time partitioned table with four case classes " should "create a partitioned table" in {
     BigQueryTable
       .createTable[Simple, Append1, Append2, DummyTimestampTypes](

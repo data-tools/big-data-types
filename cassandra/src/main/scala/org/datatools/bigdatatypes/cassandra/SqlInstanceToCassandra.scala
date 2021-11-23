@@ -53,4 +53,3 @@ object SqlInstanceToCassandra {
     def asCassandra: List[(String, DataType)] = SqlInstanceToCassandra[A].cassandraFields(value)
   }
 }
-

@@ -20,16 +20,21 @@ class BigQueryToOthers extends UnitSpec {
       StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
       StructField("myBoolean", BooleanType, nullable = false),
       StructField("myString", StringType, nullable = false)
-    ))
+    )
+  )
 
   /** BigQuery Schema */
-  val bqSchema: Schema = Schema.of(toJava(List(
-    Field.newBuilder("myLong", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myFloat", StandardSQLTypeName.FLOAT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myDecimal", StandardSQLTypeName.NUMERIC).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myBoolean", StandardSQLTypeName.BOOL).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myString", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build()
-  )))
+  val bqSchema: Schema = Schema.of(
+    toJava(
+      List(
+        Field.newBuilder("myLong", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myFloat", StandardSQLTypeName.FLOAT64).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myDecimal", StandardSQLTypeName.NUMERIC).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myBoolean", StandardSQLTypeName.BOOL).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myString", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build()
+      )
+    )
+  )
 
   behavior of "BigQueryToOthers"
 
@@ -46,9 +51,5 @@ class BigQueryToOthers extends UnitSpec {
   it should "be converted into Spark Schema using extension method" in {
     bqSchema.asSparkSchema shouldBe sparkSchema
   }
-
-
-
-
 
 }

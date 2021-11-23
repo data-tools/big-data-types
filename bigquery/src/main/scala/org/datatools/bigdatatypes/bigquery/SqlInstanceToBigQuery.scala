@@ -25,7 +25,7 @@ object SqlInstanceToBigQuery {
     */
   def apply[A](implicit a: SqlInstanceToBigQuery[A]): SqlInstanceToBigQuery[A] = a
 
-  //TODO change it for the compressed syntax after having everything well documented
+  // TODO change it for the compressed syntax after having everything well documented
   /** Instance derivation via SqlTypeConversion. It uses `getSchema` from BigQueryTypes Type Class
     */
   implicit def fieldsFromSqlInstanceConversion[A: SqlInstanceConversion](implicit

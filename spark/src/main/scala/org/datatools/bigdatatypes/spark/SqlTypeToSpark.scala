@@ -43,7 +43,7 @@ object SqlTypeToSpark {
 
   /** Creates the schema (list of fields)
     * Applies an implicit [[Formats.transformKey]] in the process
- *
+    *
     * @param sqlType [[SqlType]]
     * @param f [[Formats]] to apply while constructing the schema
     * @return List of [[StructField]] representing the schema of the given type

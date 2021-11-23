@@ -14,13 +14,13 @@ class CustomFormatsSpec extends UnitSpec {
   behavior of "CustomFormatsSpec"
 
   case class Dummy(myInt: Int, active: Boolean, created: Date, updated: Timestamp)
+
   val fields: Seq[Field] = List(
     Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("is_active", StandardSQLTypeName.BOOL).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("created_at", StandardSQLTypeName.DATE).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("updated_at", StandardSQLTypeName.TIMESTAMP).setMode(Mode.REQUIRED).build()
   )
-
 
   "Key Transformation based on type" should "be converted" in {
     implicit val formats: Formats = KeyTypeExampleFormats

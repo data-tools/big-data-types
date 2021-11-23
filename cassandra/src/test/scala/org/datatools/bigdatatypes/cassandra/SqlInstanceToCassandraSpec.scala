@@ -27,6 +27,4 @@ class SqlInstanceToCassandraSpec extends UnitSpec {
     sql.asCassandra shouldBe CassandraTestTypes.basicFields
   }
 
-
-
 }
