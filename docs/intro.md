@@ -38,6 +38,6 @@ without having code that relates BigQuery and Spark directly.
 |Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|
 |BigQuery    |                  |        -         |:white_check_mark:|:white_check_mark:|
 |Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|
-|Cassandra   |                  |                  |                  |        -         |
+|Cassandra   |                  |:white_check_mark:|:white_check_mark:|        -         |
 
 
