@@ -37,7 +37,8 @@ BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 Tables can be created using directly an instance of any other type of the library. Example from Spark:
 ```scala
 val df: Dataframe = ???
-BigQueryTable.createTable[StructType](df, "dataset_name", "table_name")
+val schema: StructType = df.schema
+BigQueryTable.createTable[StructType](schema, "dataset_name", "table_name")
 ```
 :::
 
