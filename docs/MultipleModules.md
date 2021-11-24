@@ -30,4 +30,4 @@ val mySparkDataFrame: DataFrame = ???
 val cassandraTable: CreateTable = mySparkDataFrame.schema.asCassandra("TableName", "primaryKey")
 ```
 
-More examples can be found in each specific module or in [Tests of the Examples Module](../examples/src/test/scala)
+More examples can be found in each specific module or in [Tests of the Examples Module](https://github.com/data-tools/big-data-types/blob/main/examples/src/test/scala)

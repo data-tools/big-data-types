@@ -8,7 +8,7 @@ Transformations can be applied easily during conversions. For example, field nam
 `Formats` can handle different configurations that we want to apply to schemas, like transforming field names,
 defining precision for numeric types and so on.
 
-They can be used by creating an `implicit val` with a [Formats](../core/src/main/scala_3/org/datatools/bigdatatypes/formats/Formats.scala) 
+They can be used by creating an `implicit val` with a [Formats](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala_3/org/datatools/bigdatatypes/formats/Formats.scala) 
 class or by importing one of the available implicit vals in `Formats` object
 
 ### DefaultFormats

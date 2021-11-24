@@ -20,7 +20,7 @@ case class MyTable(field1: Int, field2: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 ```
 This also works with Structs, Lists and Options.
-See more examples in [Tests](../../bigquery/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
+See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/main/bigquery/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
 
 ### Transform field names
 There is a `Format` object that allows us to decide how to transform field names, for example, changing CamelCase for snake case

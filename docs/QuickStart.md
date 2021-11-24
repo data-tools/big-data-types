@@ -28,7 +28,7 @@ In order to transform one type into another, both modules have to be imported.
 
 ## How it works
 
-The library internally uses a generic ADT ([SqlType](../core/src/main/scala_3/org/datatools/bigdatatypes/basictypes/SqlType.scala))
+The library internally uses a generic ADT ([SqlType](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala_3/org/datatools/bigdatatypes/basictypes/SqlType.scala))
 that can store any schema representation, and from there, it can be converted into any other. 
 Transformations are done through 2 different type-classes.
 
