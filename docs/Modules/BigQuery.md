@@ -33,7 +33,7 @@ BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 //This table will have my_int_field and my_string_field fields
 ```
 
-::: TIP
+:::tip
 Tables can be created using directly an instance of any other type of the library. Example from Spark:
 ```scala
 val df: Dataframe = ???

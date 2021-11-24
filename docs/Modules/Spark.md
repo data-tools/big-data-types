@@ -6,7 +6,7 @@ sidebar_position: 4
 ## Spark Schema from Case Class
 
 With Spark module, Spark Schemas can be created from Case Classes or from any other type of the library.
-::: INFO
+:::info
 Spark is not available for Scala 3, so, this module only works with Scala 2.12 and Scala 2.13
 :::
 
@@ -100,7 +100,7 @@ df.show(4)
 val myBigQuerySchema: Schema = ???
 val schema: StructType = myBigQuerySchema.asSparkSchema
 ```
-::: TIP
+:::tip
 There are a few imports that have to be included in order to use this kind of transformations, depending on the types. 
 
 IDEs should be able to find them.

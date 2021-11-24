@@ -23,7 +23,7 @@ or just import the one available:
 ```scala
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 ```
-::: info
+:::info
 `Formats` is required in the scope for all the transformations, even if no transformations are needed. 
 In this case, `implicitDefaultFormats` can be imported and no transformation will be applied.
 :::
