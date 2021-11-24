@@ -5,13 +5,15 @@ sidebar_position: 6
 Transformations can be applied easily during conversions. For example, field names can be modified.
 
 ## Implicit Formats
-Formats can handle different configurations that we want to apply to schemas, like transforming field names,
+`Formats` can handle different configurations that we want to apply to schemas, like transforming field names,
 defining precision for numeric types and so on.
 
-They can be used by creating an implicit val with a Formats class or by importing one of the available implicit vals in `Formats` object
+They can be used by creating an `implicit val` with a [Formats](https://github.com/data-tools/big-data-types/blob/main/core/src/main/scala_3/org/datatools/bigdatatypes/formats/Formats.scala) 
+class or by importing one of the available implicit vals in `Formats` object
 
 ### DefaultFormats
 `DefaultFormats` is a trait that applies no transformation to field names
+
 To use it, you can create an implicit val:
 ```scala
 import org.datatools.bigdatatypes.formats.{Formats, DefaultFormats}
@@ -21,10 +23,15 @@ or just import the one available:
 ```scala
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 ```
+::: info
+`Formats` is required in the scope for all the transformations, even if no transformations are needed. 
+In this case, `implicitDefaultFormats` can be imported and no transformation will be applied.
+:::
 
 
 ### SnakifyFormats
-`SnakifyFormats` is a trait that converts camelCase field names to snake_case names
+`SnakifyFormats` is a trait that converts **camelCase** field names to **snake_case** names
+
 To use it, you can create an implicit val:
 ```scala
 import org.datatools.bigdatatypes.formats.{Formats, SnakifyFormats}
@@ -46,5 +53,5 @@ object SuffixFormats extends SuffixFormats
 ```
 All your field names will have "_at" at the end.
 
-`t` is the Type of the field so you can decide how to transform your keys based on the type
+`t` is the Type of the field so you can decide how to transform your keys based on the type with a simple pattern matching
 

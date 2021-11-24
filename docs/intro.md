@@ -10,24 +10,24 @@ sidebar_position: 1
 
 A library to transform Case Classes into Database schemas and to convert implemented types into another types
 
-This is a type safe library that converts basic Scala types and product types into different database types and schemas using
-Shapeless for Scala 2 and Scala 3 Mirrors for Scala 3,
-it also allows converting implemented types into another types, for example, a Spark Schema can be automatically converted into a BigQuery table,
-without having code that relates BigQuery and Spark directly.
+This is a type safe library that converts basic Scala types and product types into different database types and schemas,
+it also allows converting implemented types into another types, for example, a Spark Schema can be automatically converted into a BigQuery table, 
+or a BigQuery table into a Cassandra table without having code that relates those types between them.
 
 
 ### What we can do with this library:
 - Using multiple modules:
     - Probably the most powerful thing of the library, any implemented type can be converted to any other implemented type. e.g:
-      A Spark Schema can be converted into a BigQuery Table
+      A **Spark Schema** can be converted into a **BigQuery Table**
     - If new types are implemented in the library (e.g: Avro & Parquet schemas, Json Schema, ElasticSearch templates, etc)
       they will get automatically conversions for the rest of the types
 - BigQuery: Create BigQuery Tables (or Schemas) using Case Classes or other types.
     - BigQuery module has also a complete integration with the system, so tables can be created using only this library.
 - Spark: Create Spark Schemas from Case Classes or from any other implemented type.
-- Cassandra: Create `CreateTable` objects from Case Classes. (They can be printed as a `create table` statement too)
+- Cassandra: Create `CreateTable` objects from Case Classes. (They can be printed as a `create table` statement too) or from any other type
 - Transformations:
-    - On all modules, during a conversion (From Case Class to specific type) apply custom transformations. e.g: convert field names from camelCase into snake_case, decide Timestamp formats or numerical precisions
+    - On all modules, during a conversion (from one type to another) apply custom transformations. 
+  e.g: convert field names from camelCase into snake_case, decide Timestamp formats or numerical precisions
     
 
 
