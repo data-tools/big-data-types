@@ -5,7 +5,11 @@ sidebar_position: 4
 
 ## Spark Schema from Case Class
 
-With Spark module, Spark Schemas can be created from Case Classes.
+With Spark module, Spark Schemas can be created from Case Classes or from any other type of the library.
+::: INFO
+Spark is not available for Scala 3, so, this module only works with Scala 2.12 and Scala 2.13
+:::
+
 ```scala
 import org.apache.spark.sql.types.StructType
 import org.datatools.bigdatatypes.spark.SparkSchemas
@@ -45,7 +49,7 @@ df.show(4)
 ```
 
 ### Spark Schema from Multiple Case Classes
-Also, an schema can be created from multiple case classes.
+Also, a schema can be created from multiple case classes.
 As an example, it could be useful for those cases where we read data using a Case Class,
 and we want to append some metadata fields, but we don't want to create another Case Class with exactly the same fields plus a few more.
 ```scala
@@ -96,7 +100,11 @@ df.show(4)
 val myBigQuerySchema: Schema = ???
 val schema: StructType = myBigQuerySchema.asSparkSchema
 ```
+::: TIP
+There are a few imports that have to be included in order to use this kind of transformations, depending on the types. 
 
+IDEs should be able to find them.
+:::
 
 ## Field transformations
 Also, custom transformations can be applied to field names, something that usually is quite hard to do with Spark Datasets.

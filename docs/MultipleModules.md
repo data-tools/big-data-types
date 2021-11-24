@@ -5,6 +5,7 @@ sidebar_position: 7
 Importing more than one module can be a powerful tool as they have compatible transformations between them.
 
 For example, importing BigQuery and Spark will allow a conversion between them, making possible to create BigQuery Tables using Spark Schemas
+
 As an example:
 
 ```scala
@@ -20,6 +21,7 @@ Or we can just get the BigQuery Schema
 ```scala
 val mySparkDataFrame: DataFrame = ???
 val bq: List[Field] = mySparkDataFrame.schema.asBigQuery
+val bqSchema: Schema = mySparkDataFrame.schema.asBigQuery.schema
 ```
 
 ### An example from Spark to Cassandra
@@ -27,4 +29,5 @@ val bq: List[Field] = mySparkDataFrame.schema.asBigQuery
 val mySparkDataFrame: DataFrame = ???
 val cassandraTable: CreateTable = mySparkDataFrame.schema.asCassandra("TableName", "primaryKey")
 ```
-More examples can be found in [Tests of the Examples Module](https://github.com/data-tools/big-data-types/blob/44255f99d32293f83eee333760fc31c9bd0f0d02/examples/src/test/scala_2.13-/bigdatatypes/CrossModuleExamplesSpec.scala)
+
+More examples can be found in each specific module or in [Tests of the Examples Module](../examples/src/test/scala)

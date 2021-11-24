@@ -7,7 +7,7 @@ to return `CreateTable` objects from product types such a Case Classes (or other
 This module doesn't have anything to connect directly to a Cassandra instance,
 this is only a bridge between Scala product types (and other types from the library) to the DataStax Query Builder
 
-In other words, with this module you can use Case Classes to create a `CreateTable`
+In other words, with this module you can use Case Classes (or any other type in the library) to create a `CreateTable`
 object that you can use to interact with a real Cassandra instance
 
 ## Case Classes to Cassandra CreateTable
