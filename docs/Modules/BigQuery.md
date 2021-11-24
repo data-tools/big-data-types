@@ -20,7 +20,7 @@ case class MyTable(field1: Int, field2: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 ```
 This also works with Structs, Lists and Options.
-See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/99b48ca00420f30ade37faa0ed03f5b464aa9e5e/bigquery/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
+See more examples in [Tests](https://github.com/data-tools/big-data-types/blob/main/bigquery/src/it/scala/org/datatools/bigdatatypes/bigquery/BigQueryTableSpec.scala)
 
 ### Transform field names
 There is a `Format` object that allows us to decide how to transform field names, for example, changing CamelCase for snake case
@@ -32,6 +32,16 @@ case class MyTable(myIntField: Int, myStringField: String)
 BigQueryTable.createTable[MyTable]("dataset_name", "table_name")
 //This table will have my_int_field and my_string_field fields
 ```
+
+:::tip
+Tables can be created using directly an instance of any other type of the library. Example from Spark:
+```scala
+val df: Dataframe = ???
+val schema: StructType = df.schema
+BigQueryTable.createTable[StructType](schema, "dataset_name", "table_name")
+```
+:::
+
 
 ### Time Partitioned tables
 Using a `Timestamp` or `Date` field, tables can be partitioned in BigQuery using a [Time Partition Column](https://cloud.google.com/bigquery/docs/creating-column-partitions)
@@ -70,6 +80,11 @@ val fields: List[Field] = BigQueryTypes[MyTable].bigQueryFields
 //BigQuery Schema, it can be used to create a table
 val schema: Schema = Schema.of(fields.asJava)
 ```
+Or use the provided extension method for the creation of the Schema
+```scala
+val fields: List[Field] = BigQueryTypes[MyTable].bigQueryFields
+val schema: Schema = fields.schema
+```
 
 ## From a Case Class instance
 ```scala
@@ -86,7 +101,8 @@ val fields: List[Field] = data.asBigQuery
 e.g: Spark Schema
 ```scala
 val myDataframe: Dataframe = ???
-val bqSchema: Schema = myDataframe.schema.asBigQuery
+val bqFields: List[Field] = myDataframe.schema.asBigQuery
+val bqSchema: Schema = myDataframe.schema.asBigQuery.schema
 ```
 
 See more info about [creating tables on BigQuery](https://cloud.google.com/bigquery/docs/tables#java) in the official documentation
