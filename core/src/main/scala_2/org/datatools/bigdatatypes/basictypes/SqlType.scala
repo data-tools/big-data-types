@@ -3,7 +3,6 @@ package org.datatools.bigdatatypes.basictypes
 import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
 
-
 /** Abstract representation of the type of a generic SQL database */
 sealed trait SqlType {
 
@@ -34,6 +33,7 @@ sealed trait SqlType {
     else this
 
 }
+
 object SqlType {
   case class SqlInt(mode: SqlTypeMode = Required) extends SqlType
   case class SqlLong(mode: SqlTypeMode = Required) extends SqlType
@@ -46,4 +46,3 @@ object SqlType {
   case class SqlDate(mode: SqlTypeMode = Required) extends SqlType
   case class SqlStruct(records: List[(String, SqlType)], mode: SqlTypeMode = Required) extends SqlType
 }
-

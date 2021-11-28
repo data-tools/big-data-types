@@ -50,7 +50,6 @@ object SqlTypeConversion {
   implicit val timestampType: SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
   implicit val dateType: SqlTypeConversion[Date] = instance(SqlDate())
 
-
   /** type class derivation for Option
     */
   implicit def optionType[A](implicit cnv: SqlTypeConversion[A]): SqlTypeConversion[Option[A]] =

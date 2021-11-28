@@ -37,8 +37,8 @@ object SqlTypeToBigQuery {
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SqlTypeToBigQuery[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
-  //TODO improving this and adding all the SqlType options will remove a warning and will allow a syntax like:
-  //TODO val myInt: Int = 5  -> SqlTypeToBigQuery[Int].bigQueryFields(myInt)
+  // TODO improving this and adding all the SqlType options will remove a warning and will allow a syntax like:
+  // TODO val myInt: Int = 5  -> SqlTypeToBigQuery[Int].bigQueryFields(myInt)
   def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
     case SqlStruct((name, sqlType) :: records, mode) =>
@@ -79,11 +79,10 @@ object SqlTypeToBigQuery {
     case Required => Mode.REQUIRED
   }
 
-  /**
-   * Allows syntax .asBigQuery for case classes instances
-   * @param value not used, needed for implicit
-   * @tparam A is a Case Class (Product type)
-   */
+  /** Allows syntax .asBigQuery for case classes instances
+    * @param value not used, needed for implicit
+    * @tparam A is a Case Class (Product type)
+    */
   implicit class BigQueryFieldSyntax[A <: Product](value: A) {
     def asBigQuery(implicit a: SqlTypeToBigQuery[A]): List[Field] = a.bigQueryFields
   }

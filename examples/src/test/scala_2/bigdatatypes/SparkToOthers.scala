@@ -28,7 +28,7 @@ class SparkToOthers extends UnitSpec {
     import spark.implicits._
     myDataFrame.schema.asBigQuery shouldBe ???
   }
-  */
+   */
 
   it should "have a method to get BigQuery Fields" in {
     val schema: StructType = SqlTypeToSpark[BasicTypes].sparkSchema
@@ -47,7 +47,7 @@ class SparkToOthers extends UnitSpec {
 
   "Spark Schema" should "create a Big Query Table" in {
     val schema = SqlTypeToSpark[BasicTypes].sparkSchema
-    //Just an example, it will be left as there is no BigQuery Environment set up
+    // Just an example, it will be left as there is no BigQuery Environment set up
     BigQueryTable.createTable(schema, "dataset", "table").isLeft shouldBe true
   }
 
@@ -63,7 +63,7 @@ class SparkToOthers extends UnitSpec {
 
   it should "be converted into Cassandra Table" in {
     val sparkSchema: StructType = SparkSchemas.schema[BasicTypes]
-    //this should be the public one, it accepts any type from the library
+    // this should be the public one, it accepts any type from the library
     CassandraTables
       .table(sparkSchema, "testTable", "myLong")
       .toString shouldBe "CREATE TABLE testtable (myint int,mylong bigint PRIMARY KEY,myfloat float,mydouble double,mydecimal decimal,myboolean boolean,mystring text)"

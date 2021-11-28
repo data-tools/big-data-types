@@ -40,7 +40,7 @@ object SqlTypeToCassandra {
       case SqlString(mode)    => (name, cassandraType(mode, DataTypes.TEXT))
       case SqlTimestamp(mode) => (name, cassandraType(mode, DataTypes.TIMESTAMP))
       case SqlDate(mode)      => (name, cassandraType(mode, DataTypes.DATE))
-      //case SqlStruct(records, mode) => _ No nested objects in Cassandra
+      // case SqlStruct(records, mode) => _ No nested objects in Cassandra
     }
 
   /** In case of repeated mode, we use Cassandra List
@@ -55,8 +55,7 @@ object SqlTypeToCassandra {
   implicit def fieldsFromSqlTypeConversion[A: SqlTypeConversion](implicit f: Formats): SqlTypeToCassandra[A] =
     instance(getSchema(SqlTypeConversion[A].getType))
 
-  /**
-    * Allows syntax .asCassandra for case classes (product) instances
+  /** Allows syntax .asCassandra for case classes (product) instances
     * @param value not used, needed for implicit
     * @tparam A is a Case Class
     */

@@ -28,5 +28,4 @@ object CassandraTestTypes {
       ("myDate", DataTypes.DATE)
     )
 
-
 }

@@ -21,7 +21,9 @@ sealed trait SqlTypeMode {
     case (_, _)               => true
   }
 }
+
 object SqlTypeMode {
+
   /** Nullable field */
   case object Nullable extends SqlTypeMode
 
@@ -31,4 +33,3 @@ object SqlTypeMode {
   /** Mandatory field */
   case object Required extends SqlTypeMode
 }
-
