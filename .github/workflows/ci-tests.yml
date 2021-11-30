@@ -28,9 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Coverage for Scala 2 (until Scala 3 is available)
-        run: sbt ++${{ matrix.scala }} clean coverage test
+        run: sbt ++${{ matrix.scala }}! clean coverage test
       - name: Coverage Report
-        run: sbt ++${{ matrix.scala }} coverageReport
+        run: sbt ++${{ matrix.scala }}! coverageReport
       - name: Codecov
         uses: codecov/codecov-action@v1
         with:
