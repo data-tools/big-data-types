@@ -12,18 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Setup Scala
-        uses: olafurpg/setup-scala@v10
+        uses: olafurpg/setup-scala@v13
         with:
           java-version: "adopt@1.8"
       - name: Build and Unit Tests
         run: sbt -v -Dfile.encoding=UTF-8 +clean +test
-      #- name: Coverage Report
-      #  run: sbt -v -Dfile.encoding=UTF-8 coverageReport
-      #- name: Codecov
-      #  uses: codecov/codecov-action@v1
-      #  with:
-      #    token: ${{ secrets.CODECOV_TOKEN }}
-      #    verbose: false # optional (default = false)
-      #    flags: unittests
+  coverage:
+    name: Code Coverage
+    strategy:
+      matrix:
+        scala: [2.12.15, 2.13.7]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Scala
+        uses: olafurpg/setup-scala@v13
+        with:
+          java-version: "adopt@1.8"
+      - name: Coverage for Scala 2 (until Scala 3 is available)
+        run: sbt ++${{ matrix.scala-coverage }} clean coverage test
+      - name: Coverage Report
+        run: sbt ++${{ matrix.scala-coverage }} coverageReport
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: false # optional (default = false)
+          flags: unittests
