@@ -9,21 +9,11 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Scala
-        uses: olafurpg/setup-scala@v13
-        with:
-          java-version: "adopt@1.8"
-      - name: Build and Unit Tests
-        run: sbt -v -Dfile.encoding=UTF-8 +clean +test
-  coverage:
-    name: Code Coverage
+    name: Tests + Code Coverage
     strategy:
       matrix:
-        scala: [2.12.15, 2.13.7]
+        scala: [2.12.15, 2.13.7, 3.0.2]
+        scala-coverage: [2.12.15, 2.13.7]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,6 +22,8 @@ jobs:
         uses: olafurpg/setup-scala@v13
         with:
           java-version: "adopt@1.8"
+      - name: Tests
+        run: sbt ++${{ matrix.scala }} clean test
       - name: Coverage for Scala 2 (until Scala 3 is available)
         run: sbt ++${{ matrix.scala-coverage }} clean coverage test
       - name: Coverage Report
