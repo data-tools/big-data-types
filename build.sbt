@@ -78,7 +78,7 @@ lazy val root = (project in file("."))
   .settings(
     noPublishSettings,
     scalacOptions ++= scalacCommon,
-    crossScalaVersions := supportedScalaVersions)
+    crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
