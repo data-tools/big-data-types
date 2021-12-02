@@ -20,6 +20,7 @@ jobs:
           java-version: "adopt@1.8"
       - name: Build and Unit Tests
         run: sbt -v -Dfile.encoding=UTF-8 +clean +test
+
   coverage:
     name: Code Coverage
     strategy:
