@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Setup Scala
-        uses: olafurpg/setup-scala@v10
+        uses: olafurpg/setup-scala@v13
         with:
           java-version: "adopt@1.8"
       - name: Set up GCloud SDK
@@ -27,11 +27,11 @@ jobs:
           export_default_credentials: true
       - name: Integration Tests
         run: sbt -v -Dfile.encoding=UTF-8 +bigquery/IntegrationTest/test
-      #- name: Coverage Report
-      #  run: sbt -v -Dfile.encoding=UTF-8 coverageReport
-      #- name: Codecov
-      #  uses: codecov/codecov-action@v1
-      #  with:
-      #    token: ${{ secrets.CODECOV_TOKEN }}
-      #    verbose: false # optional (default = false)
-      #    flags: bq-integration
+      - name: Coverage Report
+        run: sbt -v -Dfile.encoding=UTF-8 coverageReport
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: false # optional (default = false)
+          flags: bq-integration
