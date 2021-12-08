@@ -1,6 +1,9 @@
-This is a guide on how to add a new type to the library
+---
+sidebar_position: 2
+---
 
-You can also see [this document in web format](https://data-tools.github.io/big-data-types/docs/CreateNewType.html)
+# New Types for the library
+This is a guide on how to add a new type to the library
 
 - [How to develop a new type](#how-to-develop-a-new-type)
 - [How it works](#how-it-works)
@@ -20,12 +23,12 @@ You can also see [this document in web format](https://data-tools.github.io/big-
   * [Everything together](#everything-together-1)
 
 
-# How to develop a new type
+## How to develop a new type
 
 Adding a new type to the library will allow conversions from any developed type into the new one 
 and from the new one into any of the others
 
-# How it works
+## How it works
 
 There is an ADT (sealed trait) called `SqlType` that is used as a generic type for any transformation. 
 It works as a bridge, so any developed type can be transformed into SqlType and SqlType can be converted into specific types.
@@ -330,10 +333,10 @@ Finally, an extension method could help to improve the syntax. (Note: Scala 3 is
 
 Inside the same object, we create an implicit class with our new syntax:
 ```scala
-  /** Allows the syntax myInstance.bigQueryFields for any instance of type A: SqlInstanceConversion
+  /** Allows the syntax myInstance.asBigQuery for any instance of type A: SqlInstanceConversion
     */
   implicit class InstanceSyntax[A: SqlInstanceToBigQuery](value: A) {
-    def bigQueryFields: List[Field] = SqlInstanceToBigQuery[A].bigQueryFields(value)
+    def asBigQuery: List[Field] = SqlInstanceToBigQuery[A].bigQueryFields(value)
   }
 ```
 And, we will win a new syntax like:
@@ -375,7 +378,23 @@ object SparkTypeConversion {
   implicit val doubleType: SqlTypeConversion[DoubleType] = SqlTypeConversion.instance(SqlDouble())
 ```
 
-- Probably we use an instance of our type, for example, in Spark, we have `StructField` and `StructType` as instances, so we cover them using `SqlInstanceConversion` _Type Class_
+- Probably we use an instance of our type, for example, in Spark, we have `StructField` and `StructType` as instances, so we cover them using `SqlInstanceConversion` _Type Class_. In Cassandra we use internally a tuple `(String, DataType)`, and it also works
+
+We create an implementation of the type class for that type, for example in Cassandra:
+```scala
+  implicit val cassandraTupleType: SqlInstanceConversion[(String, DataType)] =
+    new SqlInstanceConversion[(String, DataType)] {
+      override def getType(value: (String, DataType)): SqlType = ???
+    }
+```
+We have to return a `SqlType` that in the majority of the cases, it will be a `StructType` with all fields inside. 
+To do so, will need a recursive function that creates it.
+
+:::tip
+When implementing a type class like the ones that we have here, with only one method, 
+we can use a reduced syntax that only needs the definition of the method. See below
+:::
+This is the example from Spark, one for `StructField` and another for `StructType`, both using the _reduced_ syntax
 ```scala
   implicit val structField: SqlInstanceConversion[StructField] =
     (value: StructField) => convertSparkType(value.dataType, value.nullable)
@@ -412,11 +431,11 @@ object SparkTypeConversion {
 - One last (optional) step. If we want to make the usage easier, we can create an _extension method_
 
 ```scala
-  /** Extension method. Enables val myInstance: StructType -> myInstance.getType syntax and DataFrame.schema.getType syntax
+  /** Extension method. Enables val myInstance: StructType -> myInstance.asSqlType syntax and DataFrame.schema.asSqlType syntax
     * @param value in a StructType (Spark Schema)
     */
   implicit class StructTypeSyntax(value: StructType) {
-    def getType: SqlType = SqlInstanceConversion[StructType].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[StructType].getType(value)
   }
 ```
 This method will allow any instance of the library to obtain our new type

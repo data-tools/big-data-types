@@ -8,7 +8,7 @@ trait Formats {
   def transformKey[A <: SqlType](name: String, t: A): String = name
 
   /** Define precision for BigDecimal types */
-  case class BigDecimalPrecision(precision: Int, scale:Int)
+  case class BigDecimalPrecision(precision: Int, scale: Int)
   val bigDecimal: BigDecimalPrecision = BigDecimalPrecision(10, 0)
 }
 
@@ -26,5 +26,3 @@ trait DefaultFormats extends Formats {
   override def transformKey[A <: SqlType](name: String, t: A): String = name
 }
 object DefaultFormats extends DefaultFormats
-
-

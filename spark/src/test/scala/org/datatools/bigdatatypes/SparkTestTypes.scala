@@ -1,6 +1,19 @@
 package org.datatools.bigdatatypes
 
-import org.apache.spark.sql.types.{ArrayType, BooleanType, DataTypes, DateType, DoubleType, FloatType, IntegerType, LongType, StringType, StructField, StructType, TimestampType}
+import org.apache.spark.sql.types.{
+  ArrayType,
+  BooleanType,
+  DataTypes,
+  DateType,
+  DoubleType,
+  FloatType,
+  IntegerType,
+  LongType,
+  StringType,
+  StructField,
+  StructType,
+  TimestampType
+}
 
 /** Test types from [[TestTypes]] converted to BigQuery. They can be used in multiple tests
   */

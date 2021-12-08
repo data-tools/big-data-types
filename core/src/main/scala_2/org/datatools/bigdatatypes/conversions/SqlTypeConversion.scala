@@ -1,11 +1,11 @@
 package org.datatools.bigdatatypes.conversions
 
-import org.datatools.bigdatatypes.basictypes._
-import org.datatools.bigdatatypes.basictypes.SqlType._
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
+import org.datatools.bigdatatypes.basictypes.*
+import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
 
 import java.sql.{Date, Timestamp}
-import shapeless._
+import shapeless.*
 import shapeless.labelled.FieldType
 
 /** Type class to convert any Scala type to an [[SqlType]]
@@ -49,7 +49,6 @@ object SqlTypeConversion {
   // Extended types
   implicit val timestampType: SqlTypeConversion[Timestamp] = instance(SqlTimestamp())
   implicit val dateType: SqlTypeConversion[Date] = instance(SqlDate())
-
 
   /** type class derivation for Option
     */

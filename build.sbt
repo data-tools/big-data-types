@@ -1,12 +1,12 @@
 //used to build Sonatype releases
-lazy val versionNumber = "0.5.2"
+lazy val versionNumber = "1.1.0"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
-lazy val scala213 = "2.13.6"
+lazy val scala213 = "2.13.7"
 lazy val scala212 = "2.12.15"
-lazy val scala3 = "3.1.0"
+lazy val scala3 = "3.0.2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
 
@@ -36,23 +36,25 @@ lazy val noPublishSettings = {
 
 publishSettings
 
+lazy val scalacCommon = Seq("-Xsource:3")
+
 //Dependencies
 lazy val coreDependencies2 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.6",
+  "ch.qos.logback" % "logback-classic" % "1.2.7",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.7",
   scalatest % Test
 )
 
 lazy val coreDependencies3 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.6",
+  "ch.qos.logback" % "logback-classic" % "1.2.7",
   "org.clapper" % "grizzled-slf4j_2.13" % "1.3.4",
   scalatest % Test
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.8.2", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "2.3.2",
+  "com.google.auto.value" % "auto-value-annotations" % "1.8.2", // needed for an incompatibility between BQ & Scala3
+  "com.google.cloud" % "google-cloud-bigquery" % "2.5.1",
   scalatest % "it,test"
 )
 
@@ -73,7 +75,7 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings, scalacOptions += "-Ytasty-reader", crossScalaVersions := Nil)
+  .settings(noPublishSettings, scalacOptions ++= scalacCommon, crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
@@ -85,9 +87,10 @@ lazy val root = (project in file("."))
 lazy val core = (project in file("core")).settings(
   name := projectName + "-core",
   publishSettings,
+  scalacOptions ++= scalacCommon,
   crossScalaVersions := supportedScalaVersions,
-  crossVersionSharedSourcesScala3, //different one for Scala 2 or 3
-  //for Scala 2 or 3
+  crossVersionSharedSourcesScala3, // different one for Scala 2 or 3
+  // for Scala 2 or 3
   libraryDependencies ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, _)) => coreDependencies2
@@ -102,6 +105,7 @@ lazy val bigquery = (project in file("bigquery"))
   .settings(
     name := projectName + "-bigquery",
     publishSettings,
+    scalacOptions ++= scalacCommon,
     Defaults.itSettings,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
@@ -113,6 +117,7 @@ lazy val spark = (project in file("spark"))
   .settings(
     name := projectName + "-spark",
     publishSettings,
+    scalacOptions ++= scalacCommon,
     crossScalaVersions := List(scala212, scala213),
     crossVersionSharedSources,
     libraryDependencies ++= sparkDependencies
@@ -124,6 +129,7 @@ lazy val cassandra = (project in file("cassandra"))
   .settings(
     name := projectName + "-cassandra",
     publishSettings,
+    scalacOptions ++= scalacCommon,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
     libraryDependencies ++= cassandraDependencies
@@ -135,6 +141,7 @@ lazy val examples = (project in file("examples"))
   .settings(
     name := projectName + "-examples",
     noPublishSettings,
+    scalacOptions ++= scalacCommon,
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSourcesScala3
   )
@@ -144,7 +151,7 @@ lazy val examples = (project in file("examples"))
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212, scala213),
-    libraryDependencies ++= sparkDependencies //due to Spark provided dependencies
+    libraryDependencies ++= sparkDependencies // due to Spark provided dependencies
   )
   .dependsOn(spark % "test->test;compile->compile")
 

@@ -1,15 +1,11 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.{Field, FieldList, LegacySQLTypeName, Schema, StandardSQLTypeName}
-import org.datatools.bigdatatypes.basictypes.SqlType._
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
-import org.datatools.bigdatatypes.basictypes._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
+import org.datatools.bigdatatypes.basictypes.*
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toScala
-import org.datatools.bigdatatypes.bigquery.SqlTypeToBigQuery.{getSchema, sqlModeToBigQueryMode}
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
-import org.datatools.bigdatatypes.formats.Formats
-
-import scala.annotation.tailrec
 
 /** Using SqlTypeConversion and SqlInstanceConversion type classes,
   * here are defined all the conversions to transform BigQuery Tables into [[SqlType]]s
@@ -22,12 +18,15 @@ object BigQueryTypeConversion {
     */
   implicit val intType: SqlTypeConversion[StandardSQLTypeName.INT64.type] = SqlTypeConversion.instance(SqlLong())
   implicit val floatType: SqlTypeConversion[StandardSQLTypeName.FLOAT64.type] = SqlTypeConversion.instance(SqlFloat())
-  implicit val bigDecimalType: SqlTypeConversion[StandardSQLTypeName.NUMERIC.type] =  SqlTypeConversion.instance(SqlDecimal())
+
+  implicit val bigDecimalType: SqlTypeConversion[StandardSQLTypeName.NUMERIC.type] =
+    SqlTypeConversion.instance(SqlDecimal())
   implicit val booleanType: SqlTypeConversion[StandardSQLTypeName.BOOL.type] = SqlTypeConversion.instance(SqlBool())
   implicit val stringType: SqlTypeConversion[StandardSQLTypeName.STRING.type] = SqlTypeConversion.instance(SqlString())
 
   // Extended types
-  implicit val timestampType: SqlTypeConversion[StandardSQLTypeName.TIMESTAMP.type] = SqlTypeConversion.instance(SqlTimestamp())
+  implicit val timestampType: SqlTypeConversion[StandardSQLTypeName.TIMESTAMP.type] =
+    SqlTypeConversion.instance(SqlTimestamp())
   implicit val dateType: SqlTypeConversion[StandardSQLTypeName.DATE.type] = SqlTypeConversion.instance(SqlDate())
 
   /** SqlInstanceConversion type class specifications for Field and Schema instances
@@ -38,25 +37,24 @@ object BigQueryTypeConversion {
   implicit val field: SqlInstanceConversion[Field] =
     (value: Field) => SqlStruct(loopSchemaType(value.getSubFields))
 
-
   /** Extension methods for BigQuery Schemas and Fields into SqlTypes */
 
-  /** Extension method. Enables val myInstance: Field -> myInstance.getType syntax
+  /** Extension method. Enables val myInstance: Field -> myInstance.asSqlType syntax
     */
   implicit class FieldTypeSyntax(value: Field) {
-    def getType: SqlType = SqlInstanceConversion[Field].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[Field].getType(value)
   }
 
-  /** Extension method. Enables myBQTable: Schema -> myBQTable.getType */
+  /** Extension method. Enables myBQTable: Schema -> myBQTable.asSqlType */
   implicit class SchemaFieldSyntax(value: Schema) {
-    def getType: SqlType = SqlInstanceConversion[Schema].getType(value)
+    def asSqlType: SqlType = SqlInstanceConversion[Schema].getType(value)
   }
 
   /** Given a BigQuery Field, converts it into a SqlType
     */
   private def convertBigQueryType(field: Field): SqlType =
     field.getType match {
-      case LegacySQLTypeName.INTEGER   => SqlLong(findMode(field.getMode)) //BigQuery only has Int64
+      case LegacySQLTypeName.INTEGER   => SqlLong(findMode(field.getMode)) // BigQuery only has Int64
       case LegacySQLTypeName.FLOAT     => SqlFloat(findMode(field.getMode))
       case LegacySQLTypeName.NUMERIC   => SqlDecimal(findMode(field.getMode))
       case LegacySQLTypeName.BOOLEAN   => SqlBool(findMode(field.getMode))

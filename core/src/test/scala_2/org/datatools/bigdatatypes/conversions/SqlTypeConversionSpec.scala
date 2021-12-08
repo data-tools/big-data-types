@@ -20,26 +20,32 @@ class SqlTypeConversionSpec extends UnitSpec {
     val sqlType: SqlType = SqlTypeConversion[Int].getType
     sqlType shouldBe SqlInt(Required)
   }
+
   "Long type" should "be converted into SqlLong" in {
     val sqlType: SqlType = SqlTypeConversion[Long].getType
     sqlType shouldBe SqlLong(Required)
   }
+
   "Double type" should "be converted into SqlDouble" in {
     val sqlType: SqlType = SqlTypeConversion[Double].getType
     sqlType shouldBe SqlDouble(Required)
   }
+
   "Float type" should "be converted into SqlFloat" in {
     val sqlType: SqlType = SqlTypeConversion[Float].getType
     sqlType shouldBe SqlFloat(Required)
   }
+
   "BigDecimal type" should "be converted into SqlDecimal" in {
     val sqlType: SqlType = SqlTypeConversion[BigDecimal].getType
     sqlType shouldBe SqlDecimal(Required)
   }
+
   "Boolean type" should "be converted into SqlBool" in {
     val sqlType: SqlType = SqlTypeConversion[Boolean].getType
     sqlType shouldBe SqlBool(Required)
   }
+
   "String type" should "be converted into SqlString" in {
     val sqlType: SqlType = SqlTypeConversion[String].getType
     sqlType shouldBe SqlString(Required)
@@ -114,10 +120,12 @@ class SqlTypeConversionSpec extends UnitSpec {
     val sqlType: SqlType = SqlTypeConversion[Option[Timestamp]].getType
     sqlType shouldBe SqlTimestamp(Nullable)
   }
+
   "Java SQL Date" should "be converted into nullable SqlDate" in {
     val sqlType: SqlType = SqlTypeConversion[Date].getType
     sqlType shouldBe SqlDate(Required)
   }
+
   "Optional Java SQL Date" should "be converted into nullable SqlDate" in {
     val sqlType: SqlType = SqlTypeConversion[Option[Date]].getType
     sqlType shouldBe SqlDate(Nullable)

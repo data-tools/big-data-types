@@ -1,3 +1,16 @@
+### Big Data Types v1.1.0
+- Cassandra
+  - Added conversion from Cassandra to other types
+  - Added a parser and parsing errors
+  - Docs improved
+  - Examples from other types to Cassandra
+- BigQuery
+  - Added an extension method to extract Schemas from BigQuery Fields (`myInstance.asBigQuery.schema`)
+
+## Big Data Types v1.0.0
+- Better public API definition
+- Extension methods renamed to a better name (This is a breaking change)
+
 ### Big Data Types v0.5.2
 - Spark
   - Added support for Spark in Scala 2.13

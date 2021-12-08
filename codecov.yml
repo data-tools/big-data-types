@@ -1,0 +1,9 @@
+flags:
+  unittests:
+    paths:
+      - ".*"
+    carryforward: false
+  bq-integration:
+    paths:
+      - ".*"
+    carryforward: true # because BQ Integration tests run only in main branch, not in Pull Requests

@@ -2,13 +2,13 @@ package bigdatatypes
 
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
-import org.apache.spark.sql.types.{BooleanType, DataTypes, DoubleType, FloatType, IntegerType, LongType, StringType, StructField, StructType}
+import org.apache.spark.sql.types.*
+import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.schema
-import org.datatools.bigdatatypes.{SparkTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.spark.SparkSchemas
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
-import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.InstanceSchemaSyntax
+import org.datatools.bigdatatypes.spark.SparkSchemas
+import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.InstanceSyntax
 
 class BigQueryToOthers extends UnitSpec {
 
@@ -20,16 +20,21 @@ class BigQueryToOthers extends UnitSpec {
       StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
       StructField("myBoolean", BooleanType, nullable = false),
       StructField("myString", StringType, nullable = false)
-    ))
+    )
+  )
 
   /** BigQuery Schema */
-  val bqSchema: Schema = Schema.of(toJava(List(
-    Field.newBuilder("myLong", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myFloat", StandardSQLTypeName.FLOAT64).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myDecimal", StandardSQLTypeName.NUMERIC).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myBoolean", StandardSQLTypeName.BOOL).setMode(Mode.REQUIRED).build(),
-    Field.newBuilder("myString", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build()
-  )))
+  val bqSchema: Schema = Schema.of(
+    toJava(
+      List(
+        Field.newBuilder("myLong", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myFloat", StandardSQLTypeName.FLOAT64).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myDecimal", StandardSQLTypeName.NUMERIC).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myBoolean", StandardSQLTypeName.BOOL).setMode(Mode.REQUIRED).build(),
+        Field.newBuilder("myString", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build()
+      )
+    )
+  )
 
   behavior of "BigQueryToOthers"
 
@@ -44,11 +49,7 @@ class BigQueryToOthers extends UnitSpec {
   }
 
   it should "be converted into Spark Schema using extension method" in {
-    bqSchema.sparkSchema shouldBe sparkSchema
+    bqSchema.asSparkSchema shouldBe sparkSchema
   }
-
-
-
-
 
 }

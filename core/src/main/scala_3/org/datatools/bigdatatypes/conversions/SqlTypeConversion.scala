@@ -3,8 +3,8 @@ package org.datatools.bigdatatypes.conversions
 import scala.deriving.*
 import scala.compiletime.*
 import org.datatools.bigdatatypes.basictypes.SqlType
-import org.datatools.bigdatatypes.basictypes.SqlType._
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode._
+import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
 
 import java.sql.{Date, Timestamp}
 
@@ -69,10 +69,10 @@ object SqlTypeConversion {
   /** Creates an SqlStruct for the given Product
     * @param s Mirror
     * @param elems List of tuples with names and SqlTypeConversions
-    * @tparam T a Product
+    * @tparam A a Product
     */
-  def instanceStructProduct[T](s: Mirror.ProductOf[T], elems: List[(String, SqlTypeConversion[_])]): SqlTypeConversion[T] = {
-    new SqlTypeConversion[T] {
+  def instanceStructProduct[A](s: Mirror.ProductOf[A], elems: List[(String, SqlTypeConversion[?])]): SqlTypeConversion[A] = {
+    new SqlTypeConversion[A] {
       def getType: SqlType = {
         val tuples = elems.map((name, t) => (name -> t.getType))
         tuples match {
@@ -97,16 +97,16 @@ object SqlTypeConversion {
 
   /** Derives anything asked as SqlTypeConversion. Only products are implemented
     */
-  inline given derived[T](using m: Mirror.Of[T]): SqlTypeConversion[T] = {
+  inline given derived[A](using m: Mirror.Of[A]): SqlTypeConversion[A] = {
     lazy val elemInstances = summonAll[m.MirroredElemLabels, m.MirroredElemTypes]
     val labels = getElemLabels[m.MirroredElemLabels]
     val zip = labels zip elemInstances
     inline m match
-      case s: Mirror.SumOf[T] => ??? //the library only works for products
-      case p: Mirror.ProductOf[T] => instanceStructProduct(p, zip)
+      case s: Mirror.SumOf[A] => ??? //the library only works for products
+      case p: Mirror.ProductOf[A] => instanceStructProduct(p, zip)
   }
 
-  inline def summonAll[Names <: Tuple, Types <: Tuple]: List[SqlTypeConversion[_]] = {
+  inline def summonAll[Names <: Tuple, Types <: Tuple]: List[SqlTypeConversion[?]] = {
     inline (erasedValue[Names], erasedValue[Types]) match {
       case _: (_, EmptyTuple) => Nil
       case _: ((n *: ns), (t *: ts)) =>
