@@ -53,8 +53,8 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.8.2", //needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "2.4.1",
+  "com.google.auto.value" % "auto-value-annotations" % "1.8.2", // needed for an incompatibility between BQ & Scala3
+  "com.google.cloud" % "google-cloud-bigquery" % "2.5.1",
   scalatest % "it,test"
 )
 
@@ -75,10 +75,7 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(
-    noPublishSettings,
-    scalacOptions ++= scalacCommon,
-    crossScalaVersions := Nil)
+  .settings(noPublishSettings, scalacOptions ++= scalacCommon, crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
@@ -92,8 +89,8 @@ lazy val core = (project in file("core")).settings(
   publishSettings,
   scalacOptions ++= scalacCommon,
   crossScalaVersions := supportedScalaVersions,
-  crossVersionSharedSourcesScala3, //different one for Scala 2 or 3
-  //for Scala 2 or 3
+  crossVersionSharedSourcesScala3, // different one for Scala 2 or 3
+  // for Scala 2 or 3
   libraryDependencies ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, _)) => coreDependencies2
@@ -154,7 +151,7 @@ lazy val examples = (project in file("examples"))
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212, scala213),
-    libraryDependencies ++= sparkDependencies //due to Spark provided dependencies
+    libraryDependencies ++= sparkDependencies // due to Spark provided dependencies
   )
   .dependsOn(spark % "test->test;compile->compile")
 
