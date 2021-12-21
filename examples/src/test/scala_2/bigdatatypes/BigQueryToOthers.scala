@@ -52,4 +52,8 @@ class BigQueryToOthers extends UnitSpec {
     bqSchema.asSparkSchema shouldBe sparkSchema
   }
 
+  it should "be converted into Spark Fields using extension method" in {
+    bqSchema.asSparkFields shouldBe StructType(sparkSchema)
+  }
+
 }
