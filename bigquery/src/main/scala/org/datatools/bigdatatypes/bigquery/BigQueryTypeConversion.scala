@@ -35,7 +35,7 @@ object BigQueryTypeConversion {
     (value: Schema) => SqlStruct(loopSchemaType(value.getFields))
 
   implicit val field: SqlInstanceConversion[Field] =
-    (value: Field) => SqlStruct(loopSchemaType(value.getSubFields))
+    (value: Field) => convertBigQueryType(value)
 
   /** Extension methods for BigQuery Schemas and Fields into SqlTypes */
 

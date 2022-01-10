@@ -5,6 +5,7 @@ import org.datatools.bigdatatypes.BigQueryTestTypes.basicFields
 import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.schema
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.cassandra.CassandraTables
+import org.datatools.bigdatatypes.cassandra.CassandraTables.AsCassandraInstanceSyntax
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
 class BigQueryToOthers extends UnitSpec {
@@ -16,6 +17,11 @@ class BigQueryToOthers extends UnitSpec {
 
   "BigQuery Schema" should "be converted into Cassandra Table" in {
     CassandraTables.table[Schema](bqSchema, "testTable", "myLong").toString shouldBe
+      "CREATE TABLE testtable (myint bigint,mylong bigint PRIMARY KEY,myfloat float,mydouble float,mydecimal decimal,myboolean boolean,mystring text)"
+  }
+
+  it should "be converted into Cassandra Table using extension method" in {
+    bqSchema.asCassandra("testTable", "myLong").toString shouldBe
       "CREATE TABLE testtable (myint bigint,mylong bigint PRIMARY KEY,myfloat float,mydouble float,mydecimal decimal,myboolean boolean,mystring text)"
   }
 

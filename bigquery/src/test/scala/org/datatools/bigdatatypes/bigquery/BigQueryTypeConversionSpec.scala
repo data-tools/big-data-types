@@ -1,22 +1,16 @@
 package org.datatools.bigdatatypes.bigquery
 
-import com.google.cloud.bigquery.Schema
+import com.google.cloud.bigquery.Field.Mode
+import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
 import org.datatools.bigdatatypes.BigQueryTestTypes.*
-import org.datatools.bigdatatypes.TestTypes.{
-  BasicList,
-  BasicOptionTypes,
-  BasicOptionalStruct,
-  BasicStruct,
-  BasicTypes,
-  ExtendedTypes,
-  ListOfStruct
-}
+import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicOptionalStruct, BasicStruct, BasicTypes, ExtendedTypes, ListOfStruct}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.basictypes.SqlType.*
-import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.SchemaFieldSyntax
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.Required
+import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.{FieldTypeSyntax, SchemaFieldSyntax, field, intType}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.conversions.SqlTypeConversion
+import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 
@@ -44,6 +38,20 @@ class BigQueryTypeConversionSpec extends UnitSpec {
       case SqlStruct(records, mode) => SqlStruct(loop(records), mode)
       case _                        => field
     }
+  }
+
+  "Simple BQ Field" should "be converted into SqlType" in {
+    SqlTypeConversion[StandardSQLTypeName.INT64.type].getType shouldBe SqlLong(Required)
+  }
+
+  it should "be converted into SqlType using an instance" in {
+    val myField = Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
+    SqlInstanceConversion[Field].getType(myField) shouldBe SqlLong(Required)
+  }
+
+  it should "be converted into SqlType using extension method" in {
+    val myField = Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
+    myField.asSqlType shouldBe SqlLong(Required)
   }
 
   "Basic BQ Schema" should "be converted into SqlType" in {

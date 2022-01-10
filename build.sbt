@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "1.1.0"
+lazy val versionNumber = "1.1.1"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -75,7 +75,10 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(noPublishSettings, scalacOptions ++= scalacCommon, crossScalaVersions := Nil)
+  .settings(
+    noPublishSettings,
+    scalacOptions ++= scalacCommon,
+    crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
