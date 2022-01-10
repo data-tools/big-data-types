@@ -30,9 +30,8 @@ lazy val publishSettings = Seq(
   publishMavenStyle := true
 )
 
-lazy val noPublishSettings = {
+lazy val noPublishSettings =
   publish / skip := true
-}
 
 publishSettings
 
