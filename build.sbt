@@ -4,7 +4,7 @@ lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
-lazy val scala213 = "2.13.7"
+lazy val scala213 = "2.13.8"
 lazy val scala212 = "2.12.15"
 lazy val scala3 = "3.0.2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
@@ -74,10 +74,7 @@ lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
 //Project settings
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
-  .settings(
-    noPublishSettings,
-    scalacOptions ++= scalacCommon,
-    crossScalaVersions := Nil)
+  .settings(noPublishSettings, scalacOptions ++= scalacCommon, crossScalaVersions := Nil)
   .aggregate(
     core,
     bigquery,
