@@ -2,8 +2,9 @@ package org.datatools.bigdatatypes.cassandra.parser
 
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
-import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{compactErrors, ErrorParsingField, ParsingErrors}
+import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{ErrorParsingField, ParsingErrors, compactErrors}
 
+import scala.util.{Failure, Success, Try}
 import scala.util.matching.Regex
 
 private[cassandra] object CreateTableParser {
@@ -19,7 +20,7 @@ private[cassandra] object CreateTableParser {
     */
   def parse(table: CreateTable): Seq[(String, DataType)] = {
     val fields = for {
-      components <- extractComponents(table)
+      components <- extractComponents(table.toString)
       fields <- toCassandraTypes(components)
     } yield fields
     fields match {
@@ -28,24 +29,26 @@ private[cassandra] object CreateTableParser {
     }
   }
 
-  /** Given a [[CreateTable]], uses it's representation of String to extract their fields and types
-    * @param table a [[CreateTable]] instance
+  /** Given a String that represents a CreateTable, extract their fields and types
+    * @param table is a String representing a CreateTable structure
     * @return Either a [[ParsingError]] or a list of [[NameType]] with names and types in String
     */
-  def extractComponents(table: CreateTable): Either[ParsingError, List[NameType]] =
-    fieldsRegex
-      .findFirstIn(table.toString)
-      .map(s => s.substring(1, s.length - 1).replace(pk, ""))
-      .map(s => s.split(','))
-      .map(l =>
-        l.map { s =>
-          val both = s.split(' ')
-          NameType(both.head, both.tail.head)
-        }.toList
-      ) match {
-      case Some(value) => Right(value)
-      case None        => Left(ParsingError.ErrorParsingTable("Error parsing CreateTable"))
+  def extractComponents(table: String): Either[ParsingError, List[NameType]] = {
+    Try(
+      fieldsRegex
+        .findFirstIn(table)
+        .map(s => s.substring(1, s.length - 1).replace(pk, ""))
+        .map(s => s.split(','))
+        .map(l =>
+          l.map { s =>
+            val both = s.trim.split(' ')
+            NameType(both.head, both.tail.head)
+          }.toList
+        ).get) match {
+      case Failure(_) => Left(ParsingError.ErrorParsingTable("Error parsing CreateTable"))
+      case Success(value) => Right(value)
     }
+  }
 
   /** Given a list of parsed fields, return ParsingErrors or the fields parsed and typed for Cassandra
     * @param fields is a list of Fields parsed
