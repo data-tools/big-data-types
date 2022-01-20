@@ -3,12 +3,20 @@ package org.datatools.bigdatatypes.bigquery
 import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
 import org.datatools.bigdatatypes.BigQueryTestTypes.*
-import org.datatools.bigdatatypes.TestTypes.{BasicList, BasicOptionTypes, BasicOptionalStruct, BasicStruct, BasicTypes, ExtendedTypes, ListOfStruct}
+import org.datatools.bigdatatypes.TestTypes.{
+  BasicList,
+  BasicOptionTypes,
+  BasicOptionalStruct,
+  BasicStruct,
+  BasicTypes,
+  ExtendedTypes,
+  ListOfStruct
+}
 import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode.Required
-import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.{FieldTypeSyntax, SchemaFieldSyntax, field, intType}
+import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.{field, intType, FieldTypeSyntax, SchemaFieldSyntax}
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
