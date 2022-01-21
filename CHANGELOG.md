@@ -1,3 +1,8 @@
+### Big Data Types v1.1.2
+- Cassandra
+  - Fixed minor issues on parser
+  - Parser tests added
+
 ### Big Data Types v1.1.1
 - BigQuery
   - Fixed an error while converting `Field` into other types, without using `Schema` 

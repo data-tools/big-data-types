@@ -27,17 +27,4 @@ private[parser] object ParsingError {
     val acc: ParsingErrors = ParsingErrors(List.empty[ParsingError])
     errors.foldLeft(acc)((e1, e2) => ParsingErrors(e1.errors :+ e2))
   }
-
-  implicit class ExtensionForError(error: ParsingError) {
-
-    /** Add an error to a [[ParsingError]]. It converts the error into a [[ParsingErrors]]
-      * @param newError the error to be added
-      * @return [[ParsingErrors]] with current errors + the new one
-      */
-    def addError(newError: ParsingError): ParsingErrors =
-      error match {
-        case ParsingErrors(errors) => ParsingErrors(errors :+ newError)
-        case _                     => ParsingErrors(List(newError))
-      }
-  }
 }
