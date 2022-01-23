@@ -2,7 +2,7 @@ package org.datatools.bigdatatypes.cassandra.parser
 
 import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 import com.datastax.oss.driver.api.querybuilder.schema.CreateTable
-import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{ErrorParsingField, ParsingErrors, compactErrors}
+import org.datatools.bigdatatypes.cassandra.parser.ParsingError.{compactErrors, ErrorParsingField, ParsingErrors}
 
 import scala.util.{Failure, Success, Try}
 import scala.util.matching.Regex
@@ -33,7 +33,7 @@ private[cassandra] object CreateTableParser {
     * @param table is a String representing a CreateTable structure
     * @return Either a [[ParsingError]] or a list of [[NameType]] with names and types in String
     */
-  def extractComponents(table: String): Either[ParsingError, List[NameType]] = {
+  def extractComponents(table: String): Either[ParsingError, List[NameType]] =
     Try(
       fieldsRegex
         .findFirstIn(table)
@@ -44,11 +44,12 @@ private[cassandra] object CreateTableParser {
             val both = s.trim.split(' ')
             NameType(both.head, both.tail.head)
           }.toList
-        ).get) match {
-      case Failure(_) => Left(ParsingError.ErrorParsingTable("Error parsing CreateTable"))
+        )
+        .get
+    ) match {
+      case Failure(_)     => Left(ParsingError.ErrorParsingTable("Error parsing CreateTable"))
       case Success(value) => Right(value)
     }
-  }
 
   /** Given a list of parsed fields, return ParsingErrors or the fields parsed and typed for Cassandra
     * @param fields is a list of Fields parsed
