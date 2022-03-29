@@ -21,7 +21,7 @@ jobs:
         with:
           java-version: "adopt@1.8"
       - name: Set up GCloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0.6.0
         with:
           project_id: ${{ secrets.BIGQUERY_PROJECT }}
           service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT_64 }}
@@ -43,7 +43,7 @@ jobs:
         with:
           java-version: "adopt@1.8"
       - name: Set up GCloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0.6.0
         with:
           project_id: ${{ secrets.BIGQUERY_PROJECT }}
           service_account_key: ${{ secrets.BQ_SERVICE_ACCOUNT_64 }}
