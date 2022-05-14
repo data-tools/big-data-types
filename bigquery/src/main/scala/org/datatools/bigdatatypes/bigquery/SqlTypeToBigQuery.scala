@@ -41,7 +41,7 @@ object SqlTypeToBigQuery {
   // TODO val myInt: Int = 5  -> SqlTypeToBigQuery[Int].bigQueryFields(myInt)
   def getSchema(sqlType: SqlType)(implicit f: Formats): List[Field] = sqlType match {
     case SqlStruct(Nil, _) => Nil
-    case SqlStruct((name, sqlType) :: records, mode) =>
+    case SqlStruct(name, sqlType :: records, mode) =>
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 

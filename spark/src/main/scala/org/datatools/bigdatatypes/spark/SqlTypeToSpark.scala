@@ -50,7 +50,7 @@ object SqlTypeToSpark {
     */
   private[spark] def getSchema(sqlType: SqlType)(implicit f: Formats): List[StructField] = sqlType match {
     case SqlStruct(Nil, _) => Nil
-    case SqlStruct((name, sqlType) :: records, mode) =>
+    case SqlStruct(name, sqlType :: records, mode) =>
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 

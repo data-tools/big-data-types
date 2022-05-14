@@ -92,9 +92,9 @@ lazy val core = (project in file("core")).settings(
   // for Scala 2 or 3
   libraryDependencies ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, _)) => coreDependencies2
-      case Some((3, _)) => coreDependencies3
-      case _            => Nil
+      case Some(2, _) => coreDependencies2
+      case Some(3, _) => coreDependencies3
+      case _          => Nil
     }
   }
 )
@@ -156,14 +156,14 @@ lazy val examples = (project in file("examples"))
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
-    (sc / unmanagedSourceDirectories) ++= {
+    sc / unmanagedSourceDirectories ++= {
       (sc / unmanagedSourceDirectories).value.flatMap { dir: File =>
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((3, _))            => Seq(new File(dir.getPath + "_2.13+"))
-            case Some((2, y)) if y >= 13 => Seq(new File(dir.getPath + "_2.13+"))
-            case Some((2, y)) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
+            case Some(3, _)            => Seq(new File(dir.getPath + "_2.13+"))
+            case Some(2, y) if y >= 13 => Seq(new File(dir.getPath + "_2.13+"))
+            case Some(2, y) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
           }
       }
     }
@@ -171,13 +171,13 @@ lazy val crossVersionSharedSources: Seq[Setting[_]] =
 
 lazy val crossVersionSharedSourcesScala3: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
-    (sc / unmanagedSourceDirectories) ++= {
+    sc / unmanagedSourceDirectories ++= {
       (sc / unmanagedSourceDirectories).value.flatMap { dir: File =>
         if (dir.getName != "scala") Seq(dir)
         else
           CrossVersion.partialVersion(scalaVersion.value) match {
-            case Some((3, _)) => Seq(new File(dir.getPath + "_3"))
-            case Some((2, _)) => Seq(new File(dir.getPath + "_2"))
+            case Some(3, _) => Seq(new File(dir.getPath + "_3"))
+            case Some(2, _) => Seq(new File(dir.getPath + "_2"))
           }
       }
     }
