@@ -10,7 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Launch Scala Steward
     steps:
+      - name: Configure GPG Key
+        run: |
+          mkdir -p ~/.gnupg/
+          printf "$GPG_SIGNING_KEY" | base64 --decode > ~/.gnupg/private.key
+          gpg --pinentry-mode=loopback --passphrase ${{ secrets.GPG_PERSONAL_PASSPHRASE }} --batch --import ~/.gnupg/private.key
+        env:
+          GPG_SIGNING_KEY: ${{ secrets.GPG_PERSONAL }}
       - name: Launch Scala Steward
         uses: scala-steward-org/scala-steward-action@v2
         with:
           github-token: ${{ secrets.GH_PERSONAL_TOKEN }}
+          sign-commits: true
+          signing-key: ${{ secrets.GPG_PERSONAL_KEY_ID }}
