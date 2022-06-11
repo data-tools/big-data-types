@@ -15,7 +15,7 @@ import org.apache.spark.sql.types.{
   TimestampType
 }
 
-/** Test types from [[TestTypes]] converted to BigQuery. They can be used in multiple tests
+/** Test types from [[TestTypes]] converted to Spark. They can be used in multiple tests
   */
 object SparkTestTypes {
 
@@ -30,7 +30,6 @@ object SparkTestTypes {
       StructField("myString", StringType, nullable = false)
     )
 
-  /** BigQuery doesn't have a main object, it has a list of fields in the root path */
   val basicTypes: StructType = StructType(basicFields)
 
   val basicOptionTypes: Seq[StructField] =

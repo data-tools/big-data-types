@@ -26,7 +26,7 @@ lazy val publishSettings = Seq(
     ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git")
   ),
   developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton"))),
-  licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
   publishMavenStyle := true
 )
 
@@ -69,7 +69,14 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
+val circeVersion = "0.14.1"
+lazy val jsonCirceDependencies = Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+  ).map(_ % circeVersion)
+
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.12"
 
 //Project settings
 lazy val root = (project in file("."))
@@ -80,6 +87,7 @@ lazy val root = (project in file("."))
     bigquery,
     spark,
     cassandra,
+    jsonCirce,
     examples
   )
 
@@ -132,6 +140,18 @@ lazy val cassandra = (project in file("cassandra"))
     crossScalaVersions := supportedScalaVersions,
     crossVersionSharedSources,
     libraryDependencies ++= cassandraDependencies
+  )
+  .dependsOn(core % "test->test;compile->compile")
+
+lazy val jsonCirce = (project in file("jsoncirce"))
+  .configs(IntegrationTest)
+  .settings(
+    name := projectName + "-circe",
+    publishSettings,
+    scalacOptions ++= scalacCommon,
+    crossScalaVersions := supportedScalaVersions,
+    crossVersionSharedSources,
+    libraryDependencies ++= jsonCirceDependencies
   )
   .dependsOn(core % "test->test;compile->compile")
 
