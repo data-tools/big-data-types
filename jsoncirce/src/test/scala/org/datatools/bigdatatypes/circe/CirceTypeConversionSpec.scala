@@ -27,4 +27,20 @@ class CirceTypeConversionSpec extends UnitSpec {
     SqlInstanceConversion[Json].getType(C.basicTypes) shouldBe S.basicTypes
   }
 
+  "Basic Json fields with Arrays" should "be converted into SqlTypes" in {
+    SqlInstanceConversion[Json].getType(C.basicWithList) shouldBe S.basicWithList
+  }
+
+  "Basic Json fields with Nested objects" should "be converted into SqlTypes" in {
+    SqlInstanceConversion[Json].getType(C.basicNested) shouldBe S.basicNested
+  }
+
+  "Basic Json fields with Nested Arrays" should "be converted into SqlTypes" in {
+    SqlInstanceConversion[Json].getType(C.basicNestedWithList) shouldBe S.basicNestedWithList
+  }
+
+  "Basic Json fields" should "be converted into Basic SqlTypes" in {
+    C.basicTypes.asSqlType shouldBe S.basicTypes
+  }
+
 }

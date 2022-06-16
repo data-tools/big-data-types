@@ -3,9 +3,12 @@ package org.datatools.bigdatatypes.circe
 import io.circe
 import io.circe.Json.{JArray, JBoolean, JNull, JNumber, JObject, JString}
 import io.circe.{Json, JsonBigDecimal, JsonDouble, JsonFloat, JsonLong, JsonNumber, JsonObject}
-import org.datatools.bigdatatypes.basictypes.SqlType
+import org.datatools.bigdatatypes.basictypes.{SqlType, SqlTypeMode}
 import org.datatools.bigdatatypes.basictypes.SqlType.*
+import org.datatools.bigdatatypes.basictypes.SqlTypeMode.{Nullable, Repeated, Required}
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
+
+import scala.annotation.tailrec
 
 object CirceTypeConversion {
 
@@ -20,14 +23,16 @@ object CirceTypeConversion {
   implicit val circeJsonType: SqlInstanceConversion[Json] = (value: Json) => convertCirceType(value)
 
 
-  def convertCirceType(j: Json): SqlType = {
+  @tailrec
+  def convertCirceType(j: Json, repeated: Boolean = false): SqlType = {
     j match {
-      case v if v.isNumber => SqlDecimal()
-      case v if v.isString => SqlString()
-      case v if v.isBoolean => SqlBool()
+      case v if v.isArray => convertCirceType(v.asArray.get.apply(0), repeated = true)
+      case v if v.isNumber => SqlDecimal(isRepeated(repeated))
+      case v if v.isString => SqlString(isRepeated(repeated))
+      case v if v.isBoolean => SqlBool(isRepeated(repeated))
       case v if v.isObject =>
         val pairs = v.asObject.get.keys zip v.asObject.get.values
-        SqlStruct(loopStructs(pairs))
+        SqlStruct(loopStructs(pairs), isRepeated(repeated))
     }
   }
 
@@ -38,5 +43,16 @@ object CirceTypeConversion {
     l.map(x => x._1 -> convertCirceType(x._2)).toList
   }
 
+  /** From Boolean to Repeated or Required Mode
+    */
+  private def isRepeated(repeated: Boolean): SqlTypeMode = if (repeated) Repeated else Required
+
+
+  /** Extension method. Enables val myInstance: Json -> myInstance.asSqlType
+    * @param value in a Json from Circe
+    */
+  implicit class StructTypeSyntax(value: Json) {
+    def asSqlType: SqlType = SqlInstanceConversion[Json].getType(value)
+  }
 
 }
