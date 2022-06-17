@@ -1,13 +1,11 @@
 package org.datatools.bigdatatypes.circe
 
-import io.circe.{Json, JsonNumber, JsonObject}
-import org.datatools.bigdatatypes.TestTypes.*
-import org.datatools.bigdatatypes.{CirceTestTypes as C, SqlTestTypes as S, UnitSpec}
+import io.circe.{Json, JsonObject}
 import org.datatools.bigdatatypes.basictypes.*
 import org.datatools.bigdatatypes.basictypes.SqlType.*
-import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
-import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.circe.CirceTypeConversion.*
+import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
+import org.datatools.bigdatatypes.{CirceTestTypes as C, SqlTestTypes as S, UnitSpec}
 
 /** Reverse conversion, from Circe types to [[SqlType]]s
   */
@@ -39,7 +37,7 @@ class CirceTypeConversionSpec extends UnitSpec {
     SqlInstanceConversion[Json].getType(C.basicNestedWithList) shouldBe S.basicNestedWithList
   }
 
-  "Basic Json fields" should "be converted into Basic SqlTypes" in {
+  "Extension method asSqlType" should "convert a Json into SqlTypes" in {
     C.basicTypes.asSqlType shouldBe S.basicTypes
   }
 

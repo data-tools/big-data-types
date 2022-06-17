@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "1.1.2"
+lazy val versionNumber = "1.2.0"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -167,6 +167,7 @@ lazy val examples = (project in file("examples"))
   .dependsOn(core % "test->test;compile->compile")
   .dependsOn(bigquery % "test->test;compile->compile")
   .dependsOn(cassandra % "test->test;compile->compile")
+  .dependsOn(jsonCirce % "test->test;compile->compile")
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212, scala213),

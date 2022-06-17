@@ -33,11 +33,12 @@ or a BigQuery table into a Cassandra table without having code that relates thos
 
 ### Available conversions:
 
-| From / To  |Scala Types       |BigQuery          |Spark             |Cassandra         |
-|------------|:----------------:|:----------------:|:----------------:|:----------------:|
-|Scala Types |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|
-|BigQuery    |                  |        -         |:white_check_mark:|:white_check_mark:|
-|Spark       |                  |:white_check_mark:|        -         |:white_check_mark:|
-|Cassandra   |                  |:white_check_mark:|:white_check_mark:|        -         |
+| From / To    |Scala Types       |BigQuery          |Spark             |Cassandra         | Circe (JSON) |
+|--------------|:----------------:|:----------------:|:----------------:|:----------------:|:------------:|
+| Scala Types  |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
+| BigQuery     |                  |        -         |:white_check_mark:|:white_check_mark:|              |
+| Spark        |                  |:white_check_mark:|        -         |:white_check_mark:|              |
+| Cassandra    |                  |:white_check_mark:|:white_check_mark:|        -         |              |
+| Circe (JSON) |                  |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
 
 

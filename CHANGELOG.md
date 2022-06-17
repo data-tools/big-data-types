@@ -1,3 +1,7 @@
+### Big Data Types v1.2.0
+- Module for Circe (JSON) added
+  - Conversion from other types to Circe
+
 ### Big Data Types v1.1.2
 - Cassandra
   - Fixed minor issues on parser
