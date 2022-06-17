@@ -79,12 +79,4 @@ object SqlTestTypes {
       )
     )
   )
-
-  val extendedTypes: SqlStruct = SqlStruct(
-    List(
-      ("myInt", SqlDecimal(Required)),
-      ("myTimestamp", SqlTimestamp(Required)),
-      ("myDate", SqlDate(Required))
-    )
-  )
 }
