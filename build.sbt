@@ -1,5 +1,5 @@
 //used to build Sonatype releases
-lazy val versionNumber = "1.1.2"
+lazy val versionNumber = "1.2.0"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
@@ -26,7 +26,7 @@ lazy val publishSettings = Seq(
     ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git")
   ),
   developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton"))),
-  licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
   publishMavenStyle := true
 )
 
@@ -69,6 +69,13 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
+val circeVersion = "0.14.1"
+lazy val jsonCirceDependencies = Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+  ).map(_ % circeVersion)
+
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
 
 //Project settings
@@ -80,6 +87,7 @@ lazy val root = (project in file("."))
     bigquery,
     spark,
     cassandra,
+    jsonCirce,
     examples
   )
 
@@ -135,6 +143,18 @@ lazy val cassandra = (project in file("cassandra"))
   )
   .dependsOn(core % "test->test;compile->compile")
 
+lazy val jsonCirce = (project in file("jsoncirce"))
+  .configs(IntegrationTest)
+  .settings(
+    name := projectName + "-circe",
+    publishSettings,
+    scalacOptions ++= scalacCommon,
+    crossScalaVersions := supportedScalaVersions,
+    crossVersionSharedSources,
+    libraryDependencies ++= jsonCirceDependencies
+  )
+  .dependsOn(core % "test->test;compile->compile")
+
 // Examples module for testing, with all modules included, not built
 lazy val examples = (project in file("examples"))
   .settings(
@@ -147,6 +167,7 @@ lazy val examples = (project in file("examples"))
   .dependsOn(core % "test->test;compile->compile")
   .dependsOn(bigquery % "test->test;compile->compile")
   .dependsOn(cassandra % "test->test;compile->compile")
+  .dependsOn(jsonCirce % "test->test;compile->compile")
   .settings(
     noPublishSettings,
     crossScalaVersions := List(scala212, scala213),

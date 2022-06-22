@@ -21,14 +21,18 @@ class CassandraToOthers extends UnitSpec {
       .withColumn("foo", DataTypes.TEXT)
       .withColumn("bar", DataTypes.INT)
 
+  val fields: List[Field] = List(
+    Field.newBuilder("id", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build(),
+    Field.newBuilder("foo", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build(),
+    Field.newBuilder("bar", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
+  )
+  val bqSchema: Schema = Schema.of(toJava(fields))
+
   "Cassandra table" should "be converted into BigQuery Schema" in {
-    val fields = List(
-      Field.newBuilder("id", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build(),
-      Field.newBuilder("foo", StandardSQLTypeName.STRING).setMode(Mode.REQUIRED).build(),
-      Field.newBuilder("bar", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
-    )
-    val bqSchema = Schema.of(toJava(fields))
-    SqlInstanceToBigQuery[CreateTable]
+    SqlInstanceToBigQuery[CreateTable].bigQueryFields(cassandraTable).schema shouldBe bqSchema
+  }
+
+  it should "be converted into BigQuery Schema using extension method" in {
     cassandraTable.asBigQuery.schema shouldBe bqSchema
   }
 }

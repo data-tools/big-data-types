@@ -8,19 +8,19 @@ This is a guide on how to add a new type to the library
 - [How to develop a new type](#how-to-develop-a-new-type)
 - [How it works](#how-it-works)
   * [SqlType ADT](#sqltype-adt)
-  * [Conversion / Reverse Conversion](#conversion---reverse-conversion)
+  * [Conversion / Reverse Conversion](#conversion--reverse-conversion)
     + [Conversion](#conversion)
     + [Reverse Conversion](#reverse-conversion)
 - [How to do it](#how-to-do-it)
   * [Create a new subproject in SBT](#create-a-new-subproject-in-sbt)
-  * [Conversion: Type Class - SqlType to New Type](#conversion--type-class---sqltype-to-new-type)
+  * [Conversion: Type Class - SqlType to New Type](#conversion-type-class---sqltype-to-new-type)
     + [Defining the syntax](#defining-the-syntax)
     + [Implementing the Type Class](#implementing-the-type-class)
       - [Mode inside Types](#mode-inside-types)
     + [Everything together](#everything-together)
-  * [Conversion: SqlInstance to New Type](#conversion--sqlinstance-to-new-type)
-  * [Reverse conversion: New Type to SqlType](#reverse-conversion--new-type-to-sqltype)
-  * [Everything together](#everything-together-1)
+  * [Conversion: SqlInstance to New Type](#conversion-sqlinstance-to-new-type)
+  * [Reverse conversion: New Type to SqlType](#reverse-conversion-new-type-to-sqltype)
+  * [Everything together](#everything-together)
 
 
 ## How to develop a new type
@@ -78,7 +78,7 @@ an existing _Type Class_ called `SqlTypeConversion`
 By doing this, we will get automatically conversion to the rest of the types of the library
 
 
-# How to do it
+## How to do it
 
 As covered in [Conversion](#conversion), we have to implement 2 types classes, one for types, another for instances.
 Both will derive `SqlTypeConversion` type class into our specific type and by doing so, we will get automatically all conversions into our new type
@@ -122,6 +122,81 @@ lazy val root = (project in file("."))
 ```
 
 Now, you can create a new root folder with your type name with the typical structure (src/main/scala_ ...)
+
+## Preparing Tests
+:::Note
+You can develop the conversion before tests, but we recommend to create a set of test before starting to develop a new type,
+it helps a lot to understand your new type and how it is being created. 
+Sometimes a type is not as easy as it seems.
+:::
+
+In the `core` module of the library there are some case classes that should cover all the different scenarios
+ (different types, lists, objects, deep nested objects) so the testing part will consist on:
+- 1 - Create instances of your new types
+- 2 - Pick the already defined [Test Case Classes](../../core/src/test/scala_2/org/datatools/bigdatatypes/TestTypes.scala)
+- Test that 1 can be converted into 2
+- Test that 2 can be converted into 1
+
+:::tip
+You will need to understand the following about your new type:
+- How types are being created
+- How nullable fields works (with Optional types, nullable parameters ...)
+- How lists and nested objects works (if they exist)
+:::
+
+To do so, first, create a new `test/scala` folder with `org.datatools.bigdatatypes` and create an object like `MyTypeTestTypes`
+
+See the example of Spark Types:
+```scala
+object SparkTestTypes {
+
+  val basicFields: Seq[StructField] =
+    List(
+      StructField("myInt", IntegerType, nullable = false),
+      StructField("myLong", LongType, nullable = false),
+      StructField("myFloat", FloatType, nullable = false),
+      StructField("myDouble", DoubleType, nullable = false),
+      StructField("myDecimal", DataTypes.createDecimalType, nullable = false),
+      StructField("myBoolean", BooleanType, nullable = false),
+      StructField("myString", StringType, nullable = false)
+    )
+  val basicWithList: Seq[StructField] =
+    List(
+      StructField("myInt", IntegerType, nullable = false),
+      StructField("myList", ArrayType(IntegerType), nullable = true)
+    )
+// ...
+}
+```
+Create a new package for your tests called `myType` and add there a new class for each conversion. 
+
+### Tests for reverse conversion
+From our type to the generic one
+
+Create a file called `MyTypeConversionSpec` and add there some tests. You can add the following tests:
+- Simple individual type
+- Product type (case class / object)
+- Lists
+- Nested objects
+- Some extra tests for extension methods (syntactic sugars like `.asSqlType` or `.asBigQuery` in normal conversion)
+
+e.g. from Spark:
+```scala
+class SparkTypeConversionSpec extends UnitSpec {
+
+  "Simple Spark DataType" should "be converted into SqlType" in {
+    SqlTypeConversion[IntegerType].getType shouldBe SqlInt()
+  }
+
+  "StructField nullable" should "be converted into Nullable SqlType" in {
+    val sf = StructField("myInt", IntegerType, nullable = true)
+    sf.asSqlType shouldBe SqlInt(Nullable)
+    SqlInstanceConversion[StructField].getType(sf) shouldBe SqlInt(Nullable)
+  }
+ // ...
+}
+```
+
 
 ## Conversion: Type Class - SqlType to New Type
 
@@ -176,7 +251,9 @@ As the types usually can be recursive (nested objects) we can start defining a m
       getSchemaWithName(f.transformKey(name, sqlType), sqlType) :: getSchema(SqlStruct(records, mode))
   }
 ```
-**_Note:_** this method probably could be copied, changing only the return type for our type
+:::tip
+This method probably could be copied, changing only the return type for our type. You will create `getSchemaWithName` right now 
+:::
 
 And another method (`getSchemaWithName` in this example) to specify the specific types:
 In this case, we are showing an example from BigQuery as it seems simpler to understand:
@@ -190,8 +267,13 @@ In this case, we are showing an example from BigQuery as it seems simpler to und
       Field.newBuilder(name, StandardSQLTypeName.INT64).setMode(sqlModeToBigQueryMode(mode)).build()
     case SqlFloat(mode) =>
       Field.newBuilder(name, StandardSQLTypeName.FLOAT64).setMode(sqlModeToBigQueryMode(mode)).build()
- ...
- ...
+    case SqlDouble(mode) => ???
+    case SqlDecimal(mode) => ???
+    case SqlBool(mode) => ???
+    case SqlString(mode) => ???
+    case SqlTimestamp(mode) => ???
+    case SqlDate(mode) => ???
+    case SqlStruct(subType, mode) => ???
 }
 ```
 Same example from Spark:
@@ -377,6 +459,9 @@ object SparkTypeConversion {
   implicit val longType: SqlTypeConversion[LongType] = SqlTypeConversion.instance(SqlLong())
   implicit val doubleType: SqlTypeConversion[DoubleType] = SqlTypeConversion.instance(SqlDouble())
 ```
+:::tip
+You can copy&paste all the available types from others modules like the [Spark one](../../spark/src/main/scala/org/datatools/bigdatatypes/spark/SparkTypeConversion.scala)
+:::
 
 - Probably we use an instance of our type, for example, in Spark, we have `StructField` and `StructType` as instances, so we cover them using `SqlInstanceConversion` _Type Class_. In Cassandra we use internally a tuple `(String, DataType)`, and it also works
 
