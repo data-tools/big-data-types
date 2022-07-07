@@ -53,7 +53,7 @@ lazy val coreDependencies3 = Seq(
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.9", // needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "2.13.1",
+  "com.google.cloud" % "google-cloud-bigquery" % "2.13.8",
   scalatest % "it,test"
 )
 
@@ -70,11 +70,12 @@ lazy val cassandraDependencies = Seq(
 )
 
 val circeVersion = "0.14.1"
+
 lazy val jsonCirceDependencies = Seq(
-    "io.circe" %% "circe-core",
-    "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-parser"
-  ).map(_ % circeVersion)
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
 
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
 
