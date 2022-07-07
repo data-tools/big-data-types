@@ -5,7 +5,7 @@ version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.7"
-lazy val scala212 = "2.12.15"
+lazy val scala212 = "2.12.16"
 lazy val scala3 = "3.0.2"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
@@ -70,11 +70,12 @@ lazy val cassandraDependencies = Seq(
 )
 
 val circeVersion = "0.14.1"
+
 lazy val jsonCirceDependencies = Seq(
-    "io.circe" %% "circe-core",
-    "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-parser"
-  ).map(_ % circeVersion)
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
 
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
 
