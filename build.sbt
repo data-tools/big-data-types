@@ -58,8 +58,8 @@ lazy val bigqueryDependencies = Seq(
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.2.1" % Provided,
-  "org.apache.spark" %% "spark-sql" % "3.2.1" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.3.0" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.3.0" % Provided,
   scalatest % Test
 )
 
@@ -70,11 +70,12 @@ lazy val cassandraDependencies = Seq(
 )
 
 val circeVersion = "0.14.1"
+
 lazy val jsonCirceDependencies = Seq(
-    "io.circe" %% "circe-core",
-    "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-parser"
-  ).map(_ % circeVersion)
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
 
 lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
 
