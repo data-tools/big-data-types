@@ -5,7 +5,7 @@ sidebar_position: 6
 
 [Circe](https://circe.github.io/circe/) is a JSON library for Scala.
 
-The Circe module of this library allows to convert `Json` objects (from Circe) to any other type in the library.
+The Circe module of this library allows to convert `Json` objects (from [Circe](https://circe.github.io/circe/)) to any other type in the library.
 :::caution
 For now only conversions from Circe to other types are available. Other types to Circe are not ready yet.
 :::
@@ -16,13 +16,16 @@ but more specific types like `integer`, `float` or others do not exists.
 Because of that, any conversion between types will convert `number` into `Decimal` types, 
 as `Decimal` is the only one that can ensure the precision of any arbitrary number 
 :::
-<details><summary>About Circe and private types</summary></details>
-<p>
-Circe has more specific types than `JNumber`, like `JLong`, `JDouble` and other, 
-but all of them are private to Circe itself, so we can not use them, not even for matching types during conversions. 
-In any case, even if we were able to use them, when parsing a JSON string (probably most of the cases) 
-we can not detect the specific types
-</p>
+<details>
+    <summary>About Circe and private types</summary>
+    <p>
+    Circe has more specific types than `JNumber`, like `JLong`, `JDouble` and others, 
+    but all of them are private to Circe itself, so we can not use them, not even for matching types during conversions. 
+    In any case, even if we were able to use them, when parsing a JSON string (probably most of the cases) 
+    we can not detect the specific types, we could only guess them from the data.
+    </p>
+</details>
+
 
 ```scala
 import io.Circe.Json
