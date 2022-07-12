@@ -14,13 +14,13 @@ Check the [Documentation website](https://data-tools.github.io/big-data-types) t
 
 # Available conversions:
 
-|    From / To    |                                                                                                                     |Scala Types       |BigQuery          |Spark             |Cassandra         | Circe (JSON) |
-|:---------------:|:-------------------------------------------------------------------------------------------------------------------:|:----------------:|:----------------:|:----------------:|:----------------:|:------------:|
-|      Scala      |               <img src="./website/static/img/logos/scala.png" style="max-height:50px;max-width:70px">               |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
-|    BigQuery     |             <img src="./website/static/img/logos/bigquery.png" style="max-height:50px;max-width:70px">              |                  |        -         |:white_check_mark:|:white_check_mark:|              |
-|      Spark      |  <img src="./website/static/img/logos/spark.png" style="background-color:white;max-height:100px;max-width:100px">   |                  |:white_check_mark:|        -         |:white_check_mark:|              |
-|    Cassandra    | <img src="./website/static/img/logos/cassandra.png" style="background-color:white;max-height:50px;max-width:100px"> |                  |:white_check_mark:|:white_check_mark:|        -         |              |
-|  Circe (JSON)   |    <img src="./website/static/img/logos/circe.png" style="background-color:gray;max-height:50px;max-width:70px">    |                  |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
+|    From / To    |                                                                                                                       |Scala Types       |BigQuery          |Spark             |Cassandra         | Circe (JSON) |
+|:---------------:|:---------------------------------------------------------------------------------------------------------------------:|:----------------:|:----------------:|:----------------:|:----------------:|:------------:|
+|      Scala      |               <img src="./website/static/img/logos/scala.png" style="max-height:50px;max-width:70px" />               |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
+|    BigQuery     |             <img src="./website/static/img/logos/bigquery.png" style="max-height:50px;max-width:70px" />              |                  |        -         |:white_check_mark:|:white_check_mark:|              |
+|      Spark      |  <img src="./website/static/img/logos/spark.png" style="background-color:white;max-height:100px;max-width:100px" />   |                  |:white_check_mark:|        -         |:white_check_mark:|              |
+|    Cassandra    | <img src="./website/static/img/logos/cassandra.png" style="background-color:white;max-height:50px;max-width:100px" /> |                  |:white_check_mark:|:white_check_mark:|        -         |              |
+|  Circe (JSON)   |    <img src="./website/static/img/logos/circe.png" style="background-color:gray;max-height:50px;max-width:70px" />    |                  |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
 
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
