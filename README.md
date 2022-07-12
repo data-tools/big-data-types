@@ -24,4 +24,4 @@ Check the [Documentation website](https://data-tools.github.io/big-data-types) t
 
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red) 
-and ![Scala 3.0](https://img.shields.io/badge/Scala-3.0-red) are available in Maven
+and ![Scala 3.x](https://img.shields.io/badge/Scala-3.x-red) are available in Maven
