@@ -33,12 +33,12 @@ or a BigQuery table into a Cassandra table without having code that relates thos
 
 ### Available conversions:
 
-| From / To    |Scala Types       |BigQuery          |Spark             |Cassandra         | Circe (JSON) |
-|--------------|:----------------:|:----------------:|:----------------:|:----------------:|:------------:|
-| Scala Types  |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
-| BigQuery     |                  |        -         |:white_check_mark:|:white_check_mark:|              |
-| Spark        |                  |:white_check_mark:|        -         |:white_check_mark:|              |
-| Cassandra    |                  |:white_check_mark:|:white_check_mark:|        -         |              |
-| Circe (JSON) |                  |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
+|    From / To    |                                                                                                                       |Scala Types       |BigQuery          |Spark             |Cassandra         | Circe (JSON) |
+|:---------------:|:---------------------------------------------------------------------------------------------------------------------:|:----------------:|:----------------:|:----------------:|:----------------:|:------------:|
+|      Scala      |                 <img src="/img/logos/scala.png" style={{maxHeight: + '50px', maxWidth: + '70px'}} />                  |       -          |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
+|    BigQuery     |                <img src="/img/logos/bigquery.png" style={{maxHeight: + '50px', maxWidth: + '70px'}} />                |                  |        -         |:white_check_mark:|:white_check_mark:|              |
+|      Spark      |  <img src="/img/logos/spark.png" style={{maxHeight: + '100px', maxWidth: + '100px', backgroundColor: + 'white'}} />   |                  |:white_check_mark:|        -         |:white_check_mark:|              |
+|    Cassandra    | <img src="/img/logos/cassandra.png" style={{maxHeight: + '50px', maxWidth: + '100px', backgroundColor: + 'white'}} /> |                  |:white_check_mark:|:white_check_mark:|        -         |              |
+|  Circe (JSON)   |    <img src="/img/logos/circe.png" style={{maxHeight: + '50px', maxWidth: + '70px', backgroundColor: + 'gray'}} />    |                  |:white_check_mark:|:white_check_mark:|:white_check_mark:|              |
 
 
