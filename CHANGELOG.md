@@ -1,3 +1,9 @@
+### Big Data Types v1.2.1
+Some dependencies (Circe - ScalaTest) have updated Scala to 3.1.X
+- Dependencies updated to newer versions
+- Scala version changed to 3.1.X
+  - This version is no longer compatible with Scala 3.0.X
+
 ### Big Data Types v1.2.0
 - New module for Circe (JSON)
   - Conversion from Circe to other types

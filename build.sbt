@@ -1,12 +1,12 @@
 //used to build Sonatype releases
-lazy val versionNumber = "1.2.0"
+lazy val versionNumber = "1.2.1"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.7"
 lazy val scala212 = "2.12.15"
-lazy val scala3 = "3.0.2"
+lazy val scala3 = "3.1.0"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
 
@@ -69,7 +69,7 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
-val circeVersion = "0.14.1"
+val circeVersion = "0.14.2"
 
 lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-core",
@@ -77,7 +77,7 @@ lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.13"
 
 //Project settings
 lazy val root = (project in file("."))
