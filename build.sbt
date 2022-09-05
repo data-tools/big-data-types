@@ -1,12 +1,12 @@
 //used to build Sonatype releases
-lazy val versionNumber = "1.2.0"
+lazy val versionNumber = "1.2.1"
 lazy val projectName = "big-data-types"
 version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.7"
 lazy val scala212 = "2.12.15"
-lazy val scala3 = "3.0.2"
+lazy val scala3 = "3.1.0"
 lazy val supportedScalaVersions = List(scala3, scala213, scala212)
 scalaVersion := scala213
 
@@ -39,27 +39,27 @@ lazy val scalacCommon = Seq("-Xsource:3")
 
 //Dependencies
 lazy val coreDependencies2 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.11",
+  "ch.qos.logback" % "logback-classic" % "1.4.0",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.9",
   scalatest % Test
 )
 
 lazy val coreDependencies3 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.2.11",
+  "ch.qos.logback" % "logback-classic" % "1.4.0",
   "org.clapper" % "grizzled-slf4j_2.13" % "1.3.4",
   scalatest % Test
 )
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.9", // needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "2.13.1",
+  "com.google.cloud" % "google-cloud-bigquery" % "2.15.0",
   scalatest % "it,test"
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.2.1" % Provided,
-  "org.apache.spark" %% "spark-sql" % "3.2.1" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.3.0" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.3.0" % Provided,
   scalatest % Test
 )
 
@@ -69,14 +69,15 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
-val circeVersion = "0.14.1"
-lazy val jsonCirceDependencies = Seq(
-    "io.circe" %% "circe-core",
-    "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-parser"
-  ).map(_ % circeVersion)
+val circeVersion = "0.14.2"
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.11"
+lazy val jsonCirceDependencies = Seq(
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
+
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.13"
 
 //Project settings
 lazy val root = (project in file("."))
