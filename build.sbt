@@ -41,7 +41,7 @@ lazy val scalacCommon = Seq("-Xsource:3")
 lazy val coreDependencies2 = Seq(
   "ch.qos.logback" % "logback-classic" % "1.4.0",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
-  "com.chuusai" %% "shapeless" % "2.3.9",
+  "com.chuusai" %% "shapeless" % "2.3.10",
   scalatest % Test
 )
 
