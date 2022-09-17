@@ -4,16 +4,11 @@ import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
 import org.datatools.bigdatatypes.TestTypes.ListOfStruct
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.{InstanceSchemaSyntax, InstanceSyntax}
-import org.datatools.bigdatatypes.bigquery.SqlTypeToBigQuery.BigQueryFieldSyntax
 import org.datatools.bigdatatypes.{BigQueryTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion.*
-import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.*
-import org.datatools.bigdatatypes.conversions.SqlInstanceConversion.*
-import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 
-class BigQuerySchemasTest extends UnitSpec {
+class BigQuerySchemasSpec extends UnitSpec {
 
   val elements1: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()

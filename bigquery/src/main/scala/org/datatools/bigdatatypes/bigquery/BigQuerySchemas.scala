@@ -2,7 +2,6 @@ package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Schema
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
-import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 
 /**
   * Public API for generating BigQuery Schemas.
