@@ -4,34 +4,35 @@ import com.google.cloud.bigquery.Field.Mode
 import com.google.cloud.bigquery.{Field, Schema, StandardSQLTypeName}
 import org.datatools.bigdatatypes.TestTypes.ListOfStruct
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
+import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.{InstanceSchemaSyntax, InstanceSyntax}
+import org.datatools.bigdatatypes.bigquery.SqlTypeToBigQuery.BigQueryFieldSyntax
 import org.datatools.bigdatatypes.{BigQueryTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion.*
+import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.*
+import org.datatools.bigdatatypes.conversions.SqlInstanceConversion.*
+import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 
 class BigQuerySchemasTest extends UnitSpec {
 
   val elements1: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
-
   val elements2: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
-
   val elements3: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("c", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
-
   val elements4: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("c", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("d", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
-
   val elements5: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
@@ -68,4 +69,8 @@ class BigQuerySchemasTest extends UnitSpec {
     BigQuerySchemas.schema[Simple1, Simple2, Simple3, Simple4, Simple5] shouldBe Schema.of(toJava(elements5))
   }
 
+  "An instance" should "be converted into a BQ Schema" in {
+    val s = Simple1(1)
+    BigQuerySchemas.schema[Simple1](s) shouldBe Schema.of(toJava(elements1))
+  }
 }

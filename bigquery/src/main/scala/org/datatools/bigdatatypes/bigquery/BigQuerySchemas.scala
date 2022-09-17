@@ -1,6 +1,7 @@
 package org.datatools.bigdatatypes.bigquery
 
 import com.google.cloud.bigquery.Schema
+import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.SqlInstanceConversion
 
 /**
@@ -22,10 +23,11 @@ object BigQuerySchemas {
   def schema[A: SqlTypeToBigQuery, B: SqlTypeToBigQuery, C: SqlTypeToBigQuery, D: SqlTypeToBigQuery, E: SqlTypeToBigQuery]: Schema = BigQueryDefinitions.generateSchema[A, B, C, D, E]
 
   /**
-    * Given an instance of a type implementing [[SqlInstanceToBigQuery]] returns a [[Schema]] to be used in BigQuery
-    * @param value an instance of type A
-    * @tparam A is a type implementing [[SqlInstanceToBigQuery]]
+    * Given an instance of a Product, extracts the BQ [[Schema]] from its type
+    * @param value an instance of any Product
+    * @tparam A is any Product type
     * @return [[Schema]] with the same structure as the given input
     */
-  def schema[A: SqlInstanceToBigQuery](value: A): Schema = BigQueryDefinitions.generateSchema[A](value)
+  def schema[A <: Product](value: A)(implicit a: SqlTypeToBigQuery[A]): Schema =
+    Schema.of(toJava(SqlTypeToBigQuery[A].bigQueryFields))
 }
