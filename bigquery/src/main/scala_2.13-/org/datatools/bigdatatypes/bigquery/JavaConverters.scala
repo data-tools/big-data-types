@@ -5,6 +5,6 @@ import scala.collection.JavaConverters.{asJavaIterableConverter, iterableAsScala
 
 object JavaConverters {
 
-  def toJava[A](value: List[A]): lang.Iterable[A] = value.asJava
+  def toJava[A](value: Seq[A]): lang.Iterable[A] = value.asJava
   def toScala[A](value: lang.Iterable[A]): List[A] = value.asScala.toList
 }
