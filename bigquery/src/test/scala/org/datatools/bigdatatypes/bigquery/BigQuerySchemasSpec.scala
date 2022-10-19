@@ -13,21 +13,25 @@ class BigQuerySchemasSpec extends UnitSpec {
   val elements1: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
+
   val elements2: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
+
   val elements3: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("c", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
+
   val elements4: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("c", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("d", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
   )
+
   val elements5: Seq[Field] = List(
     Field.newBuilder("a", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
     Field.newBuilder("b", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build(),
