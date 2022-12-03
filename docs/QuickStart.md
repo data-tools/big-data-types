@@ -15,6 +15,10 @@ libraryDependencies += "io.github.data-tools" %% "big-data-types-spark" % "{vers
 ```
 libraryDependencies += "io.github.data-tools" %% "big-data-types-cassandra" % "{version}"
 ```
+- Circe (JSON)
+```
+libraryDependencies += "io.github.data-tools" %% "big-data-types-circe" % "{version}"
+```
 - Core
     - To get support for abstract SqlTypes, it is included in the others, so it is not needed if you are using one of the others
 ```
@@ -22,7 +26,7 @@ libraryDependencies += "io.github.data-tools" %% "big-data-types-core" % "{versi
 ```
 
 Versions for Scala ![Scala 2.12](https://img.shields.io/badge/Scala-2.12-red) ,![Scala_2.13](https://img.shields.io/badge/Scala-2.13-red)
-and ![Scala 3.0](https://img.shields.io/badge/Scala-3.0-red) are available in Maven
+and ![Scala 3.x](https://img.shields.io/badge/Scala-3.0-red) are available in Maven
 
 In order to transform one type into another, both modules have to be imported.
 
