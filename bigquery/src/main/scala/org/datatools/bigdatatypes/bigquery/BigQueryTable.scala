@@ -14,8 +14,7 @@ import org.datatools.bigdatatypes.bigquery.BigQueryDefinitions.{generateSchema, 
 
 import scala.util.{Failure, Try}
 
-/**
-  * Methods in this object are creating real tables into a BigQuery environment.
+/** Methods in this object are creating real tables into a BigQuery environment.
   * If only the schema of the table is desired, please use [[BigQuerySchemas]]
   */
 object BigQueryTable {
