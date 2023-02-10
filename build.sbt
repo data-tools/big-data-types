@@ -69,7 +69,7 @@ lazy val cassandraDependencies = Seq(
   scalatest % Test
 )
 
-val circeVersion = "0.14.3"
+val circeVersion = "0.14.4"
 
 lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-core",
