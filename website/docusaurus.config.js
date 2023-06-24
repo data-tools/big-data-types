@@ -22,6 +22,9 @@ const config = {
       '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
+        gtag: {
+          trackingID: 'G-LZH8JTNQ4L',
+        },
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/data-tools/big-data-types/edit/main/website/',
@@ -100,9 +103,6 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
         additionalLanguages: ["java", "scala"],
-      },
-      gtag: {
-        trackingID: 'G-LZH8JTNQ4L',
       },
     }),
 };
