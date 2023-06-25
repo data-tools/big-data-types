@@ -1,7 +1,7 @@
 //used to build Sonatype releases
-lazy val versionNumber = "1.3.1"
+//lazy val versionNumber = "1.3.1"
 lazy val projectName = "big-data-types"
-version := versionNumber
+//version := versionNumber
 name := projectName
 
 lazy val scala213 = "2.13.7"
@@ -18,8 +18,8 @@ assembly / assemblyMergeStrategy := {
 //Sonatype
 // groupId, SCM, license information
 lazy val publishSettings = Seq(
-  version := versionNumber,
-  publishTo := sonatypePublishToBundle.value,
+  //version := versionNumber,
+  //publishTo := sonatypePublishToBundle.value,
   organization := "io.github.data-tools",
   homepage := Some(url("https://github.com/data-tools/big-data-types")),
   scmInfo := Some(
@@ -27,7 +27,7 @@ lazy val publishSettings = Seq(
   ),
   developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton"))),
   licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
-  publishMavenStyle := true
+  //publishMavenStyle := true
 )
 
 lazy val noPublishSettings =
