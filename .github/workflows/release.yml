@@ -13,12 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Configure GPG Key
-        run: |
-          mkdir -p ~/.gnupg/
-          printf "$GPG_SIGNING_KEY" | base64 --decode > ~/.gnupg/private.key
-          gpg --import ~/.gnupg/private.key
-        env:
-          GPG_SIGNING_KEY: ${{ secrets.GPG_KEY_UNSECURE }}
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Publish Sonatype Release
         run: sbt -v -Dfile.encoding=UTF-8 +clean +publishSigned sonatypeBundleRelease
