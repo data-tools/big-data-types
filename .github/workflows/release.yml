@@ -18,5 +18,7 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: List keys
+        run: gpg --list-keys
       - name: Publish Sonatype Release
         run: sbt -v -Dfile.encoding=UTF-8 +clean +publishSigned sonatypeBundleRelease
