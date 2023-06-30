@@ -18,16 +18,16 @@ assembly / assemblyMergeStrategy := {
 //Sonatype
 // groupId, SCM, license information
 lazy val publishSettings = Seq(
-  //version := versionNumber,
-  //publishTo := sonatypePublishToBundle.value,
+  // version := versionNumber,
+  // publishTo := sonatypePublishToBundle.value,
   organization := "io.github.data-tools",
   homepage := Some(url("https://github.com/data-tools/big-data-types")),
   scmInfo := Some(
     ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git")
   ),
   developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton"))),
-  licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
-  //publishMavenStyle := true
+  licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt"))
+  // publishMavenStyle := true
 )
 
 lazy val noPublishSettings =
@@ -52,7 +52,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.10.1", // needed for an incompatibility between BQ & Scala3
+  "com.google.auto.value" % "auto-value-annotations" % "1.10.2", // needed for an incompatibility between BQ & Scala3
   "com.google.cloud" % "google-cloud-bigquery" % "2.28.0",
   scalatest % "it,test"
 )
