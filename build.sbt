@@ -18,16 +18,16 @@ assembly / assemblyMergeStrategy := {
 //Sonatype
 // groupId, SCM, license information
 lazy val publishSettings = Seq(
-  //version := versionNumber,
-  //publishTo := sonatypePublishToBundle.value,
+  // version := versionNumber,
+  // publishTo := sonatypePublishToBundle.value,
   organization := "io.github.data-tools",
   homepage := Some(url("https://github.com/data-tools/big-data-types")),
   scmInfo := Some(
     ScmInfo(url("https://github.com/data-tools/big-data-types"), "git@github.com:data-tools/big-data-types.git")
   ),
   developers := List(Developer("JavierMonton", "Javier Monton", "", url("https://github.com/JavierMonton"))),
-  licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
-  //publishMavenStyle := true
+  licenses := Seq("APL2" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt"))
+  // publishMavenStyle := true
 )
 
 lazy val noPublishSettings =
@@ -58,8 +58,8 @@ lazy val bigqueryDependencies = Seq(
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.4.0" % Provided,
-  "org.apache.spark" %% "spark-sql" % "3.4.0" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.4.1" % Provided,
+  "org.apache.spark" %% "spark-sql" % "3.4.1" % Provided,
   scalatest % Test
 )
 
