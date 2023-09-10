@@ -77,7 +77,7 @@ lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.16"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.17"
 
 //Project settings
 lazy val root = (project in file("."))
