@@ -39,21 +39,21 @@ lazy val scalacCommon = Seq("-Xsource:3")
 
 //Dependencies
 lazy val coreDependencies2 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.4.8",
+  "ch.qos.logback" % "logback-classic" % "1.4.11",
   "org.clapper" %% "grizzled-slf4j" % "1.3.4",
   "com.chuusai" %% "shapeless" % "2.3.10",
   scalatest % Test
 )
 
 lazy val coreDependencies3 = Seq(
-  "ch.qos.logback" % "logback-classic" % "1.4.8",
+  "ch.qos.logback" % "logback-classic" % "1.4.11",
   "org.clapper" % "grizzled-slf4j_2.13" % "1.3.4",
   scalatest % Test
 )
 
 lazy val bigqueryDependencies = Seq(
   "com.google.auto.value" % "auto-value-annotations" % "1.10.1", // needed for an incompatibility between BQ & Scala3
-  "com.google.cloud" % "google-cloud-bigquery" % "2.29.0",
+  "com.google.cloud" % "google-cloud-bigquery" % "2.31.2",
   scalatest % "it,test"
 )
 
@@ -77,7 +77,7 @@ lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.16"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.17"
 
 //Project settings
 lazy val root = (project in file("."))
