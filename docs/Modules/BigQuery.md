@@ -112,7 +112,7 @@ If you want to create tables using the library you will need to connect to your 
 through any of the GCloud options.
 Probably the most common will be to specify a service account and a project id.
 It can be added on environment variables. The library expects:
-- PROJECT_ID: <your_project_id>
-- GOOGLE_APPLICATION_CREDENTIALS: <path_to_your_service_account_json_file>
+- PROJECT_ID: `<your_project_id>`
+- GOOGLE_APPLICATION_CREDENTIALS: `<path_to_your_service_account_json_file>`
 
 ---
