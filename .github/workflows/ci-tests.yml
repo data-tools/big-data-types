@@ -8,8 +8,8 @@ env:
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
-  unit-test:
-    name: Build and Test
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,6 +18,11 @@ jobs:
         uses: olafurpg/setup-scala@v14
         with:
           java-version: "adopt@1.8"
+  unit-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
       - name: Build and Unit Tests
         run: sbt -v -Dfile.encoding=UTF-8 +clean +test
 
@@ -27,17 +32,14 @@ jobs:
       matrix:
         scala: [2.12.19, 2.13.14]
     runs-on: ubuntu-latest
+    needs:
+     - setup
+     - unit-test
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Scala
-        uses: olafurpg/setup-scala@v14
-        with:
-          java-version: "adopt@1.8"
       - name: Coverage for Scala 2 (until Scala 3 is available)
-        run: sbt ++${{ matrix.scala }} clean coverage test
+        run: sbt reload ++${{ matrix.scala }} clean coverage test
       - name: Coverage Report
-        run: sbt ++${{ matrix.scala }} coverageReport
+        run: sbt reload ++${{ matrix.scala }} coverageReport
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
