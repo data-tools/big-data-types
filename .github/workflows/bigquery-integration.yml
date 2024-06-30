@@ -33,7 +33,7 @@ jobs:
     name: Code Coverage IT Tests
     strategy:
       matrix:
-        scala: [2.12.19, 2.13.13]
+        scala: [2.12.19, 2.13.14]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
