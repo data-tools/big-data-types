@@ -52,7 +52,7 @@ lazy val coreDependencies3 = Seq(
 )
 
 lazy val bigqueryDependencies = Seq(
-  "com.google.auto.value" % "auto-value-annotations" % "1.10.4", // needed for an incompatibility between BQ & Scala3
+  "com.google.auto.value" % "auto-value-annotations" % "1.11.0", // needed for an incompatibility between BQ & Scala3
   "com.google.cloud" % "google-cloud-bigquery" % "2.40.2",
   scalatest % "it,test"
 )
@@ -64,12 +64,12 @@ lazy val sparkDependencies = Seq(
 )
 
 lazy val cassandraDependencies = Seq(
-  "com.datastax.oss" % "java-driver-core" % "4.15.0",
-  "com.datastax.oss" % "java-driver-query-builder" % "4.15.0",
+  "com.datastax.oss" % "java-driver-core" % "4.17.0",
+  "com.datastax.oss" % "java-driver-query-builder" % "4.17.0",
   scalatest % Test
 )
 
-val circeVersion = "0.14.3"
+val circeVersion = "0.14.8"
 
 lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-core",
@@ -77,7 +77,7 @@ lazy val jsonCirceDependencies = Seq(
   "io.circe" %% "circe-parser"
 ).map(_ % circeVersion)
 
-lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.18"
+lazy val scalatest = "org.scalatest" %% "scalatest" % "3.2.19"
 
 //Project settings
 lazy val root = (project in file("."))
