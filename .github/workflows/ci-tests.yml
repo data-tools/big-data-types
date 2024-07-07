@@ -39,7 +39,14 @@ jobs:
         if: matrix.scala != '3.3.3' || matrix.subproject != 'spark'
         run: sbt ++${{ matrix.scala }} "project ${{ matrix.subproject}}" clean coverage test
       - name: Coverage Report
-        run: sbt ++${{ matrix.scala }} coverageReport
+        if: matrix.scala != '3.3.3' || matrix.subproject != 'spark'
+        run: sbt ++${{ matrix.scala }} "project ${{ matrix.subproject}}" coverageReport
+
+  codecov:
+      name: Send to Codecov
+      runs-on: ubuntu-latest
+      needs: coverage
+      steps:
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
