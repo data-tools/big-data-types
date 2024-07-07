@@ -26,6 +26,7 @@ jobs:
     strategy:
       matrix:
         scala: [2.12.19, 2.13.14, 3.3.3]
+        subproject: [core, bigquery, jsonCirce, cassandra, spark]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,7 +36,8 @@ jobs:
         with:
           java-version: "adopt@1.8"
       - name: Coverage for Scala
-        run: sbt ++${{ matrix.scala }} clean coverage test
+        if: matrix.scala != '3.3.3' || matrix.subproject != 'spark'
+        run: sbt ++${{ matrix.scala }} "project ${{ matrix.subproject}}" clean coverage test
       - name: Coverage Report
         run: sbt ++${{ matrix.scala }} coverageReport
       - name: Codecov
