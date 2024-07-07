@@ -23,9 +23,6 @@ jobs:
 
   coverage:
     name: Code Coverage
-    strategy:
-      matrix:
-        scala: [2.12.19, 2.13.14]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,10 +31,10 @@ jobs:
         uses: olafurpg/setup-scala@v14
         with:
           java-version: "adopt@1.8"
-      - name: Coverage for Scala 2 (until Scala 3 is available)
-        run: sbt ++${{ matrix.scala }} clean coverage test
+      - name: Coverage for Scala
+        run: sbt clean coverage test
       - name: Coverage Report
-        run: sbt ++${{ matrix.scala }} coverageReport
+        run: sbt coverageReport
       - name: Codecov
         uses: codecov/codecov-action@v3
         with:
