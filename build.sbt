@@ -178,7 +178,7 @@ lazy val examples = (project in file("examples"))
 
 lazy val crossVersionSharedSources: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
-    (sc / unmanagedSourceDirectories) ++= {
+    (sc / unmanagedSourceDirectories) ++=
       (sc / unmanagedSourceDirectories).value.flatMap { dir: File =>
         if (dir.getName != "scala") Seq(dir)
         else
@@ -188,12 +188,11 @@ lazy val crossVersionSharedSources: Seq[Setting[_]] =
             case Some((2, y)) if y >= 11 => Seq(new File(dir.getPath + "_2.13-"))
           }
       }
-    }
   }
 
 lazy val crossVersionSharedSourcesScala3: Seq[Setting[_]] =
   Seq(Compile, Test).map { sc =>
-    (sc / unmanagedSourceDirectories) ++= {
+    (sc / unmanagedSourceDirectories) ++=
       (sc / unmanagedSourceDirectories).value.flatMap { dir: File =>
         if (dir.getName != "scala") Seq(dir)
         else
@@ -202,5 +201,4 @@ lazy val crossVersionSharedSourcesScala3: Seq[Setting[_]] =
             case Some((2, _)) => Seq(new File(dir.getPath + "_2"))
           }
       }
-    }
   }
