@@ -34,9 +34,8 @@ class CassandraTypeConversionSpec extends UnitSpec {
     CassandraTestTypes.extendedTypes.asSqlType shouldBe SqlTypeConversion[ExtendedTypes].getType
   }
 
-  "Cassandra schema with Repeated types" should "be converted into Struct with repeated types" in {
+  "Cassandra schema with Repeated types" should "be converted into Struct with repeated types" in
     CassandraTestTypes.basicWithList.asSqlType
-  }
 
   "Cassandra Create Table" should "be converted into SqlTypes, using extension method" in {
     val table: CreateTable = CassandraTables.table[BasicTypes]("TestTable", "myLong")
