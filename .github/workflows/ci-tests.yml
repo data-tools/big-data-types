@@ -25,7 +25,8 @@ jobs:
     name: Code Coverage
     strategy:
       matrix:
-        scala: [2.12.20, 2.13.16]
+        scala: [2.12.20, 2.13.16, 3.3.3]
+        subproject: [core, bigquery, jsonCirce, cassandra, spark]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,12 +35,15 @@ jobs:
         uses: olafurpg/setup-scala@v14
         with:
           java-version: "adopt@1.8"
-      - name: Coverage for Scala 2 (until Scala 3 is available)
-        run: sbt ++${{ matrix.scala }} clean coverage test
+      - name: Coverage for Scala
+        # Spark is not released for Scala 3.
+        if: matrix.scala != '3.3.3' || matrix.subproject != 'spark'
+        run: sbt ++${{ matrix.scala }} "project ${{ matrix.subproject}}" clean coverage test
       - name: Coverage Report
-        run: sbt ++${{ matrix.scala }} coverageReport
+        if: matrix.scala != '3.3.3' || matrix.subproject != 'spark'
+        run: sbt ++${{ matrix.scala }} "project ${{ matrix.subproject}}" coverageReport
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5.4.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: false # optional (default = false)
