@@ -58,7 +58,7 @@ lazy val bigqueryDependencies = Seq(
 )
 
 lazy val sparkDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "3.5.5" % Provided,
+  "org.apache.spark" %% "spark-core" % "3.5.6" % Provided,
   "org.apache.spark" %% "spark-sql" % "3.5.6" % Provided,
   scalatest % Test
 )
