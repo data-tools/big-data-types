@@ -9,6 +9,7 @@ import org.datatools.bigdatatypes.basictypes.SqlTypeMode.*
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.formats.Formats.implicitDefaultFormats
 import org.datatools.bigdatatypes.spark.SparkTypeConversion.*
+import org.datatools.bigdatatypes.spark.SqlInstanceToSpark.*
 
 /** Reverse conversion, from Spark types to [[SqlType]]s
   */
@@ -79,6 +80,31 @@ class SparkTypeConversionSpec extends UnitSpec {
   "Spark Schema with extended types" should "be converted into Struct with extended types" in {
     val sqlType: SqlType = SqlTypeToSpark[ExtendedTypes].sparkSchema.asSqlType
     sqlType shouldBe extendedTypes
+  }
+
+  "StructType instance" should "be converted into Spark fields" in {
+    val sf = StructField("myInt", IntegerType, nullable = false)
+    val sf2 = StructField("myString", StringType, nullable = true)
+    val st = StructType(List(sf, sf2))
+    SqlInstanceToSpark[StructType].sparkFields(st) shouldBe SqlTypeToSpark.getSchema(
+      SqlInstanceConversion[StructType].getType(st)
+    )
+  }
+
+  "StructType instance" should "be converted using extension methods" in {
+    val sf = StructField("myInt", IntegerType, nullable = false)
+    val sf2 = StructField("myString", StringType, nullable = true)
+    val st = StructType(List(sf, sf2))
+    st.asSparkFields shouldBe SqlInstanceToSpark[StructType].sparkFields(st)
+    st.asSparkSchema shouldBe StructType(SqlInstanceToSpark[StructType].sparkFields(st))
+  }
+
+  "SparkSchemas" should "build fields and schemas from instances" in {
+    val sf = StructField("myInt", IntegerType, nullable = false)
+    val sf2 = StructField("myString", StringType, nullable = true)
+    val st = StructType(List(sf, sf2))
+    SparkSchemas.fields(st) shouldBe SqlInstanceToSpark[StructType].sparkFields(st)
+    SparkSchemas.schema(st) shouldBe StructType(SqlInstanceToSpark[StructType].sparkFields(st))
   }
 
 }

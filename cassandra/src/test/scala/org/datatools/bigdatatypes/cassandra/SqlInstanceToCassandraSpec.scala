@@ -2,10 +2,13 @@ package org.datatools.bigdatatypes.cassandra
 
 import org.datatools.bigdatatypes.TestTypes.BasicTypes
 import org.datatools.bigdatatypes.basictypes.SqlType
+import org.datatools.bigdatatypes.cassandra.CassandraTypeConversion.cassandraTupleType
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
 import org.datatools.bigdatatypes.{CassandraTestTypes, UnitSpec}
 import org.datatools.bigdatatypes.cassandra.SqlInstanceToCassandra.*
 import org.datatools.bigdatatypes.conversions.SqlTypeConversion
+
+import com.datastax.oss.driver.api.core.`type`.{DataType, DataTypes}
 
 class SqlInstanceToCassandraSpec extends UnitSpec {
 
@@ -25,6 +28,11 @@ class SqlInstanceToCassandraSpec extends UnitSpec {
   it should "be converted into Cassandra tuples using extension method" in {
     val sql = SqlTypeConversion[BasicTypes].getType
     sql.asCassandra shouldBe CassandraTestTypes.basicFields
+  }
+
+  "Tuple instance" should "be converted into Cassandra tuples" in {
+    val tuple: (String, DataType) = ("myLong", DataTypes.BIGINT)
+    SqlInstanceToCassandra[(String, DataType)].cassandraFields(tuple) shouldBe List(tuple)
   }
 
 }

@@ -16,7 +16,8 @@ import org.datatools.bigdatatypes.UnitSpec
 import org.datatools.bigdatatypes.basictypes.SqlType
 import org.datatools.bigdatatypes.basictypes.SqlType.*
 import org.datatools.bigdatatypes.basictypes.SqlTypeMode.Required
-import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.{field, intType, FieldTypeSyntax, SchemaFieldSyntax}
+import org.datatools.bigdatatypes.bigquery.BigQueryTypeConversion.{field, intType, schema, FieldTypeSyntax, SchemaFieldSyntax}
+import org.datatools.bigdatatypes.bigquery.SqlInstanceToBigQuery.*
 import org.datatools.bigdatatypes.bigquery.JavaConverters.toJava
 import org.datatools.bigdatatypes.conversions.{SqlInstanceConversion, SqlTypeConversion}
 import org.datatools.bigdatatypes.formats.{DefaultFormats, Formats}
@@ -96,6 +97,19 @@ class BigQueryTypeConversionSpec extends UnitSpec {
   "Extended type fields in BQ Schema" should "be converted into SqlType" in {
     val bqSchema: Schema = Schema.of(toJava(extendedTypes.toList))
     bqSchema.asSqlType shouldBe reduceBQTypes(SqlTypeConversion[ExtendedTypes].getType)
+  }
+
+  "Schema instance" should "be converted into BigQuery fields" in {
+    val myField = Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
+    val bqSchema = Schema.of(myField)
+    SqlInstanceToBigQuery[Schema].bigQueryFields(bqSchema) shouldBe SqlTypeToBigQuery.getSchema(
+      SqlInstanceConversion[Schema].getType(bqSchema)
+    )
+  }
+
+  "Field list" should "be converted into a Schema using extension method" in {
+    val myField = Field.newBuilder("myInt", StandardSQLTypeName.INT64).setMode(Mode.REQUIRED).build()
+    List(myField).schema shouldBe Schema.of(myField)
   }
 
 }
