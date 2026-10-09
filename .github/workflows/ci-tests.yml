@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scala: [2.12.20, 2.13.18, 3.3.3]
+        scala: [2.12.21, 2.13.18, 3.3.3]
         subproject: [core, bigquery, jsonCirce, cassandra, spark]
         exclude:
           # Spark is not released for Scala 3.
