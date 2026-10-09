@@ -138,4 +138,23 @@ class SqlTypeConversionSpec extends UnitSpec {
     sqlType shouldBe extendedTypes
   }
 
+  "Seq type" should "be converted into Repeated type" in {
+    val sqlType: SqlType = SqlTypeConversion[Seq[Int]].getType
+    sqlType shouldBe SqlInt(Repeated)
+  }
+
+  "Empty case class" should "be converted into an empty SqlStruct" in {
+    val sqlType: SqlType = SqlTypeConversion[EmptyRow].getType
+    sqlType shouldBe SqlStruct(List.empty[(String, SqlType)])
+  }
+
+  "SqlInstanceConversion summoner" should "return the given instance" in {
+    given SqlInstanceConversion[String] with {
+      def getType(value: String): SqlType = SqlString(Required)
+    }
+    SqlInstanceConversion[String].getType("anything") shouldBe SqlString(Required)
+  }
+
 }
+
+case class EmptyRow()
