@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3967"
+   sodipodi:docname="secured.svg"
+   viewBox="0 0 296.88 395.88"
+   version="1.1"
+   inkscape:version="0.91 r13725">
+  <defs
+     id="defs10">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4182">
+      <stop
+         style="stop-color:#008000;stop-opacity:1;"
+         offset="0"
+         id="stop4172" />
+      <stop
+         style="stop-color:#008000;stop-opacity:0;"
+         offset="1"
+         id="stop4174" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4182"
+       id="linearGradient4144"
+       x1="8.2729998"
+       y1="42.841408"
+       x2="614.69415"
+       y2="484.68036"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="64"
+       cy="35.380001"
+       r="31.120001"
+       id="G"
+       xlink:href="#6"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(4.4967707,-0.16285027,0.13827316,2.8114147,92.252,307.531)" />
+    <linearGradient
+       id="6">
+      <stop
+         id="I"
+         stop-color="#393939" />
+      <stop
+         id="J"
+         offset="1"
+         stop-color="#323232" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="-8"
+     fit-margin-left="0"
+     pagecolor="#ffffff"
+     fit-margin-top="0"
+     inkscape:window-maximized="1"
+     inkscape:zoom="0.70410156"
+     inkscape:window-x="-8"
+     inkscape:window-height="801"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="-92.308733"
+     inkscape:cy="189.6428"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1536"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-228.71 -326.13)">
+    <g
+       id="g3772"
+       style="fill:none;stroke:none"
+       transform="matrix(1.0002368,0,0,0.95374263,221.81314,324.26825)">
+      <path
+         id="rect2760"
+         d="m 10.273,21.598 0,151.22 c 0,96.872 89.031,194.34 146.44,240.09 57.414,-45.758 146.44,-143.22 146.44,-240.09 l 0,-151.22 L 157.934,1.0473512 Z"
+         sodipodi:nodetypes="ccccccc"
+         style="fill:url(#linearGradient4144);fill-opacity:1;stroke:none;stroke-width:4"
+         inkscape:connector-curvature="0" />
+      <g
+         id="g1990"
+         style="fill:none;stroke:none"
+         transform="translate(4.2843,26.42)" />
+    </g>
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.18300009;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 309.77481,569.52823 c -2.82903,-3.59652 -2.94358,-5.39648 -2.94358,-46.25148 0,-26.58675 0.55069,-43.53831 1.47022,-45.25646 1.42513,-2.66289 3.77544,-2.74713 76.64351,-2.74713 72.86806,0 75.21838,0.0842 76.64351,2.74713 0.91952,1.71815 1.47022,18.66971 1.47022,45.25646 0,40.855 -0.11462,42.65496 -2.94358,46.25148 l -2.94358,3.74216 -72.22657,0 -72.22657,0 -2.94358,-3.74216 z"
+       id="path4204"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.18300009;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 324.13647,461.42574 c 0.77565,-18.12399 5.06272,-28.11921 16.90589,-39.41567 30.38898,-28.98618 81.45177,-20.82811 99.53399,15.90209 3.83971,7.79958 4.55015,11.00863 5.1375,23.20612 l 0.68161,14.15489 -10.84176,0 -10.84175,0 -0.008,-11.71706 c -0.0109,-16.08539 -1.79916,-21.47077 -9.77967,-29.45129 -15.86118,-15.86117 -45.0289,-15.95515 -61.27095,-0.19741 -8.05868,7.81839 -9.8767,13.26976 -9.88777,29.6487 l -0.008,11.71706 -10.10694,0 -10.10693,0 0.59262,-13.84743 z"
+       id="path4206"
+       inkscape:connector-curvature="0" />
+  </g>
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:date>2012-12-11T17:26:15</dc:date>
+        <dc:description>Classic Shield</dc:description>
+        <dc:source>https://openclipart.org/detail/173712/basic-shield-by-victorwestmann-173712</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>victorwestmann</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>blazon</rdf:li>
+            <rdf:li>heraldry</rdf:li>
+            <rdf:li>shield</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
